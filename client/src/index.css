@@ -1,0 +1,25 @@
+:root {
+  --dark-color: #0f0510;
+  --light-color: rgb(58, 6, 61);
+  --middle-color: #9c61b4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: "Tilt Neon", sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  background-image: radial-gradient(var(--light-color) 0%, var(--dark-color) 75%);
+  overflow-x: hidden;
+  height: 100dvh;
+  cursor: url("./cursor.png"), pointer;
+}
