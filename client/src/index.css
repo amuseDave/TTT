@@ -2,6 +2,7 @@
   --dark-color: #0f0510;
   --light-color: rgb(58, 6, 61);
   --middle-color: #9c61b4;
+  --test-color: #e2a3fa;
 }
 
 *,
@@ -22,4 +23,32 @@ body {
   overflow-x: hidden;
   height: 100dvh;
   cursor: url("./cursor.png"), pointer;
+}
+
+button,
+a {
+  cursor: inherit;
+}
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.title {
+  position: relative;
+  padding-top: 4.8rem;
+  font-size: 6rem;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.title::before {
+  position: absolute;
+  z-index: -1;
+  color: #d16bfa;
+  filter: blur(10px);
+  content: "Tic Tac Toe";
 }
