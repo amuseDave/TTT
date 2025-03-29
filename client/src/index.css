@@ -21,18 +21,23 @@ html {
 body {
   background-image: radial-gradient(var(--light-color) 0%, var(--dark-color) 75%);
   overflow-x: hidden;
-  height: 100dvh;
   cursor: url("./cursor.png"), pointer;
+}
+#root {
+  height: 100dvh;
 }
 
 button,
 a {
+  font-family: inherit;
+
   cursor: inherit;
 }
 #canvas {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: -1;
   pointer-events: none;
 }
 
@@ -41,8 +46,9 @@ a {
   padding-top: 4.8rem;
   font-size: 6rem;
   text-align: center;
-  color: #ffffff;
+  color: #ffffffbd;
   font-weight: 400;
+  letter-spacing: 0.8rem;
 }
 
 .title::before {
@@ -51,4 +57,45 @@ a {
   color: #d16bfa;
   filter: blur(10px);
   content: "Tic Tac Toe";
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50dvh;
+}
+
+.start-btn-container {
+  padding: 4.2rem;
+}
+.start-btn {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  font-size: 4.2rem;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.35);
+  transition: 0.5s all ease;
+  opacity: 1;
+}
+
+.start-btn::before {
+  transition: inherit;
+  content: "Play";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  color: rgb(255, 132, 218);
+  opacity: 0;
+}
+
+.start-btn-container:hover .start-btn {
+  color: white;
+}
+
+.start-btn-container:hover .start-btn::before {
+  opacity: 1;
+  filter: blur(2px);
 }

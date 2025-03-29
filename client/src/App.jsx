@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Game from "./Game";
 
 export default function App() {
   useEffect(() => {
@@ -39,17 +40,17 @@ export default function App() {
         150
       );
 
-      gradient.addColorStop(0, "rgb(255, 220, 255, 0.6)"); // Strong center light
-      gradient.addColorStop(0.1, "rgb(255, 220, 255, 0.5)"); // Softer mid-glow
-      gradient.addColorStop(0.2, "rgb(255, 220, 255, 0.4)"); // Nearly faded
-      gradient.addColorStop(0.3, "rgb(255, 220, 255, 0.3)"); // Nearly faded
-      gradient.addColorStop(0.4, "rgb(255, 220, 255, 0.2)"); // Nearly faded
-      gradient.addColorStop(0.5, "rgb(255, 220, 255, 0.1)"); // Nearly faded
-      gradient.addColorStop(0.6, "rgb(255, 220, 255, 0.0)"); // Fully transparent
-      gradient.addColorStop(0.7, "rgb(255, 220, 255, 0.0)"); // Fully transparent
-      gradient.addColorStop(0.8, "rgb(255, 220, 255, 0.0)"); // Fully transparent
-      gradient.addColorStop(0.9, "rgb(255, 220, 255, 0.0)"); // Fully transparent
-      gradient.addColorStop(1, "rgb(255, 220, 255, 0.0)"); // Fully transparent
+      gradient.addColorStop(0, "rgb(255, 255, 255, 0.3)"); // Strong center light
+      gradient.addColorStop(0.1, "rgb(255, 255, 255, 0.25)"); // Softer mid-glow
+      gradient.addColorStop(0.2, "rgb(255, 255, 255, 0.2)"); // Nearly faded
+      gradient.addColorStop(0.3, "rgb(255, 255, 255, 0.15)"); // Nearly faded
+      gradient.addColorStop(0.4, "rgb(255, 255, 255, 0.1)"); // Nearly faded
+      gradient.addColorStop(0.5, "rgb(255, 255, 255, 0.05)"); // Nearly faded
+      gradient.addColorStop(0.6, "rgb(255, 255, 255, 0.0)"); // Fully transparent
+      gradient.addColorStop(0.7, "rgb(255, 255, 255, 0.0)"); // Fully transparent
+      gradient.addColorStop(0.8, "rgb(255, 255, 255, 0.0)"); // Fully transparent
+      gradient.addColorStop(0.9, "rgb(255, 255, 255, 0.0)"); // Fully transparent
+      gradient.addColorStop(1, "rgb(255, 255, 255, 0.0)"); // Fully transparent
       ctx.fillStyle = gradient;
       ctx.globalCompositeOperation = "lighter";
 
@@ -83,7 +84,7 @@ export default function App() {
     <>
       <canvas id="canvas" />
       <h1 className="title">Tic Tac Toe</h1>
-      <button> Start</button>
+      <Game />
     </>
   );
 }
