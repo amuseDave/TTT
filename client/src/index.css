@@ -20,15 +20,19 @@ html {
 
 body {
   background-image: radial-gradient(var(--light-color) 0%, var(--dark-color) 75%);
-  overflow-x: hidden;
+  overflow: hidden;
   cursor: url("./cursor.png"), pointer;
 }
 #root {
+  position: relative;
+  display: grid;
   height: 100dvh;
+  grid-template-rows: max-content 1fr;
 }
 
 button,
 a {
+  user-select: none;
   font-family: inherit;
 
   cursor: inherit;
@@ -42,38 +46,54 @@ a {
 }
 
 .title {
+  user-select: none;
   position: relative;
   padding-top: 4.8rem;
   font-size: 6rem;
   text-align: center;
-  color: #ffffffbd;
+  color: #ffffff;
   font-weight: 400;
   letter-spacing: 0.8rem;
 }
 
-.title::before {
+.title span {
+  opacity: 0.3;
+  position: relative;
+}
+.title span:nth-child(1)::before {
+  content: "Tic";
+}
+.title span:nth-child(2)::before {
+  content: "Tac";
+}
+.title span:nth-child(3)::before {
+  content: "Toe";
+}
+
+.title span::before {
   position: absolute;
   z-index: -1;
   color: #d16bfa;
-  filter: blur(10px);
-  content: "Tic Tac Toe";
+  filter: blur(7px);
 }
 
 .game-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 50dvh;
 }
 
 .start-btn-container {
+  margin-top: 20rem;
+  height: max-content;
   padding: 3.6rem;
 }
+
 .start-btn {
+  letter-spacing: 1rem;
   position: relative;
   background-color: transparent;
   border: none;
-  font-size: 4.2rem;
+  font-size: 6rem;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.35);
   transition: 0.5s all ease;
@@ -98,4 +118,33 @@ a {
 .start-btn-container:hover .start-btn::before {
   opacity: 1;
   filter: blur(2px);
+}
+
+.letter {
+  position: absolute;
+  font-size: 16rem;
+  opacity: 0.2;
+  color: var(--middle-color);
+}
+
+.letter-0 {
+  rotate: -20deg;
+  left: 12rem;
+  top: 12rem;
+}
+.letter-1 {
+  rotate: 20deg;
+  left: 4rem;
+  top: 32rem;
+}
+.letter-2 {
+  rotate: -20deg;
+  right: 12rem;
+  bottom: -7rem;
+}
+.letter-3 {
+  overflow: hidden;
+  rotate: 20deg;
+  right: -4rem;
+  bottom: 2rem;
 }
