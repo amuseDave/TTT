@@ -86,6 +86,7 @@ a {
   margin-top: 20rem;
   height: max-content;
   padding: 3.6rem;
+  transition: 0.4s opacity ease-in-out;
 }
 
 .start-btn {
@@ -108,7 +109,8 @@ a {
   top: 0;
   left: 0;
   color: rgb(255, 132, 218);
-  opacity: 0;
+  filter: blur(2px);
+  opacity: var(--before-opacity, 0);
 }
 
 .start-btn-container:hover .start-btn {
@@ -117,7 +119,14 @@ a {
 
 .start-btn-container:hover .start-btn::before {
   opacity: 1;
-  filter: blur(2px);
+}
+
+.lobby-connecting {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  text-shadow: 0px 0px 10px white;
+  color: var(--test-color);
 }
 
 .letter {

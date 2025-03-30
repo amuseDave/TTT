@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import firstNeon from "./assets/firstNeon.mp3";
-import secondNeon from "./assets/secondNeon.mp3";
+
 import thirdNeon from "./assets/thirdNeon.mp3";
 import fourthNeon from "./assets/thirdNeon.mp3";
 import Game from "./components/Game";
@@ -73,23 +72,11 @@ export default function App() {
 
   useEffect(() => {
     let audio;
-    let audio1;
-    let audio2;
-
-    const audioArr = [];
 
     function setAudio() {
-      audio = new Audio(firstNeon);
-      audio1 = new Audio(secondNeon);
-      audio2 = new Audio(thirdNeon);
-
+      audio = new Audio(thirdNeon);
+      audio.volume = 0.3;
       audioRef = new Audio(fourthNeon);
-
-      audioArr.push(audio, audio1, audio2);
-
-      audioArr.forEach((a) => {
-        a.volume = 0.5;
-      });
 
       window.removeEventListener("click", setAudio);
       window.removeEventListener("resize", setAudio);
@@ -103,7 +90,11 @@ export default function App() {
     setInterval(() => {
       if (timeoutID) return;
       timeoutID = setTimeout(() => {
-        if (audio) audioArr[Math.floor(Math.random() * audioArr.length)].play();
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.play();
+        }
 
         const opR1 = opRs[Math.floor(Math.random() * opRs.length)];
         const opR2 = opRs[Math.floor(Math.random() * opRs.length)];
@@ -113,7 +104,7 @@ export default function App() {
         toeRef.current.style.opacity = opR3;
         timeoutID = null;
       }, Math.floor(Math.random() * 3000));
-    }, 1000);
+    }, 2000);
   }, []);
   return (
     <>

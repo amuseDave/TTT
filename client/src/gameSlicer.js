@@ -4,6 +4,7 @@ const initialState = {
   lobby: undefined,
   isPrivate: true,
   isAdmin: true,
+  isConnecting: true,
 };
 
 const gameSlicer = createSlice({
@@ -12,6 +13,9 @@ const gameSlicer = createSlice({
   reducers: {
     startLobbyClient(state) {
       state.lobby = null;
+    },
+    webSocketConnection(state, action) {
+      state.isConnecting = action.payload;
     },
   },
 });
