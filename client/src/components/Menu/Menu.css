@@ -15,7 +15,14 @@
   background-color: rgba(0, 0, 0, 0.701);
   padding: 4.8rem;
 }
-.menu div {
+
+.player-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.player-menu div {
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -26,10 +33,10 @@
   color: rgba(255, 255, 255, 0.2);
 }
 
-.menu .input {
+.menu .player-1 .input {
   position: relative;
 }
-.menu .input input {
+.menu .player-1 .input input {
   transition: color 0.1s ease-in-out;
   color: rgba(255, 255, 255, 0.9);
   background-color: transparent;
@@ -39,7 +46,7 @@
   z-index: 1;
 }
 
-.menu .input input:nth-child(2) {
+.menu .player-1 .input input:nth-child(2) {
   position: absolute;
   top: 0;
   left: 0;
@@ -48,26 +55,37 @@
   color: var(--test-color);
 }
 
-.menu .dices {
+.menu .player-1 .dices {
   position: relative;
 }
-.menu .dices.disabled {
+.menu .player-1 .dices.disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-.menu .dices svg {
+.menu .player-1 .dices svg {
   scale: 1.5;
   stroke-width: 1.5;
   z-index: 2;
   color: var(--middle-color);
 }
-.menu .dices svg:nth-child(2) {
+.menu .player-1 .dices svg:nth-child(2) {
   position: absolute;
   filter: blur(2px);
   z-index: 1;
 }
 
-.menu .player-1 {
+.menu .player-2 .invite {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 100;
+  letter-spacing: 1.2rem;
+  font-size: 2.8rem;
+  text-align: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  padding-bottom: 5px;
+  transition: 0.2s all ease-in-out;
 }
-.menu .player-2 {
+
+.menu .player-2 .invite:hover {
+  color: white;
+  border-bottom: 2px solid white;
 }

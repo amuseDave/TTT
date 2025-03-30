@@ -24,8 +24,10 @@ export default function Menu() {
         animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.5 } }}
         className="menu"
       >
-        <Player1 />
-        <Player2 />
+        <div className="player-menu">
+          <Player1 />
+          <Player2 />
+        </div>
       </motion.div>
     </motion.div>
   );
