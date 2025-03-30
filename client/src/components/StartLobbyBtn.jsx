@@ -15,7 +15,7 @@ export default function StartLobbyBtn({ className }) {
     if (isConnecting) return;
     if (elRef.current.style.opacity >= 0.2) return;
 
-    webSocket.send(JSON.stringify({ action: "start-lobby" }));
+    webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
 
     const titleEl = elRef.current;
     const playBtnEl = playBtnRef.current;
@@ -36,14 +36,14 @@ export default function StartLobbyBtn({ className }) {
       ref={elRef}
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
-      onMouseEnter={() => {
+      onMouseEnter={async () => {
         if (audioRef) {
           audioRef.pause();
           audioRef.currentTime = 0;
           audioRef.play();
         }
       }}
-      onMouseLeave={() => {
+      onMouseLeave={async () => {
         if (audioRef) {
           audioRef.pause();
           audioRef.currentTime = 0.5;

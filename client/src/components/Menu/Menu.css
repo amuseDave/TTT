@@ -1,0 +1,72 @@
+.menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu {
+  border-radius: 18px;
+  background-color: rgba(0, 0, 0, 0.701);
+  padding: 4.8rem;
+}
+.menu div {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.menu .move {
+  font-size: 4.2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.menu .input {
+  position: relative;
+}
+.menu .input input {
+  color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.menu .input input:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(3px);
+  color: var(--test-color);
+}
+
+.menu .dices {
+  position: relative;
+}
+.menu .dices.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.menu .dices svg {
+  scale: 1.5;
+  stroke-width: 1.5;
+  z-index: 2;
+  color: var(--middle-color);
+}
+.menu .dices svg:nth-child(2) {
+  position: absolute;
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.menu .player-1 {
+}
+.menu .player-2 {
+}

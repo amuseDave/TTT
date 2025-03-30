@@ -8,13 +8,14 @@ const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 webSocket.onopen = () => {
   store.dispatch(gameActions.webSocketConnection(false));
 
-  webSocket.onmessage = (event) => {
-    const { action } = JSON.parse(event.data);
-    console.log(action);
+  webSocket.onmessage = async (event) => {
+    const { action, data } = JSON.parse(event.data);
+    console.log("Action: ", action, "Data: ", data);
 
     if (action === "start-lobby") {
       store.dispatch(gameActions.startLobbyClient());
       if (startLobbyIntervalID) clearInterval(startLobbyIntervalID);
+
       if (audioRef) {
         audioRef.pause();
         audioRef.currentTime = 0.5;
@@ -29,7 +30,7 @@ webSocket.onerror = () => {
   setTimeout(() => {
     location.href = "";
   }, 5000);
-  // Reload the page in 5 seconds with dispatch and UI
+  // Handle Reload the page in 5 seconds with redux dispatch to indicate with UI
 };
 
 export default webSocket;

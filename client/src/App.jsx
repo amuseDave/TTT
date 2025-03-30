@@ -3,14 +3,17 @@ import { useEffect, useRef } from "react";
 import thirdNeon from "./assets/thirdNeon.mp3";
 import fourthNeon from "./assets/thirdNeon.mp3";
 import Game from "./components/Game";
+import { getRandomItem } from "./utils";
 
 export let audioRef = null;
+export let audioTitleRef = null;
 
 export default function App() {
   const ticRef = useRef();
   const tacRef = useRef();
   const toeRef = useRef();
 
+  // Set Canvas Drawing With Whole Page effect
   useEffect(() => {
     const canvasEl = document.getElementById("canvas");
     const ctx = canvasEl.getContext("2d");
@@ -70,12 +73,11 @@ export default function App() {
     };
   }, []);
 
+  // Initiallize audio and set intervals to manipulate effects
   useEffect(() => {
-    let audio;
-
-    function setAudio() {
-      audio = new Audio(thirdNeon);
-      audio.volume = 0.3;
+    async function setAudio() {
+      audioTitleRef = new Audio(thirdNeon);
+      audioTitleRef.volume = 0.3;
       audioRef = new Audio(fourthNeon);
 
       window.removeEventListener("click", setAudio);
@@ -85,23 +87,29 @@ export default function App() {
     window.addEventListener("click", setAudio);
 
     const opRs = [0.2, 0.5, 0.8, 1];
+
+    function triggerNeonEffect() {
+      if (audioTitleRef) {
+        audioTitleRef.pause();
+        audioTitleRef.currentTime = 0;
+        audioTitleRef.play();
+      }
+
+      const opR1 = getRandomItem(opRs);
+      const opR2 = getRandomItem(opRs);
+      const opR3 = getRandomItem(opRs);
+      ticRef.current.style.opacity = opR1;
+      tacRef.current.style.opacity = opR2;
+      toeRef.current.style.opacity = opR3;
+    }
+    triggerNeonEffect();
+
     let timeoutID;
 
     setInterval(() => {
       if (timeoutID) return;
       timeoutID = setTimeout(() => {
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.play();
-        }
-
-        const opR1 = opRs[Math.floor(Math.random() * opRs.length)];
-        const opR2 = opRs[Math.floor(Math.random() * opRs.length)];
-        const opR3 = opRs[Math.floor(Math.random() * opRs.length)];
-        ticRef.current.style.opacity = opR1;
-        tacRef.current.style.opacity = opR2;
-        toeRef.current.style.opacity = opR3;
+        triggerNeonEffect();
         timeoutID = null;
       }, Math.floor(Math.random() * 3000));
     }, 2000);

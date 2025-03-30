@@ -31,10 +31,10 @@ body {
 }
 
 button,
+input,
 a {
   user-select: none;
   font-family: inherit;
-
   cursor: inherit;
 }
 #canvas {

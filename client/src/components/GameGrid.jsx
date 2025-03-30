@@ -1,5 +1,5 @@
 import "./GameGrid.css";
 
-export default function GameGrid({ className }) {
-  return <div className={`${className}`}>GameGrid</div>;
+export default function GameGrid() {
+  return <div className={``}>GameGrid</div>;
 }
