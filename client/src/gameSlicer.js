@@ -29,7 +29,7 @@ const gameSlicer = createSlice({
       state.player2 = action.payload;
     },
 
-    changePlayerMoves(state, actions) {
+    changePlayerMoves(state) {
       state.player1Move = state.player1Move === "X" ? "O" : "X";
     },
   },

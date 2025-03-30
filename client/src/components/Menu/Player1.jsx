@@ -17,10 +17,6 @@ export default function Player1() {
   const player1Move = useSelector((state) => state.game.player1Move);
   const player2 = useSelector((state) => state.game.player2);
 
-  function changeMove() {
-    if (player2) return;
-  }
-
   function changeNameError() {
     if (timeoutID.current) return;
 
