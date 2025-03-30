@@ -1,17 +1,16 @@
-import { useEffect, useRef } from "react";
-import { audioTitleRef } from "../../App";
 import "./Menu.css";
+import { useEffect } from "react";
+import { audioTitleRef } from "../../App";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
 import Player1 from "./Player1";
 import Player2 from "./Player2";
+import ArrowUpDownComp from "./ArrowUpDownComp";
 
 export default function Menu() {
   useEffect(() => {
     if (audioTitleRef) audioTitleRef.volume = 0.15;
-
     return () => {
-      if (audioTitleRef) audioTitleRef.volume = 0.3;
+      if (audioTitleRef) audioTitleRef.volume = 0.2;
     };
   }, []);
 
@@ -24,10 +23,11 @@ export default function Menu() {
         animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.5 } }}
         className="menu"
       >
-        <div className="player-menu">
+        <motion.div className="player-menu">
           <Player1 />
+          <ArrowUpDownComp />
           <Player2 />
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

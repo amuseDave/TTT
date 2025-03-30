@@ -19,7 +19,7 @@
 .player-menu {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1.8rem;
 }
 
 .player-menu div {
@@ -28,6 +28,7 @@
   align-items: center;
 }
 .menu .move {
+  user-select: none;
   font-size: 4.2rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.2);
@@ -72,6 +73,28 @@
   position: absolute;
   filter: blur(2px);
   z-index: 1;
+}
+
+.menu .arrow-up-down {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.menu .arrow-up-down svg {
+  scale: 1.7;
+  stroke-width: 1.5;
+  z-index: 2;
+  color: var(--middle-color);
+  transition: opacity 0.2s ease-in-out;
+}
+.menu .arrow-up-down svg:nth-child(2) {
+  position: absolute;
+  filter: blur(3px);
+  z-index: 1;
+}
+.menu .player-2 {
+  user-select: none;
 }
 
 .menu .player-2 .invite {

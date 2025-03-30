@@ -105,7 +105,6 @@ export default function App() {
     triggerNeonEffect();
 
     let timeoutID;
-
     setInterval(() => {
       if (timeoutID) return;
       timeoutID = setTimeout(() => {

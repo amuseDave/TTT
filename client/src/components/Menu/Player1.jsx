@@ -4,8 +4,10 @@ import { gameActions } from "../../gameSlicer";
 import { getRandomItem, usernames } from "../../utils";
 import { useEffect, useRef } from "react";
 import { audioRef } from "../../App";
+import { animate, motion } from "framer-motion";
 
 export default function Player1() {
+  const diceRef = useRef();
   const inputRef = useRef();
   const inputRef2 = useRef();
   const timeoutID = useRef();
@@ -17,10 +19,6 @@ export default function Player1() {
 
   function changeMove() {
     if (player2) return;
-  }
-
-  function changePlayer1RandomUsername() {
-    dispatch(gameActions.changePlayer1Username(getRandomItem(usernames)));
   }
 
   function changeNameError() {
@@ -38,6 +36,21 @@ export default function Player1() {
       inputRef.current.style.color = "rgba(255, 255, 255, 0.9)";
       inputRef2.current.style.color = "#e2a3fa";
     }, 100);
+  }
+  function changePlayer1RandomUsername() {
+    let randomUser = getRandomItem(usernames);
+    while (randomUser === player1) {
+      randomUser = getRandomItem(usernames);
+    }
+
+    dispatch(gameActions.changePlayer1Username(randomUser));
+
+    animate(diceRef.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
+    animate(inputRef.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
+    animate(inputRef2.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
+    audioRef.pause();
+    audioRef.currentTime = 0;
+    audioRef.play();
   }
 
   function changePlayer1Username(e) {
@@ -61,7 +74,11 @@ export default function Player1() {
   }, [player1]);
 
   return (
-    <div className="player-1">
+    <motion.div
+      layout
+      className="player-1"
+      style={{ order: player1Move === "X" ? -1 : 2 }}
+    >
       <p className="move">{player1Move}</p>
       <div className="input">
         <input
@@ -74,12 +91,13 @@ export default function Player1() {
       </div>
 
       <div
+        ref={diceRef}
         onClick={changePlayer1RandomUsername}
         className={`dices ${player2 && "disabled"}`}
       >
         <Dices />
         <Dices />
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,7 +1,6 @@
 import store from "./store";
 import { gameActions } from "./gameSlicer";
 import { audioRef } from "./App";
-import { startLobbyIntervalID } from "./components/StartLobbyBtn";
 
 const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 
@@ -14,7 +13,6 @@ webSocket.onopen = () => {
 
     if (action === "start-lobby") {
       store.dispatch(gameActions.startLobbyClient());
-      if (startLobbyIntervalID) clearInterval(startLobbyIntervalID);
 
       if (audioRef) {
         audioRef.pause();

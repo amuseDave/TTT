@@ -1,10 +1,8 @@
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import { audioRef } from "../App";
 import webSocket from "../ws";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
-
-export let startLobbyIntervalID = null;
 
 export default function StartLobbyBtn({ className }) {
   const isConnecting = useSelector((state) => state.game.isConnecting);
@@ -15,20 +13,18 @@ export default function StartLobbyBtn({ className }) {
     if (isConnecting) return;
     if (elRef.current.style.opacity >= 0.2) return;
 
-    webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
+    setTimeout(() => {
+      webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
+    }, 1000);
 
-    const titleEl = elRef.current;
-    const playBtnEl = playBtnRef.current;
+    playBtnRef.current.style.setProperty("--before-opacity", "1");
+    playBtnRef.current.style.setProperty("color", "white");
 
-    playBtnEl.style.setProperty("--before-opacity", "1");
-    playBtnEl.style.setProperty("color", "white");
-
-    titleEl.style.opacity = titleEl.style.opacity > 0.2 ? 0.2 : 0.9;
-
-    startLobbyIntervalID = setInterval(() => {
-      const op = titleEl.style.opacity;
-      titleEl.style.opacity = op > 0.2 ? 0.2 : 0.9;
-    }, 500);
+    animate(
+      elRef.current,
+      { opacity: [1, 0, 1, 0, 1, 0] },
+      { duration: 2, repeat: Infinity }
+    );
   }
 
   return (
