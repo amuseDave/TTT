@@ -30,6 +30,7 @@
   position: relative;
 }
 .menu .input input {
+  transition: color 0.1s ease-in-out;
   color: rgba(255, 255, 255, 0.9);
   background-color: transparent;
   border: none;

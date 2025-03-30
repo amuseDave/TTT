@@ -8,6 +8,7 @@ import { audioRef } from "../../App";
 export default function Player1() {
   const inputRef = useRef();
   const inputRef2 = useRef();
+  const timeoutID = useRef();
 
   const dispatch = useDispatch();
   const player1 = useSelector((state) => state.game.player1);
@@ -22,14 +23,27 @@ export default function Player1() {
     dispatch(gameActions.changePlayer1Username(getRandomItem(usernames)));
   }
 
+  function changeNameError() {
+    if (timeoutID.current) return;
+
+    audioRef.pause();
+    audioRef.currentTime = 0;
+    audioRef.play();
+
+    inputRef.current.style.color = "#ff2b60";
+    inputRef2.current.style.color = "#ff43b1";
+
+    timeoutID.current = setTimeout(() => {
+      timeoutID.current = null;
+      inputRef.current.style.color = "rgba(255, 255, 255, 0.9)";
+      inputRef2.current.style.color = "#e2a3fa";
+    }, 100);
+  }
+
   function changePlayer1Username(e) {
     const { value } = e.target;
     if (value.length > 15) {
-      audioRef.pause();
-      console.log(audioRef.volume);
-
-      audioRef.currentTime = 0;
-      audioRef.play();
+      changeNameError();
       return;
     }
     dispatch(gameActions.changePlayer1Username(value));
