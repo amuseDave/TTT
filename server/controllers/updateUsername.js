@@ -1,11 +1,12 @@
 const { lobbies } = require("../models/Lobby");
 
 module.exports = (ws, data) => {
-  if (!ws.lobbyID || ws.gameStarted) return;
+  if (!ws.lobbyID) return;
   if (typeof data.username !== "string") return;
   if (data.username.length < 3 || data.username.length > 15) return;
 
   const lobby = lobbies.getLobby(ws.lobbyID);
+  if (lobby.isGameStarted) return;
 
   lobby.players.forEach((player) => {
     if (player.playerID === ws.playerID) {

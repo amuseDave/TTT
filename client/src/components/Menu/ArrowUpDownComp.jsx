@@ -6,6 +6,7 @@ import { animate } from "framer-motion";
 import { audioRef } from "../AudioAndTitle";
 import webSocket from "../../ws";
 import { uiActions } from "../../uiSlicer";
+import { playAudio } from "../../utils";
 
 export default function ArrowUpDownComp() {
   const isSwitchingMoves = useSelector((state) => state.ui.isSwitchingMoves);
@@ -31,6 +32,7 @@ export default function ArrowUpDownComp() {
 
   function switchMoves() {
     if (isSwitchingMoves || !isAdmin) return;
+    // Test out delay UI
     setTimeout(() => {
       webSocket.send(JSON.stringify({ action: "switch-moves" }));
     }, 1000);
@@ -49,11 +51,8 @@ export default function ArrowUpDownComp() {
       { opacity: [1, 0, 1, 0, 1, 0, 1, 0.3, mouseOn.current ? 1 : 0.3] },
       { duration: 0.4 }
     );
-    if (audioRef) {
-      audioRef.pause();
-      audioRef.currentTime = 0;
-      audioRef.play();
-    }
+
+    playAudio(audioRef);
   }, [isSwitchingMoves]);
 
   useEffect(() => {
@@ -66,11 +65,7 @@ export default function ArrowUpDownComp() {
       { opacity: [1, 0, 1, 0, 1, 0, 1, 0.3, mouseOn.current ? 1 : 0.3] },
       { duration: 0.4 }
     );
-    if (audioRef) {
-      audioRef.pause();
-      audioRef.currentTime = 0;
-      audioRef.play();
-    }
+    playAudio(audioRef);
   }, [player1Move]);
 
   return (

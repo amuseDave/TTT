@@ -24,3 +24,11 @@ export const usernames = [
   "TicToeFlicker",
   "BrightGridAce",
 ];
+
+export function playAudio(audio) {
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
+  }
+}

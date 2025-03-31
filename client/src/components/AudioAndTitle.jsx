@@ -1,4 +1,4 @@
-import { getRandomItem } from "../utils";
+import { getRandomItem, playAudio } from "../utils";
 import thirdNeon from "../assets/thirdNeon.mp3";
 import fourthNeon from "../assets/thirdNeon.mp3";
 import { useEffect, useRef } from "react";
@@ -27,11 +27,7 @@ export default function AudioAndTitle() {
     const opRs = [0.2, 0.5, 0.8, 1];
 
     function triggerNeonEffect() {
-      if (audioTitleRef) {
-        audioTitleRef.pause();
-        audioTitleRef.currentTime = 0;
-        audioTitleRef.play();
-      }
+      playAudio(audioTitleRef);
 
       ticRef.current.style.opacity = getRandomItem(opRs);
       tacRef.current.style.opacity = getRandomItem(opRs);

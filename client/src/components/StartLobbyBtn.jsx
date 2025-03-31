@@ -3,6 +3,7 @@ import webSocket from "../ws";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { audioRef } from "./AudioAndTitle";
+import { playAudio } from "../utils";
 
 export default function StartLobbyBtn({ className }) {
   const isConnecting = useSelector((state) => state.ui.isConnecting);
@@ -14,7 +15,7 @@ export default function StartLobbyBtn({ className }) {
     if (isConnecting || isJoining) return;
     if (elRef.current.style.opacity >= 0.2) return;
 
-    // Test out delay of starting the lobby
+    // Test out delay UI
     setTimeout(() => {
       webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
     }, 1000);
@@ -34,20 +35,8 @@ export default function StartLobbyBtn({ className }) {
       ref={elRef}
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
-      onMouseEnter={async () => {
-        if (audioRef) {
-          audioRef.pause();
-          audioRef.currentTime = 0;
-          audioRef.play();
-        }
-      }}
-      onMouseLeave={async () => {
-        if (audioRef) {
-          audioRef.pause();
-          audioRef.currentTime = 0.5;
-          audioRef.play();
-        }
-      }}
+      onMouseEnter={() => playAudio(audioRef)}
+      onMouseLeave={() => playAudio(audioRef)}
     >
       <button ref={playBtnRef} onClick={startLobbyServer} className="start-btn">
         Play

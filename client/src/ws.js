@@ -2,6 +2,7 @@ import store from "./store";
 import { gameActions } from "./gameSlicer";
 import { audioRef } from "./components/AudioAndTitle";
 import { uiActions } from "./uiSlicer";
+import { playAudio } from "./utils";
 
 const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 
@@ -37,11 +38,8 @@ export default webSocket;
 
 function startLobby(data) {
   store.dispatch(gameActions.startLobbyClient(data));
-  if (audioRef) {
-    audioRef.pause();
-    audioRef.currentTime = 0.5;
-    audioRef.play();
-  }
+
+  playAudio(audioRef);
 }
 
 function switchMoves(data) {

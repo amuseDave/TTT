@@ -19,6 +19,7 @@ class Lobbies {
 
 class Lobby {
   constructor(lobbyID) {
+    this.isGameStarted = false;
     this.lobbyID = lobbyID;
     this.players = [];
     this.gameGrid = [

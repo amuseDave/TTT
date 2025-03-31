@@ -19,7 +19,6 @@ module.exports = (ws, data) => {
   ws.lobbyID = lobby.lobbyID;
   ws.playerID = newPlayer.playerID;
   ws.isAdmin = newPlayer.isAdmin;
-  ws.gameStarted = false;
 
   newPlayer.sendToClient({
     action: "join-lobby",

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Dices } from "lucide-react";
 import { gameActions } from "../../gameSlicer";
-import { getRandomItem, usernames } from "../../utils";
+import { getRandomItem, playAudio, usernames } from "../../utils";
 import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
 import { audioRef } from "../AudioAndTitle";
@@ -24,11 +24,7 @@ export default function Player1() {
   function changeNameError() {
     if (animationTimeoutID.current) return;
 
-    if (audioRef) {
-      audioRef.pause();
-      audioRef.currentTime = 0;
-      audioRef.play();
-    }
+    playAudio(audioRef);
 
     animate(
       inputRef.current,
@@ -79,11 +75,7 @@ export default function Player1() {
 
     animate(inputRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
     animate(inputRef2.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
-    if (audioRef) {
-      audioRef.pause();
-      audioRef.currentTime = 0;
-      audioRef.play();
-    }
+    playAudio(audioRef);
     animationTimeoutID2.current = setTimeout(() => {
       animationTimeoutID2.current = null;
     }, 150);
