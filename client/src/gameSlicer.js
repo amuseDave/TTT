@@ -18,9 +18,12 @@ const gameSlicer = createSlice({
   reducers: {
     startLobbyClient(state, action) {
       state.lobby = null;
-      state.isAdmin = true;
-      state.player1 = action.payload.username;
+      state.isAdmin = action.payload.isAdmin;
+      state.player1 = action.payload.player1;
+      state.player1Move = action.payload.move;
+      state.player2 = action.payload.player2;
       state.lobbyID = action.payload.lobbyID;
+      history.pushState({}, null, state.lobbyID);
     },
 
     changePlayer1Username(state, action) {
@@ -31,7 +34,7 @@ const gameSlicer = createSlice({
     },
 
     changePlayerMoves(state, action) {
-      if (state.isAdmin && !state.gameGrid) {
+      if (!state.gameGrid) {
         state.player1Move = action.payload.move;
       }
     },

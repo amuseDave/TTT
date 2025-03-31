@@ -8,12 +8,19 @@ const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 webSocket.onopen = () => {
   store.dispatch(uiActions.webSocketConnection(false));
 
+  const lobbyID = window.location.pathname.slice(1);
+  if (lobbyID) {
+    store.dispatch(uiActions.isJoining(true));
+    webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));
+  }
+
   webSocket.onmessage = async (event) => {
-    const { action, data } = JSON.parse(event.data);
-    console.log("Action: ", action, "Data: ", data);
+    const { action, data, type } = JSON.parse(event.data);
+    console.log("Action: ", action, "Data: ", data, "Type: ", type);
 
     if (action === "start-lobby") startLobby(data);
     if (action === "switch-moves") switchMoves(data);
+    if (action === "join-lobby") joinLobby(data, type);
   };
 };
 
@@ -38,5 +45,24 @@ function startLobby(data) {
 
 function switchMoves(data) {
   store.dispatch(gameActions.changePlayerMoves(data));
-  store.dispatch(uiActions.switchingMoves(false));
+  store.dispatch(uiActions.isSwitchingMoves(false));
+}
+
+function joinLobby(data, type) {
+  if (type === "user-joined") {
+    store.dispatch(gameActions.changePlayer2Username(data.username));
+  } else {
+    // Update ui to remove loader
+    store.dispatch(uiActions.isJoining(false));
+
+    // If Lobby not found
+    if (!data) {
+      history.pushState({}, null, "/");
+      return;
+    }
+
+    if (type === "new-user") {
+      store.dispatch(gameActions.startLobbyClient(data));
+    }
+  }
 }

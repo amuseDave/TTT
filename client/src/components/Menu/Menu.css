@@ -100,6 +100,10 @@
   user-select: none;
 }
 
+.menu .player-2 .user {
+  position: relative;
+}
+
 .menu .player-2 .invite {
   color: rgba(255, 255, 255, 0.7);
   font-weight: 100;
@@ -114,4 +118,31 @@
 .menu .player-2 .invite:hover {
   color: white;
   border-bottom: 2px solid white;
+}
+
+.menu .player-2 .username {
+  opacity: 0.3;
+  transition: opacity 0.2s ease-in-out;
+}
+.menu .player-2 .username:hover {
+  opacity: 1;
+}
+
+.menu .player-2 .username p {
+  transition: color 0.1s ease-in-out;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.menu .player-2 .username p:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(3px);
+  color: var(--test-color);
 }

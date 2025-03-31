@@ -5,8 +5,12 @@ class Lobbies {
   addLobby(lobbyID, lobbyData) {
     this.lobbies.set(lobbyID, lobbyData);
   }
-  removeLobby(lobbyID) {
-    this.lobbies.delete(lobbyID);
+  removeLobby(lobbyID, playerID) {
+    const lobby = this.getLobby(lobbyID);
+    lobby.removePlayer(playerID);
+
+    if (lobby.players.length < 1) return !this.lobbies.delete(lobbyID);
+    else return lobby;
   }
   getLobby(lobbyID) {
     return this.lobbies.get(lobbyID);
@@ -29,7 +33,8 @@ class Lobby {
   }
 
   removePlayer(playerID) {
-    console.log("removing player");
+    const playerIdx = this.players.findIndex((player) => player.playerID === playerID);
+    this.players.splice(playerIdx, 1);
   }
 }
 

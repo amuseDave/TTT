@@ -1,6 +1,8 @@
 const { WebSocketServer } = require("ws");
 const startLobby = require("./controllers/startLobby.js");
 const switchMoves = require("./controllers/switchMoves.js");
+const joinLobby = require("./controllers/joinLobby.js");
+const leaveLobby = require("./controllers/leaveLobby.js");
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -13,9 +15,13 @@ wss.on("connection", (ws) => {
 
       if (action === "start-lobby") startLobby(ws);
       if (action === "switch-moves") switchMoves(ws);
+      if (action === "join-lobby") joinLobby(ws, data);
     } catch (error) {
       console.log(error);
     }
+  });
+  ws.on("close", () => {
+    leaveLobby(ws);
   });
   ws.on("error", console.log);
 });

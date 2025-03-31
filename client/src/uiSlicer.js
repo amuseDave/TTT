@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isConnecting: true,
   isSwitchingMoves: false,
+  isJoining: false,
 };
 
 const uiSlicer = createSlice({
@@ -12,8 +13,11 @@ const uiSlicer = createSlice({
     webSocketConnection(state, action) {
       state.isConnecting = action.payload;
     },
-    switchingMoves(state, action) {
+    isSwitchingMoves(state, action) {
       state.isSwitchingMoves = action.payload;
+    },
+    isJoining(state, action) {
+      state.isJoining = action.payload;
     },
   },
 });

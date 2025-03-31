@@ -21,8 +21,8 @@ module.exports = (ws) => {
   ws.isAdmin = isAdmin;
   ws.gameStarted = false;
 
-  lobby.players[0].sendToClient({
+  player.sendToClient({
     action: "start-lobby",
-    data: { lobbyID, username: player.username },
+    data: { lobbyID, player1: player.username, player2: null, isAdmin: true, move },
   });
 };

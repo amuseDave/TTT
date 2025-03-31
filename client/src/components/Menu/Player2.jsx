@@ -11,9 +11,11 @@ export default function Player2() {
       style={{ order: player1Move === "X" ? 2 : -1 }}
     >
       <p className="move">{player1Move === "X" ? "O" : "X"}</p>
-      <p className={`${player2 ? "username" : "invite"}`}>
-        {player2 ? player2 : "invite"}
-      </p>
+
+      <div className={`${player2 ? "username" : "invite"} user`}>
+        <p>{player2 ? player2 : "invite"}</p>
+        {player2 && <p>{player2}</p>}
+      </div>
     </motion.div>
   );
 }

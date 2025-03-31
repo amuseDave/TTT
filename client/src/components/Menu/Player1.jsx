@@ -15,14 +15,15 @@ export default function Player1() {
   const dispatch = useDispatch();
   const player1 = useSelector((state) => state.game.player1);
   const player1Move = useSelector((state) => state.game.player1Move);
-  const player2 = useSelector((state) => state.game.player2);
 
   function changeNameError() {
     if (timeoutID.current) return;
 
-    audioRef.pause();
-    audioRef.currentTime = 0;
-    audioRef.play();
+    if (audioRef) {
+      audioRef.pause();
+      audioRef.currentTime = 0;
+      audioRef.play();
+    }
 
     inputRef.current.style.color = "#ff2b60";
     inputRef2.current.style.color = "#ff43b1";
@@ -40,17 +41,10 @@ export default function Player1() {
     }
 
     dispatch(gameActions.changePlayer1Username(randomUser));
-
-    animate(diceRef.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
-    animate(inputRef.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
-    animate(inputRef2.current, { opacity: [1, 0, 1] }, { duration: 0.2 });
-    audioRef.pause();
-    audioRef.currentTime = 0;
-    audioRef.play();
   }
 
   function changePlayer1Username(e) {
-    const { value } = e.target;
+    const value = e.target.value.trim();
     if (value.length > 15) {
       changeNameError();
       return;
@@ -63,9 +57,17 @@ export default function Player1() {
   }
 
   useEffect(() => {
-    if (player1.length > 1) {
-      inputRef.current.size = player1.length;
-      inputRef2.current.size = player1.length;
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    animate(diceRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
+    animate(inputRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
+    animate(inputRef2.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
+    if (audioRef) {
+      audioRef.pause();
+      audioRef.currentTime = 0;
+      audioRef.play();
     }
   }, [player1]);
 
@@ -79,18 +81,20 @@ export default function Player1() {
       <div className="input">
         <input
           onBlur={handleEmptyName}
+          size={player1.length > 1 ? player1.length : 1}
           ref={inputRef}
           onChange={changePlayer1Username}
           value={player1}
         />
-        <input ref={inputRef2} disabled={true} value={player1} />
+        <input
+          size={player1.length > 1 ? player1.length : 1}
+          ref={inputRef2}
+          disabled={true}
+          value={player1}
+        />
       </div>
 
-      <div
-        ref={diceRef}
-        onClick={changePlayer1RandomUsername}
-        className={`dices ${player2 && "disabled"}`}
-      >
+      <div ref={diceRef} onClick={changePlayer1RandomUsername} className={`dices`}>
         <Dices />
         <Dices />
       </div>

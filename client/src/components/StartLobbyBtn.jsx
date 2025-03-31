@@ -6,11 +6,12 @@ import { audioRef } from "./AudioAndTitle";
 
 export default function StartLobbyBtn({ className }) {
   const isConnecting = useSelector((state) => state.ui.isConnecting);
+  const isJoining = useSelector((state) => state.ui.isJoining);
   const elRef = useRef();
   const playBtnRef = useRef();
 
   function startLobbyServer() {
-    if (isConnecting) return;
+    if (isConnecting || isJoining) return;
     if (elRef.current.style.opacity >= 0.2) return;
 
     // Test out delay of starting the lobby
@@ -62,6 +63,18 @@ export default function StartLobbyBtn({ className }) {
           }}
         >
           Connecting....
+        </motion.p>
+      )}
+      {isJoining && (
+        <motion.p
+          className="lobby-connecting"
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [1, 0.2, 1],
+            transition: { repeat: Infinity, duration: 1 },
+          }}
+        >
+          Joining Lobby...
         </motion.p>
       )}
     </motion.div>
