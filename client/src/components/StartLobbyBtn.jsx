@@ -1,11 +1,11 @@
 import { animate, motion } from "framer-motion";
-import { audioRef } from "../App";
 import webSocket from "../ws";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+import { audioRef } from "./AudioAndTitle";
 
 export default function StartLobbyBtn({ className }) {
-  const isConnecting = useSelector((state) => state.game.isConnecting);
+  const isConnecting = useSelector((state) => state.ui.isConnecting);
   const elRef = useRef();
   const playBtnRef = useRef();
 
@@ -13,6 +13,7 @@ export default function StartLobbyBtn({ className }) {
     if (isConnecting) return;
     if (elRef.current.style.opacity >= 0.2) return;
 
+    // Test out delay of starting the lobby
     setTimeout(() => {
       webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
     }, 1000);

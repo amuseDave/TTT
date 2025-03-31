@@ -1,38 +1,78 @@
-import { ArrowUpDown } from "lucide-react";
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
-import { gameActions } from "../../gameSlicer";
+import { ArrowUpDown, LoaderCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { animate } from "framer-motion";
-import { audioRef } from "../../App";
+import { audioRef } from "../AudioAndTitle";
+import webSocket from "../../ws";
+import { uiActions } from "../../uiSlicer";
 
 export default function ArrowUpDownComp() {
+  const isSwitchingMoves = useSelector((state) => state.ui.isSwitchingMoves);
   const dispatch = useDispatch();
 
   const iconRef = useRef();
+  const timeoutIDRef = useRef();
+  const mouseOn = useRef();
 
   function onMouseLeave() {
+    mouseOn.current = false;
+    if (timeoutIDRef.current) return;
     animate(iconRef.current, { opacity: 0.3 }, { duration: 0.2 });
   }
   function onMouseEnter() {
+    mouseOn.current = true;
+    if (timeoutIDRef.current) return;
     animate(iconRef.current, { opacity: 1 }, { duration: 0.2 });
   }
 
   function switchMoves() {
-    dispatch(gameActions.changePlayerMoves());
-    animate(iconRef.current, { opacity: [1, 0, 1, 0, 1, 0, 1] }, { duration: 0.2 });
+    if (isSwitchingMoves) return;
+    setTimeout(() => {
+      webSocket.send(JSON.stringify({ action: "switch-moves" }));
+    }, 2000);
+
+    dispatch(uiActions.switchingMoves(true));
+  }
+
+  useEffect(() => {
+    timeoutIDRef.current = setTimeout(() => {
+      timeoutIDRef.current = null;
+    }, 400);
+
+    animate(
+      iconRef.current,
+      { opacity: [1, 0, 1, 0, 1, 0, 1, 0.3, mouseOn.current ? 1 : 0.3] },
+      { duration: 0.4 }
+    );
     audioRef.pause();
     audioRef.currentTime = 0;
     audioRef.play();
-  }
+  }, [isSwitchingMoves]);
 
   return (
-    <div ref={iconRef} className="arrow-up-down" style={{ opacity: 0.3 }}>
-      <ArrowUpDown
-        onClick={switchMoves}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      />
-      <ArrowUpDown />
-    </div>
+    <motion.div ref={iconRef} className="svg-switch-container">
+      {!isSwitchingMoves && (
+        <motion.div
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          className="arrow-up-down"
+        >
+          <ArrowUpDown onClick={switchMoves} />
+          <ArrowUpDown />
+        </motion.div>
+      )}
+      {isSwitchingMoves && (
+        <motion.div
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          animate={{ rotateZ: [0, 360], transition: { duration: 1, repeat: Infinity } }}
+          className="arrow-up-down"
+        >
+          <LoaderCircle />
+          <LoaderCircle />
+        </motion.div>
+      )}
+    </motion.div>
   );
 }

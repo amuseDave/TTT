@@ -1,25 +1,19 @@
 import store from "./store";
 import { gameActions } from "./gameSlicer";
-import { audioRef } from "./App";
+import { audioRef } from "./components/AudioAndTitle";
+import { uiActions } from "./uiSlicer";
 
 const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 
 webSocket.onopen = () => {
-  store.dispatch(gameActions.webSocketConnection(false));
+  store.dispatch(uiActions.webSocketConnection(false));
 
   webSocket.onmessage = async (event) => {
     const { action, data } = JSON.parse(event.data);
     console.log("Action: ", action, "Data: ", data);
 
-    if (action === "start-lobby") {
-      store.dispatch(gameActions.startLobbyClient());
-
-      if (audioRef) {
-        audioRef.pause();
-        audioRef.currentTime = 0.5;
-        audioRef.play();
-      }
-    }
+    if (action === "start-lobby") startLobby(data);
+    if (action === "switch-moves") switchMoves(data);
   };
 };
 
@@ -32,3 +26,17 @@ webSocket.onerror = () => {
 };
 
 export default webSocket;
+
+function startLobby(data) {
+  store.dispatch(gameActions.startLobbyClient(data));
+  if (audioRef) {
+    audioRef.pause();
+    audioRef.currentTime = 0.5;
+    audioRef.play();
+  }
+}
+
+function switchMoves(data) {
+  store.dispatch(gameActions.changePlayerMoves(data));
+  store.dispatch(uiActions.switchingMoves(false));
+}

@@ -3,8 +3,8 @@ import { Dices } from "lucide-react";
 import { gameActions } from "../../gameSlicer";
 import { getRandomItem, usernames } from "../../utils";
 import { useEffect, useRef } from "react";
-import { audioRef } from "../../App";
 import { animate, motion } from "framer-motion";
+import { audioRef } from "../AudioAndTitle";
 
 export default function Player1() {
   const diceRef = useRef();

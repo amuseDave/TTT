@@ -1,27 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRandomItem, usernames } from "./utils";
 
 const initialState = {
   lobby: undefined,
   isPrivate: true,
-  isAdmin: true,
+  isAdmin: false,
   isConnecting: true,
   player1: null,
   player2: null,
   player1Move: "X",
+  lobbyID: null,
+  gameGrid: null,
 };
 
 const gameSlicer = createSlice({
   name: "game",
   initialState,
   reducers: {
-    startLobbyClient(state) {
+    startLobbyClient(state, action) {
       state.lobby = null;
-      state.player1 = getRandomItem(usernames);
+      state.isAdmin = true;
+      state.player1 = action.payload.username;
+      state.lobbyID = action.payload.lobbyID;
     },
-    webSocketConnection(state, action) {
-      state.isConnecting = action.payload;
-    },
+
     changePlayer1Username(state, action) {
       state.player1 = action.payload;
     },
@@ -29,8 +30,10 @@ const gameSlicer = createSlice({
       state.player2 = action.payload;
     },
 
-    changePlayerMoves(state) {
-      state.player1Move = state.player1Move === "X" ? "O" : "X";
+    changePlayerMoves(state, action) {
+      if (state.isAdmin && !state.gameGrid) {
+        state.player1Move = action.payload.move;
+      }
     },
   },
 });

@@ -1,6 +1,6 @@
 import "./Menu.css";
 import { useEffect } from "react";
-import { audioTitleRef } from "../../App";
+import { audioTitleRef } from "../AudioAndTitle";
 import { motion } from "framer-motion";
 import Player1 from "./Player1";
 import Player2 from "./Player2";

@@ -75,9 +75,13 @@
   z-index: 1;
 }
 
-.menu .arrow-up-down {
+.menu .svg-switch-container {
   display: flex;
   justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.menu .arrow-up-down {
   position: relative;
 }
 
@@ -86,7 +90,6 @@
   stroke-width: 1.5;
   z-index: 2;
   color: var(--middle-color);
-  transition: opacity 0.2s ease-in-out;
 }
 .menu .arrow-up-down svg:nth-child(2) {
   position: absolute;

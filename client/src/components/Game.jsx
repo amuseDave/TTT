@@ -10,7 +10,7 @@ export default function Game() {
 
   return (
     <div className="game-container">
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="wait">
         {lobby === undefined && <StartLobbyBtn key="start-lobby-btn" />}
         {lobby === null && <Menu key="menu" />}
         {lobby && <GameGrid key="game-grid" />}
