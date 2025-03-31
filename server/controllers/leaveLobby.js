@@ -7,5 +7,7 @@ module.exports = (ws, data) => {
 
   if (!lobby) return;
 
+  lobby.players[0].sendToClient({ action: "" });
+
   console.log("handle one player in the lobby left");
 };

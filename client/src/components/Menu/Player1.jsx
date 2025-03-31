@@ -2,22 +2,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dices } from "lucide-react";
 import { gameActions } from "../../gameSlicer";
 import { getRandomItem, usernames } from "../../utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
 import { audioRef } from "../AudioAndTitle";
+import webSocket from "../../ws";
 
 export default function Player1() {
+  const [initial, setInitial] = useState(true);
+
   const diceRef = useRef();
   const inputRef = useRef();
   const inputRef2 = useRef();
-  const timeoutID = useRef();
+  const animationTimeoutID = useRef();
+  const animationTimeoutID2 = useRef();
+  const debounceID = useRef();
 
   const dispatch = useDispatch();
   const player1 = useSelector((state) => state.game.player1);
   const player1Move = useSelector((state) => state.game.player1Move);
 
   function changeNameError() {
-    if (timeoutID.current) return;
+    if (animationTimeoutID.current) return;
 
     if (audioRef) {
       audioRef.pause();
@@ -25,20 +30,27 @@ export default function Player1() {
       audioRef.play();
     }
 
-    inputRef.current.style.color = "#ff2b60";
-    inputRef2.current.style.color = "#ff43b1";
+    animate(
+      inputRef.current,
+      { color: ["#ff2b60", "#ff2b60", "#ffffffe5"] },
+      { duration: 0.2 }
+    );
+    animate(
+      inputRef2.current,
+      { color: ["#ff43b1", "#ff43b1", "#e2a3fa"] },
+      { duration: 0.2 }
+    );
 
-    timeoutID.current = setTimeout(() => {
-      timeoutID.current = null;
-      inputRef.current.style.color = "rgba(255, 255, 255, 0.9)";
-      inputRef2.current.style.color = "#e2a3fa";
-    }, 100);
+    animationTimeoutID.current = setTimeout(() => {
+      animationTimeoutID.current = null;
+    }, 150);
   }
   function changePlayer1RandomUsername() {
     let randomUser = getRandomItem(usernames);
     while (randomUser === player1) {
       randomUser = getRandomItem(usernames);
     }
+    animate(diceRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
 
     dispatch(gameActions.changePlayer1Username(randomUser));
   }
@@ -49,11 +61,13 @@ export default function Player1() {
       changeNameError();
       return;
     }
+    if (value.length < 3) changeNameError();
+
     dispatch(gameActions.changePlayer1Username(value));
   }
 
   function handleEmptyName() {
-    if (player1.length < 1) changePlayer1RandomUsername();
+    if (player1.length < 3) changePlayer1RandomUsername();
   }
 
   useEffect(() => {
@@ -61,13 +75,31 @@ export default function Player1() {
   }, []);
 
   useEffect(() => {
-    animate(diceRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
+    if (animationTimeoutID2.current) return;
+
     animate(inputRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
     animate(inputRef2.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
     if (audioRef) {
       audioRef.pause();
       audioRef.currentTime = 0;
       audioRef.play();
+    }
+    animationTimeoutID2.current = setTimeout(() => {
+      animationTimeoutID2.current = null;
+    }, 150);
+  }, [player1]);
+
+  useEffect(() => {
+    if (initial) {
+      setInitial(false);
+    } else {
+      if (debounceID.current) clearTimeout(debounceID.current);
+
+      debounceID.current = setTimeout(() => {
+        webSocket.send(
+          JSON.stringify({ action: "update-username", data: { username: player1 } })
+        );
+      }, 500);
     }
   }, [player1]);
 
@@ -81,13 +113,13 @@ export default function Player1() {
       <div className="input">
         <input
           onBlur={handleEmptyName}
-          size={player1.length > 1 ? player1.length : 1}
+          size={player1.length > 1 ? player1.length + 1 : 1}
           ref={inputRef}
           onChange={changePlayer1Username}
           value={player1}
         />
         <input
-          size={player1.length > 1 ? player1.length : 1}
+          size={player1.length > 1 ? player1.length + 1 : 1}
           ref={inputRef2}
           disabled={true}
           value={player1}

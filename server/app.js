@@ -3,6 +3,7 @@ const startLobby = require("./controllers/startLobby.js");
 const switchMoves = require("./controllers/switchMoves.js");
 const joinLobby = require("./controllers/joinLobby.js");
 const leaveLobby = require("./controllers/leaveLobby.js");
+const updateUsername = require("./controllers/updateUsername.js");
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -13,9 +14,10 @@ wss.on("connection", (ws) => {
       const { action, data } = JSON.parse(req.toString("utf-8"));
       console.log("Action: ", action, "Data: ", data);
 
-      if (action === "start-lobby") startLobby(ws);
-      if (action === "switch-moves") switchMoves(ws);
-      if (action === "join-lobby") joinLobby(ws, data);
+      if (action === "update-username") updateUsername(ws, data);
+      else if (action === "switch-moves") switchMoves(ws);
+      else if (action === "start-lobby") startLobby(ws);
+      else if (action === "join-lobby") joinLobby(ws, data);
     } catch (error) {
       console.log(error);
     }

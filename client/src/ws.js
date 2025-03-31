@@ -18,9 +18,10 @@ webSocket.onopen = () => {
     const { action, data, type } = JSON.parse(event.data);
     console.log("Action: ", action, "Data: ", data, "Type: ", type);
 
-    if (action === "start-lobby") startLobby(data);
-    if (action === "switch-moves") switchMoves(data);
-    if (action === "join-lobby") joinLobby(data, type);
+    if (action === "update-username") updateUsername(data);
+    else if (action === "switch-moves") switchMoves(data);
+    else if (action === "start-lobby") startLobby(data);
+    else if (action === "join-lobby") joinLobby(data, type);
   };
 };
 
@@ -65,4 +66,8 @@ function joinLobby(data, type) {
       store.dispatch(gameActions.startLobbyClient(data));
     }
   }
+}
+
+function updateUsername(data) {
+  store.dispatch(gameActions.changePlayer2Username(data.username));
 }
