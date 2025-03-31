@@ -36,6 +36,9 @@ class Lobby {
     const playerIdx = this.players.findIndex((player) => player.playerID === playerID);
     this.players.splice(playerIdx, 1);
   }
+  getPlayer(playerID) {
+    return this.players.find((player) => player.playerID === playerID);
+  }
 }
 
 exports.lobbies = new Lobbies();

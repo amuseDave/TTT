@@ -30,6 +30,7 @@ const gameSlicer = createSlice({
       state.player1 = action.payload;
     },
     changePlayer2Username(state, action) {
+      if (action.payload === null) state.isAdmin = true;
       state.player2 = action.payload;
     },
 

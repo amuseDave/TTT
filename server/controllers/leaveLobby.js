@@ -6,8 +6,6 @@ module.exports = (ws, data) => {
   const lobby = lobbies.removeLobby(ws.lobbyID, ws.playerID);
 
   if (!lobby) return;
-
-  lobby.players[0].sendToClient({ action: "" });
-
-  console.log("handle one player in the lobby left");
+  lobby.players[0].isAdmin = true;
+  lobby.players[0].sendToClient({ action: "update-username", data: { username: null } });
 };

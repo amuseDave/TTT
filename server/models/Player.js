@@ -10,8 +10,6 @@ class Player {
   }
 
   sendToClient(data) {
-    console.log("sending data: ", data);
-
     this.send(JSON.stringify(data));
   }
 

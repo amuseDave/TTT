@@ -1,10 +1,15 @@
 const { lobbies } = require("../models/Lobby");
 
 module.exports = (ws) => {
-  if (!ws.lobbyID || !ws.isAdmin || ws.gameStarted) return;
+  if (!ws.lobbyID || ws.gameStarted) return;
 
   const lobby = lobbies.getLobby(ws.lobbyID);
-  console.log(lobby);
+
+  if (!ws.isAdmin) {
+    const player = lobby.getPlayer(ws.playerID);
+    if (player.isAdmin) ws.isAdmin = true;
+  }
+  if (!ws.isAdmin) return;
 
   lobby.players.forEach((player) => {
     player.move = player.move === "X" ? "O" : "X";
