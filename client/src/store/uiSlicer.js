@@ -10,14 +10,14 @@ const uiSlicer = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    webSocketConnection(state, action) {
+    webSocketIsConnecting(state, action) {
       state.isConnecting = action.payload;
-    },
-    isSwitchingMoves(state, action) {
-      state.isSwitchingMoves = action.payload;
     },
     isJoining(state, action) {
       state.isJoining = action.payload;
+    },
+    isSwitchingMoves(state, action) {
+      state.isSwitchingMoves = action.payload;
     },
   },
 });

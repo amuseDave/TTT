@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import "./CanvasLight.css";
+import { useEffect, useRef } from "react";
 
-import Game from "./components/Game";
-import AudioAndTitle from "./components/AudioAndTitle";
+export default function CanvasLight() {
+  const canvasRef = useRef();
 
-export default function App() {
   // Set Canvas Drawing With Whole Page effect
   useEffect(() => {
-    const canvasEl = document.getElementById("canvas");
+    const canvasEl = canvasRef.current;
     const ctx = canvasEl.getContext("2d");
 
     function setCanvasSize() {
@@ -64,15 +64,5 @@ export default function App() {
     };
   }, []);
 
-  return (
-    <>
-      <div className="letter letter-0">X</div>
-      <div className="letter letter-1">O</div>
-      <div className="letter letter-2">X</div>
-      <div className="letter letter-3">O</div>
-      <canvas id="canvas" />
-      <AudioAndTitle />
-      <Game />
-    </>
-  );
+  return <canvas id="canvas" ref={canvasRef} />;
 }

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Dices } from "lucide-react";
-import { gameActions } from "../../gameSlicer";
-import { getRandomItem, playAudio, usernames } from "../../utils";
+import { gameActions } from "../../../store/gameSlicer";
+import { getRandomItem, playAudio, usernames } from "../../../utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
-import { audioRef } from "../AudioAndTitle";
-import webSocket from "../../ws";
+import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
+import webSocket from "../../../web-socket/ws";
 
 export default function Player1() {
   const [initial, setInitial] = useState(true);

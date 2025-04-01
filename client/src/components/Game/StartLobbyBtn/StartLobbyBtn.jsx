@@ -1,9 +1,11 @@
+import "./StartLobbyBtn.css";
+
 import { animate, motion } from "framer-motion";
-import webSocket from "../ws";
+import webSocket from "../../../web-socket/ws";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
-import { audioRef } from "./AudioAndTitle";
-import { playAudio } from "../utils";
+import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
+import { playAudio } from "../../../utils/utils";
 
 export default function StartLobbyBtn({ className }) {
   const isConnecting = useSelector((state) => state.ui.isConnecting);
@@ -36,7 +38,7 @@ export default function StartLobbyBtn({ className }) {
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
       onMouseEnter={() => playAudio(audioRef)}
-      onMouseLeave={() => playAudio(audioRef)}
+      onMouseLeave={() => playAudio(audioRef, 0.6)}
     >
       <button ref={playBtnRef} onClick={startLobbyServer} className="start-btn">
         Play

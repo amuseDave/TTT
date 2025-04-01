@@ -1,6 +1,6 @@
 import "./Menu.css";
 import { useEffect } from "react";
-import { audioTitleRef } from "../AudioAndTitle";
+import { audioTitleRef } from "../../AudioAndTitle/AudioAndTitle";
 import { LayoutGroup, motion } from "framer-motion";
 import Player1 from "./Player1";
 import Player2 from "./Player2";
@@ -8,11 +8,11 @@ import ArrowUpDownComp from "./ArrowUpDownComp";
 
 export default function Menu() {
   useEffect(() => {
-    if (audioTitleRef) audioTitleRef.volume = 0.15;
+    if (audioTitleRef) audioTitleRef.volume = 0.05;
     let intervalID;
     intervalID = setInterval(() => {
       if (audioTitleRef) {
-        audioTitleRef.volume = 0.15;
+        audioTitleRef.volume = 0.05;
         clearInterval(intervalID);
         intervalID = null;
       }

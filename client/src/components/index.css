@@ -1,0 +1,68 @@
+:root {
+  --dark-color: #0f0510;
+  --light-color: rgb(58, 6, 61);
+  --middle-color: #9c61b4;
+  --test-color: #e2a3fa;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: "Tilt Neon", sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  background-image: radial-gradient(var(--light-color) 0%, var(--dark-color) 75%);
+  overflow: hidden;
+  cursor: url("./cursor.png"), pointer;
+}
+#root {
+  position: relative;
+  display: grid;
+  height: 100dvh;
+  grid-template-rows: max-content 1fr;
+}
+
+button,
+input,
+a {
+  user-select: none;
+  font-family: inherit;
+  cursor: inherit;
+}
+
+.letter {
+  position: absolute;
+  font-size: 16rem;
+  opacity: 0.2;
+  color: var(--middle-color);
+}
+
+.letter-0 {
+  rotate: -20deg;
+  left: 12rem;
+  top: 12rem;
+}
+.letter-1 {
+  rotate: 20deg;
+  left: 4rem;
+  top: 32rem;
+}
+.letter-2 {
+  rotate: -20deg;
+  right: 12rem;
+  bottom: -7rem;
+}
+.letter-3 {
+  overflow: hidden;
+  rotate: 20deg;
+  right: -4rem;
+  bottom: 2rem;
+}

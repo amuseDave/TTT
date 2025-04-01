@@ -1,9 +1,11 @@
+import "./Game.css";
+
 import { useSelector } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 
-import StartLobbyBtn from "./StartLobbyBtn";
+import StartLobbyBtn from "./StartLobbyBtn/StartLobbyBtn";
 import Menu from "./Menu/Menu";
-import GameGrid from "./GameGrid";
+import GameGrid from "./GameGrid/GameGrid";
 
 export default function Game() {
   const lobby = useSelector((state) => state.game.lobby);

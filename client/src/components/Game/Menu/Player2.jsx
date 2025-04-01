@@ -1,8 +1,8 @@
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { audioRef } from "../AudioAndTitle";
-import { playAudio } from "../../utils";
+import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
+import { playAudio } from "../../../utils/utils";
 
 export default function Player2() {
   const [initial, setInitial] = useState(true);

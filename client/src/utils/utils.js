@@ -25,10 +25,10 @@ export const usernames = [
   "BrightGridAce",
 ];
 
-export function playAudio(audio) {
+export function playAudio(audio, currentTime = 0) {
   if (audio) {
     audio.pause();
-    audio.currentTime = 0;
+    audio.currentTime = currentTime;
     audio.play();
   }
 }

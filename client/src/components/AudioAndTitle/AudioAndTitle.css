@@ -1,0 +1,31 @@
+.title {
+  user-select: none;
+  position: relative;
+  padding-top: 4.8rem;
+  font-size: 6rem;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 400;
+  letter-spacing: 0.8rem;
+}
+
+.title span {
+  opacity: 0.3;
+  position: relative;
+}
+.title span:nth-child(1)::before {
+  content: "Tic";
+}
+.title span:nth-child(2)::before {
+  content: "Tac";
+}
+.title span:nth-child(3)::before {
+  content: "Toe";
+}
+
+.title span::before {
+  position: absolute;
+  z-index: -1;
+  color: #d16bfa;
+  filter: blur(7px);
+}
