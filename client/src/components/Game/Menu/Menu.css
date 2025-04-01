@@ -11,6 +11,10 @@
 }
 
 .menu {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 3.6rem;
   position: relative;
   border-radius: 18px;
   background-color: rgba(0, 0, 0, 0.701);

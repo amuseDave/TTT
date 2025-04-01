@@ -104,7 +104,6 @@ export default function StartLobbyBtn({ className }) {
         firstRenderRef.current = false;
         return;
       }
-      console.log("playing");
 
       playAudio(audioRef, 0.6);
       setTimeout(() => {

@@ -6,17 +6,16 @@
 
 .player-menu div {
   display: flex;
-  gap: 2rem;
   align-items: center;
 }
 .menu .player-menu .move {
-  user-select: none;
   font-size: 4.2rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.2);
 }
 
 .menu .player-menu .player-1 .input {
+  margin-left: 2rem;
   position: relative;
 }
 .menu .player-menu .player-1 .input input {
@@ -78,11 +77,9 @@
   filter: blur(3px);
   z-index: 1;
 }
-.menu .player-menu .player-2 {
-  user-select: none;
-}
 
 .menu .player-menu .player-2 .user {
+  margin-left: 2rem;
   position: relative;
 }
 

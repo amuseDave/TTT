@@ -3,11 +3,10 @@ import { useEffect } from "react";
 import { audioTitleRef } from "../../AudioAndTitle/AudioAndTitle";
 import { LayoutGroup, motion } from "framer-motion";
 import PlayerMenu from "./PlayerMenu/PlayerMenu";
-import { useSelector } from "react-redux";
 import Connection from "./Connection/Connection";
+import MenuOptions from "./MenuOptions/MenuOptions";
 
 export default function Menu() {
-  const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
   useEffect(() => {
     if (audioTitleRef) audioTitleRef.volume = 0.05;
     let intervalID;
@@ -36,6 +35,7 @@ export default function Menu() {
         >
           <Connection />
           <PlayerMenu />
+          <MenuOptions />
         </motion.div>
       </LayoutGroup>
     </motion.div>
