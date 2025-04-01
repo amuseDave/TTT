@@ -1,73 +1,155 @@
 import "./StartLobbyBtn.css";
 
-import { animate, motion } from "framer-motion";
-import webSocket from "../../../web-socket/ws";
-import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { animate, motion, AnimatePresence } from "framer-motion";
+import webSocket, { lobbyID } from "../../../web-socket/ws";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
 import { playAudio } from "../../../utils/utils";
+import { gameActions } from "../../../store/gameSlicer";
+import { uiActions } from "../../../store/uiSlicer";
 
 export default function StartLobbyBtn({ className }) {
-  const isConnecting = useSelector((state) => state.ui.isConnecting);
-  const isJoining = useSelector((state) => state.ui.isJoining);
+  const dispatch = useDispatch();
+
+  const startError = useSelector((state) => state.ui.startError);
+  const isJoiningLobby = useSelector((state) => state.ui.isJoiningLobby);
+  const isCreatingLobby = useSelector((state) => state.ui.isCreatingLobby);
+
   const elRef = useRef();
+
   const playBtnRef = useRef();
+  const playBtnRef2 = useRef();
+
+  const firstRenderRef = useRef(true);
+
+  const intervalID = useRef();
+
+  const animationPlaybackRef = useRef();
 
   function startLobbyServer() {
-    if (isConnecting || isJoining) return;
-    if (elRef.current.style.opacity >= 0.2) return;
+    if (isJoiningLobby || isCreatingLobby) return;
 
-    // Test out delay UI
-    setTimeout(() => {
-      webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
-    }, 1000);
-
-    playBtnRef.current.style.setProperty("--before-opacity", "1");
-    playBtnRef.current.style.setProperty("color", "white");
-
-    animate(
-      elRef.current,
-      { opacity: [1, 0, 1, 0, 1, 0] },
-      { duration: 2, repeat: Infinity }
-    );
+    // Check if the connection is established and start lobby right from server if it is
+    if (webSocket.readyState === webSocket.OPEN) {
+      // Test out delay UI
+      setTimeout(() => {
+        webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
+      }, 1000);
+      dispatch(uiActions.isCreatingLobby(true));
+    } else {
+      // If connections is not establish start lobby from client to play against bot
+      dispatch(
+        gameActions.initiateLobbyClient({
+          isAdmin: true,
+          player1: null,
+          player2: null,
+          lobbyID: null,
+          move: "X",
+        })
+      );
+    }
   }
+
+  // Hover effect to use canvas logical light appearing effect
+  function hoverEffect() {
+    playBtnRef.current.style.color = "white";
+    playBtnRef2.current.style.opacity = 1;
+    playAudio(audioRef);
+  }
+  function leaveHoverEffect() {
+    playBtnRef.current.style.color = "#00000059";
+    playBtnRef2.current.style.opacity = 0;
+    playAudio(audioRef, 0.6);
+  }
+
+  // If it is joining or creating lobby add pulsating effect to the text
+  useEffect(() => {
+    if (isCreatingLobby || isJoiningLobby) {
+      playBtnRef.current.style.color = "white";
+      playBtnRef2.current.style.opacity = 1;
+      animationPlaybackRef.current = animate(
+        elRef.current,
+        { opacity: [1, 0, 1, 0, 1, 0] },
+        { duration: 2, repeat: Infinity }
+      );
+
+      // Use interval to indicate neon pulsing
+      intervalID.current = setInterval(() => {
+        playAudio(audioRef);
+      }, 1000);
+    } else {
+      // Stop the animation and reset the initial stylings
+      if (animationPlaybackRef.current) animationPlaybackRef.current.cancel();
+      animationPlaybackRef.current = null;
+      playBtnRef.current.style.color = "#00000059";
+      playBtnRef2.current.style.opacity = 0;
+
+      clearInterval(intervalID.current);
+    }
+  }, [isJoiningLobby, isCreatingLobby]);
+
+  // Play audio on errors
+  useEffect(() => {
+    if (startError) {
+      playAudio(audioRef, 0.6);
+      setTimeout(() => {
+        playAudio(audioRef, 0.6);
+      }, 100);
+      setTimeout(() => {
+        dispatch(uiActions.setStartError(null));
+      }, 3000);
+    } else {
+      if (firstRenderRef.current) {
+        firstRenderRef.current = false;
+        return;
+      }
+      console.log("playing");
+
+      playAudio(audioRef, 0.6);
+      setTimeout(() => {
+        playAudio(audioRef, 0.6);
+      }, 100);
+    }
+  }, [startError]);
 
   return (
     <motion.div
       ref={elRef}
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
-      onMouseEnter={() => playAudio(audioRef)}
-      onMouseLeave={() => playAudio(audioRef, 0.6)}
+      onMouseEnter={isJoiningLobby || isCreatingLobby ? null : hoverEffect}
+      onMouseLeave={isJoiningLobby || isCreatingLobby ? null : leaveHoverEffect}
     >
-      <button ref={playBtnRef} onClick={startLobbyServer} className="start-btn">
-        Play
+      <button
+        ref={playBtnRef}
+        onClick={isJoiningLobby ? null : startLobbyServer}
+        className="start-btn"
+      >
+        {isJoiningLobby ? "Joining" : "Play"}
+      </button>
+      <button ref={playBtnRef2} className="start-btn">
+        {isJoiningLobby ? "Joining" : "Play"}
       </button>
 
-      {isConnecting && (
-        <motion.p
-          className="lobby-connecting"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [1, 0.2, 1],
-            transition: { repeat: Infinity, duration: 1 },
-          }}
-        >
-          Connecting....
-        </motion.p>
-      )}
-      {isJoining && (
-        <motion.p
-          className="lobby-connecting"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [1, 0.2, 1],
-            transition: { repeat: Infinity, duration: 1 },
-          }}
-        >
-          Joining Lobby...
-        </motion.p>
-      )}
+      <AnimatePresence>
+        {startError && (
+          <motion.div
+            exit={{
+              opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0],
+              transition: { duration: 0.3 },
+            }}
+            animate={{
+              opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 1],
+              transition: { duration: 0.3 },
+            }}
+            className="error-container"
+          >
+            <p className="error-message">{startError}</p>
+            <p className="error-message">{startError}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

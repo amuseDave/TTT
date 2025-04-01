@@ -9,6 +9,7 @@ import GameGrid from "./GameGrid/GameGrid";
 
 export default function Game() {
   const lobby = useSelector((state) => state.game.lobby);
+  console.log(lobby);
 
   return (
     <div className="game-container">

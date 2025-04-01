@@ -1,0 +1,123 @@
+.player-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.player-menu div {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.menu .player-menu .move {
+  user-select: none;
+  font-size: 4.2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.menu .player-menu .player-1 .input {
+  position: relative;
+}
+.menu .player-menu .player-1 .input input {
+  transition: color 0.1s ease-in-out;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.menu .player-menu .player-1 .input input:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(3px);
+  color: var(--test-color);
+}
+
+.menu .player-menu .player-1 .dices {
+  position: relative;
+}
+.menu .player-menu .player-1 .dices.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.menu .player-menu .player-1 .dices svg {
+  scale: 1.5;
+  stroke-width: 1.5;
+  z-index: 2;
+  color: var(--middle-color);
+}
+.menu .player-menu .player-1 .dices svg:nth-child(2) {
+  position: absolute;
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.menu .player-menu .svg-switch-container {
+  display: flex;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.menu .player-menu .arrow-up-down {
+  position: relative;
+}
+
+.menu .player-menu .arrow-up-down svg {
+  scale: 1.7;
+  stroke-width: 1.5;
+  z-index: 2;
+  color: var(--middle-color);
+}
+.menu .player-menu .arrow-up-down svg:nth-child(2) {
+  position: absolute;
+  filter: blur(3px);
+  z-index: 1;
+}
+.menu .player-menu .player-2 {
+  user-select: none;
+}
+
+.menu .player-menu .player-2 .user {
+  position: relative;
+}
+
+.menu .player-menu .player-2 .invite {
+  color: white;
+  font-weight: 100;
+  letter-spacing: 1.2rem;
+  font-size: 2.8rem;
+  text-align: center;
+  border-bottom: 2px solid white;
+  padding-bottom: 5px;
+  transition: 0.2s all ease-in-out;
+  opacity: 0.4;
+}
+
+.menu .player-menu .player-2 .username {
+  opacity: 0.3;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.menu .player-menu .player-2 .username p {
+  transition: color 0.1s ease-in-out;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.menu .player-menu .player-2 .username p:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  filter: blur(3px);
+  color: var(--test-color);
+}

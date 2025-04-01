@@ -19,7 +19,6 @@ module.exports = (ws) => {
   ws.lobbyID = lobbyID;
   ws.playerID = playerID;
   ws.isAdmin = isAdmin;
-  ws.gameStarted = false;
 
   player.sendToClient({
     action: "start-lobby",

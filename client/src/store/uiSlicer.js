@@ -1,23 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isConnecting: true,
+  isConnectingServer: true,
+  isConnectedServer: false,
+  isCreatingLobby: false,
   isSwitchingMoves: false,
-  isJoining: false,
+  isJoiningLobby: false,
+  startError: null,
 };
 
 const uiSlicer = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    webSocketIsConnecting(state, action) {
-      state.isConnecting = action.payload;
+    isJoiningLobby(state, action) {
+      state.isJoiningLobby = action.payload;
     },
-    isJoining(state, action) {
-      state.isJoining = action.payload;
+    isCreatingLobby(state, action) {
+      state.isCreatingLobby = action.payload;
+    },
+    isConnectingServer(state, action) {
+      state.isConnectingServer = action.payload;
+    },
+    isConnectedServer(state, action) {
+      state.isConnectedServer = action.payload;
     },
     isSwitchingMoves(state, action) {
       state.isSwitchingMoves = action.payload;
+    },
+    setStartError(state, action) {
+      state.startError = action.payload;
     },
   },
 });

@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { animate } from "framer-motion";
-import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
-import webSocket from "../../../web-socket/ws";
-import { uiActions } from "../../../store/uiSlicer";
-import { playAudio } from "../../../utils/utils";
+import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import webSocket from "../../../../web-socket/ws";
+import { uiActions } from "../../../../store/uiSlicer";
+import { playAudio } from "../../../../utils/utils";
 
 export default function ArrowUpDownComp() {
   const isSwitchingMoves = useSelector((state) => state.ui.isSwitchingMoves);

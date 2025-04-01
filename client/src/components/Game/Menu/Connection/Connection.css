@@ -1,0 +1,12 @@
+.menu .connection {
+  top: 2rem;
+  right: 2rem;
+  position: absolute;
+  width: max-content;
+  color: white;
+  margin-left: auto;
+}
+
+.menu .connection p {
+  font-size: 1.3rem;
+}

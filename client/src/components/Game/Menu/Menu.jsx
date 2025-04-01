@@ -2,11 +2,12 @@ import "./Menu.css";
 import { useEffect } from "react";
 import { audioTitleRef } from "../../AudioAndTitle/AudioAndTitle";
 import { LayoutGroup, motion } from "framer-motion";
-import Player1 from "./Player1";
-import Player2 from "./Player2";
-import ArrowUpDownComp from "./ArrowUpDownComp";
+import PlayerMenu from "./PlayerMenu/PlayerMenu";
+import { useSelector } from "react-redux";
+import Connection from "./Connection/Connection";
 
 export default function Menu() {
+  const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
   useEffect(() => {
     if (audioTitleRef) audioTitleRef.volume = 0.05;
     let intervalID;
@@ -33,11 +34,8 @@ export default function Menu() {
           animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.5 } }}
           className="menu"
         >
-          <div className="player-menu">
-            <Player1 />
-            <ArrowUpDownComp />
-            <Player2 />
-          </div>
+          <Connection />
+          <PlayerMenu />
         </motion.div>
       </LayoutGroup>
     </motion.div>

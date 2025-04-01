@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Dices } from "lucide-react";
-import { gameActions } from "../../../store/gameSlicer";
-import { getRandomItem, playAudio, usernames } from "../../../utils/utils";
+import { gameActions } from "../../../../store/gameSlicer";
+import { getRandomItem, playAudio, usernames } from "../../../../utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
-import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
-import webSocket from "../../../web-socket/ws";
+import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import webSocket from "../../../../web-socket/ws";
 
 export default function Player1() {
   const [initial, setInitial] = useState(true);
@@ -20,6 +20,7 @@ export default function Player1() {
   const dispatch = useDispatch();
   const player1 = useSelector((state) => state.game.player1);
   const player1Move = useSelector((state) => state.game.player1Move);
+  const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   function changeNameError() {
     if (animationTimeoutID.current) return;
@@ -85,6 +86,7 @@ export default function Player1() {
     if (initial) {
       setInitial(false);
     } else {
+      if (webSocket.readyState !== webSocket.OPEN) return;
       if (debounceID.current) clearTimeout(debounceID.current);
 
       debounceID.current = setTimeout(() => {
@@ -94,6 +96,17 @@ export default function Player1() {
       }, 500);
     }
   }, [player1]);
+
+  // Pass the username and create lobby in the server if the connection was established when the lobby was created
+  useEffect(() => {
+    if (initial) {
+      setInitial(false);
+    } else {
+      if (isConnectedServer) {
+        console.log("handle server lobby creation");
+      }
+    }
+  }, [isConnectedServer]);
 
   return (
     <motion.div

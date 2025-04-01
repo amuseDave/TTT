@@ -7,16 +7,16 @@ import switchMoves from "./controllers/switchMoves.js";
 import joinLobby from "./controllers/joinLobby.js";
 import updateUsername from "./controllers/updateUsername.js";
 
-const webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
+const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search);
+export const lobbyID = params.get("lobbyID");
+
+let webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 
 webSocket.onopen = () => {
-  store.dispatch(uiActions.webSocketIsConnecting(false));
-
-  const lobbyID = window.location.pathname.slice(1);
-
+  store.dispatch(uiActions.isConnectingServer(false));
+  store.dispatch(uiActions.isConnectedServer(true));
   if (lobbyID) {
-    store.dispatch(uiActions.isJoining(true));
-
     // Test out delay UI
     setTimeout(() => {
       webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));
@@ -36,11 +36,26 @@ webSocket.onopen = () => {
   };
 };
 
-webSocket.onclose = () => {
-  console.log("handle server crash");
+webSocket.onclose = (err) => {
+  console.log(err);
+  console.log("On Close event");
+
+  const { isConnectedServer } = store.getState().ui;
+
+  if (isConnectedServer) store.dispatch(uiActions.isConnectedServer(false));
 };
-webSocket.onerror = () => {
-  console.log("handle error of not joining");
+
+webSocket.onerror = (err) => {
+  console.log("On error event");
+
+  const { isJoiningLobby, isConnectingServer } = store.getState().ui;
+
+  if (isConnectingServer) store.dispatch(uiActions.isConnectingServer(false));
+  if (isJoiningLobby) {
+    history.pushState({}, null, "/");
+    store.dispatch(uiActions.isJoiningLobby(false));
+    store.dispatch(uiActions.setStartError("Couldn't Connect To the Server"));
+  }
 };
 
 export default webSocket;
