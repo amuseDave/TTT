@@ -1,14 +1,39 @@
 .menu-options {
   display: flex;
   flex-direction: column;
-  width: 16rem;
+  justify-content: center;
+  min-width: 16rem;
+  max-width: 32rem;
   padding: 0rem 2.4rem;
+  gap: 1.6rem;
 }
 
 .menu-options button {
+  text-align: center;
   background-color: transparent;
   border: none;
   font-size: 3.2rem;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.082);
+}
+
+.menu-options .or-separator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+}
+
+.menu-options .or-separator .line {
+  width: 100%;
+  height: 4px;
+  border-radius: 1rem;
+  background-color: rgba(253, 253, 253, 0.2);
+}
+
+.menu-options .or-separator .or-text {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.4);
+  vertical-align: middle;
+  text-transform: uppercase;
 }

@@ -7,6 +7,7 @@ const initialState = {
   isSwitchingMoves: false,
   isJoiningLobby: false,
   startError: null,
+  menuErrorUserLeft: null,
 };
 
 const uiSlicer = createSlice({
@@ -30,6 +31,9 @@ const uiSlicer = createSlice({
     },
     setStartError(state, action) {
       state.startError = action.payload;
+    },
+    setMenuUserLeftError(state, action) {
+      state.menuErrorUserLeft = action.payload;
     },
   },
 });

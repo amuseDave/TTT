@@ -1,18 +1,26 @@
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import { playAudio } from "../../../../utils/utils";
+import { uiActions } from "../../../../store/uiSlicer";
 
 export default function Player2() {
+  const dispatch = useDispatch();
+
   const [initial, setInitial] = useState(true);
+
   const usernameRef = useRef();
+
+  const menuUserErrorRef = useRef();
+  const menuUserErrorRef2 = useRef();
 
   const timeoutIDRef = useRef();
   const mouseOn = useRef();
 
   const player1Move = useSelector((state) => state.game.player1Move);
   const player2 = useSelector((state) => state.game.player2);
+  const menuErrorUserLeft = useSelector((state) => state.ui.menuErrorUserLeft);
 
   function onMouseLeave() {
     mouseOn.current = false;
@@ -44,6 +52,14 @@ export default function Player2() {
     }
   }, [player2]);
 
+  useEffect(() => {
+    if (menuErrorUserLeft) {
+      setTimeout(() => {
+        dispatch(uiActions.setMenuUserLeftError(null));
+      }, 3000);
+    }
+  }, [menuErrorUserLeft]);
+
   return (
     <motion.div
       layout
@@ -61,6 +77,13 @@ export default function Player2() {
         <p>{player2 ? player2 : "invite"}</p>
         {player2 && <p>{player2}</p>}
       </div>
+
+      {menuErrorUserLeft && (
+        <div className="user-left-error">
+          <p ref={menuUserErrorRef}>{menuErrorUserLeft}</p>
+          <p ref={menuUserErrorRef2}>{menuErrorUserLeft}</p>
+        </div>
+      )}
     </motion.div>
   );
 }

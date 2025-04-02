@@ -23,6 +23,14 @@ export default function Menu() {
     };
   }, []);
 
+  useEffect(() => {
+    function handleLeaveGame() {}
+    window.addEventListener("beforeunload", handleLeaveGame);
+    return () => {
+      window.removeEventListener("beforeunload", handleLeaveGame);
+    };
+  }, []);
+
   return (
     <motion.div
       animate={{ opacity: [0, 1], transition: { delay: 0.1 } }}
