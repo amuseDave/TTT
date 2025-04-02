@@ -11,7 +11,18 @@
 .menu .player-menu .move {
   font-size: 4.2rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.2);
+  color: #ffffff33;
+}
+
+.menu .player-menu .player-1 .move-container {
+  position: relative;
+}
+.menu .player-menu .player-1 .move-container .move:nth-child(2) {
+  position: absolute;
+  filter: blur(3px);
+  color: rgb(255, 79, 79);
+  z-index: -1;
+  opacity: 0;
 }
 
 .menu .player-menu .player-1 .input {

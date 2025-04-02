@@ -2,15 +2,25 @@ const { v4: uuidv4 } = require("uuid");
 const { Lobby, lobbies } = require("../models/Lobby");
 const { Player } = require("../models/Player");
 
-module.exports = (ws) => {
+module.exports = (ws, data) => {
   if (ws.lobbyID) return;
 
-  const player = new Player(ws.send.bind(ws), uuidv4(), true, "X");
+  let username;
+  let move = "X";
+  if (
+    typeof data?.username === "string" &&
+    data?.username.trim().length > 2 &&
+    data?.username.trim().length < 16
+  ) {
+    username = data?.username;
+  }
+  if (data?.move === "O") move = data?.move;
+
+  const player = new Player(ws.send.bind(ws), uuidv4(), true, move, username);
   const lobby = new Lobby(uuidv4());
 
   const playerID = player.playerID;
   const isAdmin = player.isAdmin;
-  const move = player.move;
   const lobbyID = lobby.lobbyID;
 
   lobby.addPlayer(player);

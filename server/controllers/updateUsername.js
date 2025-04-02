@@ -3,7 +3,7 @@ const { lobbies } = require("../models/Lobby");
 module.exports = (ws, data) => {
   if (!ws.lobbyID) return;
   if (typeof data.username !== "string") return;
-  if (data.username.length < 3 || data.username.length > 15) return;
+  if (data.username.trim().length < 3 || data.username.trim().length > 15) return;
 
   const lobby = lobbies.getLobby(ws.lobbyID);
   if (lobby.isGameStarted) return;

@@ -19,11 +19,17 @@ const gameSlicer = createSlice({
     initiateLobbyClient(state, action) {
       state.lobby = null;
       state.isAdmin = action.payload.isAdmin;
-      state.player1 = action.payload.player1 ? action.payload.player1 : state.player1;
+      if (state.player1 !== action.payload.player1) {
+        state.player1 = action.payload.player1 ? action.payload.player1 : state.player1;
+      }
+
       state.player1Move = action.payload.move;
       state.player2 = action.payload.player2;
       state.lobbyID = action.payload.lobbyID;
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
+    },
+    changeAdmin(state, action) {
+      state.isAdmin = action.payload;
     },
 
     changePlayer1Username(state, action) {

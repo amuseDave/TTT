@@ -6,6 +6,8 @@ import startLobby from "./controllers/startLobby.js";
 import switchMoves from "./controllers/switchMoves.js";
 import joinLobby from "./controllers/joinLobby.js";
 import updateUsername from "./controllers/updateUsername.js";
+import onClose from "./controllers/onClose.js";
+import onError from "./controllers/onError.js";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -14,6 +16,7 @@ export const lobbyID = params.get("lobbyID");
 let webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
 initializeEvents();
 
+// Initialize web socket event on every new connection
 function initializeEvents() {
   webSocket.onopen = () => {
     // Update ui that server is connected
@@ -32,50 +35,36 @@ function initializeEvents() {
     webSocket.onmessage = async (event) => {
       const { action, data, type } = JSON.parse(event.data);
       console.log("Action: ", action, "Data: ", data, "Type: ", type);
-
       const argObj = { data, store, gameActions, uiActions, type, audioRef };
 
       if (action === "update-username") updateUsername(argObj);
       else if (action === "switch-moves") switchMoves(argObj);
       else if (action === "start-lobby") startLobby(argObj);
       else if (action === "join-lobby") joinLobby(argObj);
+      else if (action === "error") console.log(data.msg);
     };
   };
 
   // Handle close and error events
   webSocket.onclose = () => {
-    console.log("On Close event");
-
-    const { isConnectedServer, isJoiningLobby } = store.getState().ui;
-
-    if (isConnectedServer) store.dispatch(uiActions.isConnectedServer(false));
-    else if (isJoiningLobby) {
-      history.pushState({}, null, "/");
-      store.dispatch(uiActions.isJoiningLobby(false));
-      store.dispatch(uiActions.setStartError("Couldn't Connect To the Server"));
-    }
+    onClose({ store, gameActions, uiActions });
   };
-  // Handle close and error events
+  // Handle  error events
   webSocket.onerror = () => {
-    console.log("On error event");
-
-    const { isJoiningLobby, isConnectingServer } = store.getState().ui;
-
-    if (isConnectingServer) store.dispatch(uiActions.isConnectingServer(false));
-    if (isJoiningLobby) {
-      history.pushState({}, null, "/");
-      store.dispatch(uiActions.isJoiningLobby(false));
-      store.dispatch(uiActions.setStartError("Couldn't Connect To the Server"));
-    }
+    onError({ store, gameActions, uiActions });
   };
 }
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
+  console.log("reconnecting ws");
+
   webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
   store.dispatch(uiActions.isConnectingServer(true));
 
   initializeEvents();
 }
 
-export default webSocket;
+export default function getWebSocket() {
+  return webSocket;
+}

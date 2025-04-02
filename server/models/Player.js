@@ -1,12 +1,12 @@
 const { usernames, getRandomItem } = require("../utils");
 
 class Player {
-  constructor(send, playerID, isAdmin, move) {
+  constructor(send, playerID, isAdmin, move, username = getRandomItem(usernames)) {
     this.send = send;
     this.playerID = playerID;
     this.isAdmin = isAdmin;
     this.move = move;
-    this.username = getRandomItem(usernames);
+    this.username = username;
   }
 
   sendToClient(data) {

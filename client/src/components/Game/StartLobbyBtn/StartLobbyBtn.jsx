@@ -1,7 +1,7 @@
 import "./StartLobbyBtn.css";
 
 import { animate, motion, AnimatePresence } from "framer-motion";
-import webSocket, { lobbyID } from "../../../web-socket/ws";
+import getWebSocket from "../../../web-socket/ws";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
@@ -27,14 +27,16 @@ export default function StartLobbyBtn({ className }) {
 
   const animationPlaybackRef = useRef();
 
+  const isHoverRef = useRef();
+
   function startLobbyServer() {
     if (isJoiningLobby || isCreatingLobby) return;
 
     // Check if the connection is established and start lobby right from server if it is
-    if (webSocket.readyState === webSocket.OPEN) {
+    if (getWebSocket().readyState === getWebSocket().OPEN) {
       // Test out delay UI
       setTimeout(() => {
-        webSocket.send(JSON.stringify({ action: "start-lobby", data: null }));
+        getWebSocket().send(JSON.stringify({ action: "start-lobby", data: null }));
       }, 1000);
       dispatch(uiActions.isCreatingLobby(true));
     } else {
@@ -53,17 +55,21 @@ export default function StartLobbyBtn({ className }) {
 
   // Hover effect to use canvas logical light appearing effect
   function hoverEffect() {
+    isHoverRef.current = true;
+    if (isCreatingLobby || isJoiningLobby) return;
     playBtnRef.current.style.color = "white";
     playBtnRef2.current.style.opacity = 1;
     playAudio(audioRef);
   }
   function leaveHoverEffect() {
+    isHoverRef.current = false;
+    if (isCreatingLobby || isJoiningLobby) return;
     playBtnRef.current.style.color = "#00000059";
     playBtnRef2.current.style.opacity = 0;
     playAudio(audioRef, 0.6);
   }
 
-  // If it is joining or creating lobby add pulsating effect to the text
+  // If it is joining or creating lobby add pulsating effect to the text then handle ending hover effect if its hovvered
   useEffect(() => {
     if (isCreatingLobby || isJoiningLobby) {
       playBtnRef.current.style.color = "white";
@@ -82,11 +88,18 @@ export default function StartLobbyBtn({ className }) {
       // Stop the animation and reset the initial stylings
       if (animationPlaybackRef.current) animationPlaybackRef.current.cancel();
       animationPlaybackRef.current = null;
-      playBtnRef.current.style.color = "#00000059";
-      playBtnRef2.current.style.opacity = 0;
-
-      clearInterval(intervalID.current);
+      if (isHoverRef.current) {
+        playBtnRef.current.style.color = "white";
+        playBtnRef2.current.style.opacity = 1;
+      } else {
+        playBtnRef.current.style.color = "#00000059";
+        playBtnRef2.current.style.opacity = 0;
+      }
     }
+
+    return () => {
+      clearInterval(intervalID.current);
+    };
   }, [isJoiningLobby, isCreatingLobby]);
 
   // Play audio on errors
@@ -117,8 +130,8 @@ export default function StartLobbyBtn({ className }) {
       ref={elRef}
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
-      onMouseEnter={isJoiningLobby || isCreatingLobby ? null : hoverEffect}
-      onMouseLeave={isJoiningLobby || isCreatingLobby ? null : leaveHoverEffect}
+      onMouseEnter={hoverEffect}
+      onMouseLeave={leaveHoverEffect}
     >
       <button
         ref={playBtnRef}

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { animate } from "framer-motion";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
-import webSocket from "../../../../web-socket/ws";
+import getWebSocket from "../../../../web-socket/ws";
 import { uiActions } from "../../../../store/uiSlicer";
 import { playAudio } from "../../../../utils/utils";
 
@@ -34,7 +34,7 @@ export default function ArrowUpDownComp() {
     if (isSwitchingMoves || !isAdmin) return;
     // Test out delay UI
     setTimeout(() => {
-      webSocket.send(JSON.stringify({ action: "switch-moves" }));
+      getWebSocket().send(JSON.stringify({ action: "switch-moves" }));
     }, 1000);
 
     dispatch(uiActions.isSwitchingMoves(true));

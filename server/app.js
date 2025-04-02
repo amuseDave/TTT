@@ -16,10 +16,10 @@ wss.on("connection", (ws) => {
 
       if (action === "update-username") updateUsername(ws, data);
       else if (action === "switch-moves") switchMoves(ws);
-      else if (action === "start-lobby") startLobby(ws);
+      else if (action === "start-lobby") startLobby(ws, data);
       else if (action === "join-lobby") joinLobby(ws, data);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      ws.send(JSON.stringify({ action: "error", data: { msg: err.message } }));
     }
   });
   ws.on("close", () => {

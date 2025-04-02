@@ -5,16 +5,24 @@ import { getRandomItem, playAudio, usernames } from "../../../../utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
-import webSocket from "../../../../web-socket/ws";
+import getWebSocket from "../../../../web-socket/ws";
 
 export default function Player1() {
   const [initial, setInitial] = useState(true);
 
+  const playerMoveRef = useRef();
+  const playerMoveRef2 = useRef();
+
+  const isSwitchingMovesRef = useRef();
+
   const diceRef = useRef();
+
   const inputRef = useRef();
   const inputRef2 = useRef();
+
   const animationTimeoutID = useRef();
   const animationTimeoutID2 = useRef();
+
   const debounceID = useRef();
 
   const dispatch = useDispatch();
@@ -86,11 +94,11 @@ export default function Player1() {
     if (initial) {
       setInitial(false);
     } else {
-      if (webSocket.readyState !== webSocket.OPEN) return;
+      if (getWebSocket().readyState !== getWebSocket().OPEN) return;
       if (debounceID.current) clearTimeout(debounceID.current);
 
       debounceID.current = setTimeout(() => {
-        webSocket.send(
+        getWebSocket().send(
           JSON.stringify({ action: "update-username", data: { username: player1 } })
         );
       }, 500);
@@ -103,10 +111,42 @@ export default function Player1() {
       setInitial(false);
     } else {
       if (isConnectedServer) {
-        console.log("handle server lobby creation");
+        getWebSocket().send(
+          JSON.stringify({
+            action: "start-lobby",
+            data: { username: player1, move: player1Move },
+          })
+        );
       }
     }
   }, [isConnectedServer]);
+
+  function switchMoves() {
+    if (isSwitchingMovesRef.current) return;
+
+    isSwitchingMovesRef.current = true;
+
+    dispatch(gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" }));
+
+    playAudio(audioRef);
+    setTimeout(() => {
+      playAudio(audioRef, 0.6);
+    }, 150);
+    playerMoveRef.current.style.color = "#fd6a6a";
+    animate(
+      playerMoveRef.current,
+      { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
+      { duration: 0.3 }
+    ).then(() => {
+      isSwitchingMovesRef.current = false;
+      playerMoveRef.current.style.color = "#ffffff33";
+    });
+    animate(
+      playerMoveRef2.current,
+      { opacity: [0, 1, 0, 1, 0, 1, 0] },
+      { duration: 0.3 }
+    );
+  }
 
   return (
     <motion.div
@@ -114,7 +154,20 @@ export default function Player1() {
       className="player-1"
       style={{ order: player1Move === "X" ? -1 : 2 }}
     >
-      <p className="move">{player1Move}</p>
+      <div className="move-container">
+        <p
+          ref={playerMoveRef}
+          onClick={isConnectedServer ? null : switchMoves}
+          className="move"
+        >
+          {player1Move}
+        </p>
+        {isConnectedServer || (
+          <p ref={playerMoveRef2} className="move">
+            {player1Move}
+          </p>
+        )}
+      </div>
       <div className="input">
         <input
           onBlur={handleEmptyName}
