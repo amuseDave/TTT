@@ -105,10 +105,10 @@ export default function StartLobbyBtn({ className }) {
   // Play audio on errors
   useEffect(() => {
     if (startError) {
-      playAudio(audioRef, 0.6);
+      playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);
-      }, 100);
+      }, 150);
       setTimeout(() => {
         dispatch(uiActions.setStartError(null));
       }, 3000);
@@ -118,10 +118,10 @@ export default function StartLobbyBtn({ className }) {
         return;
       }
 
-      playAudio(audioRef, 0.6);
+      playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);
-      }, 100);
+      }, 150);
     }
   }, [startError]);
 

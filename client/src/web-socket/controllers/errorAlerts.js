@@ -3,7 +3,7 @@ export default function errorAlerts({ type, store, uiActions, gameActions, data 
     store.dispatch(gameActions.changePlayer2Username(null));
 
     setTimeout(() => {
-      store.dispatch(uiActions.setMenuUserLeftError(data.message));
+      store.dispatch(uiActions.setMenuAlert({ type: "error", message: data.message }));
     }, 300);
   }
 }

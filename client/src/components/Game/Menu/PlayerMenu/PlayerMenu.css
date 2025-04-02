@@ -89,9 +89,7 @@
   filter: blur(3px);
   z-index: 1;
 }
-.menu .player-menu .player-2 {
-  position: relative;
-}
+
 .menu .player-menu .player-2 .user {
   margin-left: 2rem;
   position: relative;
@@ -131,20 +129,4 @@
   z-index: 0;
   filter: blur(3px);
   color: var(--test-color);
-}
-
-.menu .player-menu .player-2 .user-left-error {
-  font-size: 1.4rem;
-  position: absolute;
-  bottom: -1.6rem;
-  color: rgb(255, 47, 113);
-}
-.menu .player-menu .player-2 .user-left-error p:nth-child(2) {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  filter: blur(3px);
-  opacity: 1;
-  color: rgb(173, 3, 102);
 }

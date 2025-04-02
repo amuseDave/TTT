@@ -6,6 +6,7 @@ import PlayerMenu from "./PlayerMenu/PlayerMenu";
 import Connection from "./Connection/Connection";
 import MenuOptions from "./MenuOptions/MenuOptions";
 import MenuDivider from "./MenuDivider/MenuDivider";
+import MenuAlerts from "./MenuAlerts/MenuAlerts";
 
 export default function Menu() {
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function Menu() {
           <PlayerMenu />
           <MenuDivider />
           <MenuOptions />
+          <MenuAlerts />
         </motion.div>
       </LayoutGroup>
     </motion.div>
