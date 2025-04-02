@@ -23,6 +23,8 @@ export default function Player1() {
   const animationTimeoutID = useRef();
   const animationTimeoutID2 = useRef();
 
+  const animationIntervalID = useRef();
+
   const debounceID = useRef();
 
   const dispatch = useDispatch();
@@ -147,6 +149,38 @@ export default function Player1() {
       { duration: 0.3 }
     );
   }
+
+  useEffect(() => {
+    if (isConnectedServer) return;
+
+    animationIntervalID.current = setInterval(() => {
+      playAudio(audioRef);
+      setTimeout(() => {
+        playAudio(audioRef, 0.6);
+      }, 150);
+      playerMoveRef.current.style.color = "#9c61b4";
+      playerMoveRef2.current.style.color = "#9c61b4";
+      animate(
+        playerMoveRef.current,
+        { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
+        { duration: 0.3 }
+      ).then(() => {
+        isSwitchingMovesRef.current = false;
+        playerMoveRef.current.style.color = "#ffffff33";
+      });
+      animate(
+        playerMoveRef2.current,
+        { opacity: [0, 1, 0, 1, 0, 1, 0] },
+        { duration: 0.3 }
+      ).then(() => {
+        playerMoveRef2.current.style.color = "rgb(255, 79, 79)";
+      });
+    }, 2500);
+
+    return () => {
+      clearInterval(animationIntervalID.current);
+    };
+  }, [isConnectedServer, player1Move]);
 
   return (
     <motion.div
