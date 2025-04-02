@@ -1,2 +1,14 @@
 .menu-options {
+  display: flex;
+  flex-direction: column;
+  width: 16rem;
+  padding: 0rem 2.4rem;
+}
+
+.menu-options button {
+  background-color: transparent;
+  border: none;
+  font-size: 3.2rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.082);
 }

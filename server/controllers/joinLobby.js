@@ -27,6 +27,7 @@ module.exports = (ws, data) => {
       player2: existingPlayer.username,
       isAdmin: false,
       move,
+      lobbyID: lobby.lobbyID,
     },
     type: "new-user",
   });

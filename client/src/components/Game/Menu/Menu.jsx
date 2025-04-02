@@ -5,6 +5,7 @@ import { LayoutGroup, motion } from "framer-motion";
 import PlayerMenu from "./PlayerMenu/PlayerMenu";
 import Connection from "./Connection/Connection";
 import MenuOptions from "./MenuOptions/MenuOptions";
+import MenuDivider from "./MenuDivider/MenuDivider";
 
 export default function Menu() {
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Menu() {
         >
           <Connection />
           <PlayerMenu />
+          <MenuDivider />
           <MenuOptions />
         </motion.div>
       </LayoutGroup>
