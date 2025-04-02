@@ -1,4 +1,4 @@
-import { animate, motion } from "framer-motion";
+import { animate, AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
@@ -12,8 +12,7 @@ export default function Player2() {
 
   const usernameRef = useRef();
 
-  const menuUserErrorRef = useRef();
-  const menuUserErrorRef2 = useRef();
+  const firstRenderRef = useRef(true);
 
   const timeoutIDRef = useRef();
   const mouseOn = useRef();
@@ -36,6 +35,8 @@ export default function Player2() {
   useEffect(() => {
     if (initial) setInitial(false);
     else {
+      if (menuErrorUserLeft) return;
+
       timeoutIDRef.current = setTimeout(() => {
         timeoutIDRef.current = null;
       }, 400);
@@ -54,9 +55,23 @@ export default function Player2() {
 
   useEffect(() => {
     if (menuErrorUserLeft) {
+      playAudio(audioRef, 0.6);
+      setTimeout(() => {
+        playAudio(audioRef, 0.6);
+      }, 100);
       setTimeout(() => {
         dispatch(uiActions.setMenuUserLeftError(null));
-      }, 3000);
+      }, 3500);
+    } else {
+      if (firstRenderRef.current) {
+        firstRenderRef.current = false;
+        return;
+      }
+
+      playAudio(audioRef, 0.6);
+      setTimeout(() => {
+        playAudio(audioRef, 0.6);
+      }, 100);
     }
   }, [menuErrorUserLeft]);
 
@@ -68,7 +83,7 @@ export default function Player2() {
     >
       <p className="move">{player1Move === "X" ? "O" : "X"}</p>
 
-      <div
+      <motion.div
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         ref={usernameRef}
@@ -76,14 +91,26 @@ export default function Player2() {
       >
         <p>{player2 ? player2 : "invite"}</p>
         {player2 && <p>{player2}</p>}
-      </div>
+      </motion.div>
 
-      {menuErrorUserLeft && (
-        <div className="user-left-error">
-          <p ref={menuUserErrorRef}>{menuErrorUserLeft}</p>
-          <p ref={menuUserErrorRef2}>{menuErrorUserLeft}</p>
-        </div>
-      )}
+      <AnimatePresence>
+        {menuErrorUserLeft && (
+          <motion.div
+            exit={{
+              opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0],
+              transition: { duration: 0.3 },
+            }}
+            animate={{
+              opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 1],
+              transition: { duration: 0.3 },
+            }}
+            className="user-left-error"
+          >
+            <p>{menuErrorUserLeft}</p>
+            <p>{menuErrorUserLeft}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
