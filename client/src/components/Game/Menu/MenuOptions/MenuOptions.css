@@ -1,14 +1,18 @@
 .menu-options {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 16rem;
+  min-width: 18rem;
   max-width: 32rem;
   padding: 0rem 2.4rem;
-  gap: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.menu-options .menu-buttons {
+  display: flex;
+  flex-direction: column;
 }
 
-.menu-options button {
+.menu-options .menu-buttons button {
   text-align: center;
   background-color: transparent;
   border: none;
@@ -18,23 +22,60 @@
   transition: 0.3s ease-in-out all;
 }
 
-.menu-options .or-separator {
+.menu-options .menu-buttons .or-separator {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2px;
+  gap: 0.8rem;
 }
 
-.menu-options .or-separator .line {
-  width: 100%;
+.menu-options .menu-buttons .or-separator .line {
+  min-width: 10rem;
   height: 4px;
   border-radius: 1rem;
   background-color: rgba(253, 253, 253, 0.2);
 }
 
-.menu-options .or-separator .or-text {
+.menu-options .menu-buttons .or-separator .or-text {
   font-size: 3rem;
   color: rgba(255, 255, 255, 0.4);
   vertical-align: middle;
   text-transform: uppercase;
+}
+
+.menu-options .loading-svg {
+  position: relative;
+  height: 4.2rem;
+  width: 4.2rem;
+  margin: 0, auto;
+  animation: spin 3s ease-in-out infinite;
+}
+.menu-options .loading-svg svg {
+  color: rgb(144, 62, 188);
+}
+
+.menu-options .loading-svg svg:nth-child(2) {
+  position: absolute;
+  filter: blur(2px);
+  top: 0;
+  left: 0;
+  z-index: -1;
+  color: rgb(158, 52, 224);
+}
+
+.menu-options .loading-container {
+  min-width: 25.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

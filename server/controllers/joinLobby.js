@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const { lobbies } = require("../models/Lobby");
 const { Player } = require("../models/Player");
 
-module.exports = (ws, data) => {
+function joinLobby(ws, data) {
   if (ws.lobbyID || typeof data.lobbyID !== "string") return;
 
   const lobby = lobbies.getLobby(data.lobbyID);
@@ -11,12 +11,19 @@ module.exports = (ws, data) => {
     return ws.send(JSON.stringify({ action: "join-lobby", data: null }));
   }
 
-  const existingPlayer = lobby.players[0];
-  const move = existingPlayer.move === "X" ? "O" : "X";
-  const newPlayer = new Player(ws.send.bind(ws), uuidv4(), false, move);
-  lobby.addPlayer(newPlayer);
+  joinLobbyHelper(ws, lobby);
+}
 
-  ws.lobbyID = lobby.lobbyID;
+function joinLobbyHelper(ws, curLobby, newPlayer = null) {
+  const existingPlayer = curLobby.players[0];
+
+  if (!newPlayer) newPlayer = new Player(ws.send.bind(ws), uuidv4(), false);
+
+  newPlayer.move = existingPlayer.move === "X" ? "O" : "X";
+
+  curLobby.addPlayer(newPlayer);
+
+  ws.lobbyID = curLobby.lobbyID;
   ws.playerID = newPlayer.playerID;
   ws.isAdmin = newPlayer.isAdmin;
 
@@ -26,16 +33,20 @@ module.exports = (ws, data) => {
       player1: newPlayer.username,
       player2: existingPlayer.username,
       isAdmin: false,
-      move,
-      lobbyID: lobby.lobbyID,
+      move: newPlayer.move,
+      lobbyID: curLobby.lobbyID,
     },
   });
   existingPlayer.sendToClient({
     action: "display-alert",
     data: {
+      alert: "success",
       username: newPlayer.username,
       message: `${newPlayer.username} joined the lobby`,
     },
     type: "user-joined",
   });
-};
+}
+
+exports.joinLobby = joinLobby;
+exports.joinLobbyHelper = joinLobbyHelper;

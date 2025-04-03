@@ -15,6 +15,6 @@ module.exports = (ws, data) => {
   lobby.players[0].sendToClient({
     action: "display-alert",
     type: "user-left",
-    data: { message: `${player[0].username} left the lobby` },
+    data: { message: `${player[0].username} left the lobby`, alert: "error" },
   });
 };

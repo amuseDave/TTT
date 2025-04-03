@@ -69,7 +69,7 @@ export default function ArrowUpDownComp() {
   }, [player1Move]);
 
   return (
-    <motion.div ref={iconRef} className="svg-switch-container">
+    <motion.div layout ref={iconRef} className="svg-switch-container">
       {!isSwitchingMoves && (
         <motion.div
           onMouseEnter={isAdmin ? onMouseEnter : null}

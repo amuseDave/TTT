@@ -30,6 +30,9 @@
   margin-left: 2rem;
   position: relative;
 }
+.menu .player-menu .player-1 .input input::selection {
+  color: #a64eba63;
+}
 .menu .player-menu .player-1 .input input {
   transition: color 0.1s ease-in-out;
   color: rgba(255, 255, 255, 0.9);

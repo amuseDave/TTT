@@ -13,6 +13,7 @@ export default function MenuAlerts() {
 
   const firstRenderRef = useRef(true);
   const alertContRef = useRef();
+  const menuAlertTimeoutRef = useRef();
 
   useEffect(() => {
     if (menuAlert.message) {
@@ -25,7 +26,8 @@ export default function MenuAlerts() {
       setTimeout(() => {
         playAudio(audioRef, 0.6);
       }, 150);
-      setTimeout(() => {
+      if (menuAlertTimeoutRef.current) clearTimeout(menuAlertTimeoutRef.current);
+      menuAlertTimeoutRef.current = setTimeout(() => {
         dispatch(uiActions.setMenuAlert({ type: menuAlert.type, message: null }));
       }, 3500);
     } else {

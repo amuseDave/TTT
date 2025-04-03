@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux";
 import "./MenuDivider.css";
+import { motion } from "framer-motion";
 
 export default function MenuDivider() {
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
-  console.log(isConnectedServer);
-
   return (
-    <div className="menu-divider">
+    <motion.div layout className="menu-divider">
       <div className={`divider ${isConnectedServer ? "duo" : "solo"}`}></div>
       <div className={`divider ${isConnectedServer ? "duo" : "solo"}`}></div>
-    </div>
+    </motion.div>
   );
 }

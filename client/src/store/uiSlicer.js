@@ -7,6 +7,7 @@ const initialState = {
   isSwitchingMoves: false,
   isJoiningLobby: false,
   startError: null,
+  isFindingLobby: false,
   menuAlert: { type: "", message: null },
 };
 
@@ -16,6 +17,9 @@ const uiSlicer = createSlice({
   reducers: {
     isJoiningLobby(state, action) {
       state.isJoiningLobby = action.payload;
+    },
+    isFindingLobby(state, action) {
+      state.isFindingLobby = action.payload;
     },
     isCreatingLobby(state, action) {
       state.isCreatingLobby = action.payload;

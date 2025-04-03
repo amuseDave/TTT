@@ -1,13 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./MenuOptions.css";
 import getWebSocket from "../../../../web-socket/ws";
 import { useEffect, useRef } from "react";
-import { animate } from "framer-motion";
+import { animate, AnimatePresence, motion } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import OrSeparator from "./OrSeparator";
+import { uiActions } from "../../../../store/uiSlicer";
+import { LoaderCircle } from "lucide-react";
 
 export default function MenuOptions() {
+  const dispatch = useDispatch();
+
+  const isFindingLobby = useSelector((state) => state.ui.isFindingLobby);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
+
   const isAdmin = useSelector((state) => state.game.isAdmin);
   const player2 = useSelector((state) => state.game.player2);
 
@@ -17,9 +24,16 @@ export default function MenuOptions() {
   const joinBtnRef = useRef();
   const startBtnRef = useRef();
 
+  const initialRef = useRef(true);
+
   function joinRandomLobby() {
     if (!player2 && isConnectedServer) {
-      console.log("Join random lobby");
+      dispatch(uiActions.isFindingLobby(true));
+
+      // Test out UI delay
+      setTimeout(() => {
+        getWebSocket().send(JSON.stringify({ action: "find-lobby" }));
+      }, 2000);
     }
   }
 
@@ -36,6 +50,7 @@ export default function MenuOptions() {
     }
   }
 
+  // On hover neon
   function onHover(e, num) {
     if (num === 1) hoverRef.current = true;
     else if (num === 2) hoverRef2.current = true;
@@ -43,7 +58,7 @@ export default function MenuOptions() {
     e.target.style.color = "#ffffff";
     e.target.style.textShadow = "0px 0px 5px #9133bc";
   }
-
+  // On leave neon off with audio
   function onHoverLeave(e, num) {
     if (num === 1) hoverRef.current = false;
     else if (num === 2) hoverRef2.current = false;
@@ -54,10 +69,13 @@ export default function MenuOptions() {
 
   const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
 
+  // Set interval for options light for liveness
   useEffect(() => {
+    if (isFindingLobby) return;
     let intervalID;
 
     intervalID = setInterval(() => {
+      if (hoverRef.current || hoverRef2.current) return;
       startBtnRef.current.style.color = "#ffffff";
       startBtnRef.current.style.textShadow = "0px 0px 5px #9133bc";
 
@@ -88,42 +106,74 @@ export default function MenuOptions() {
           joinBtnRef.current.style.textShadow = "none";
         });
       }
-    }, 10000);
+    }, 8000);
 
     return () => {
       clearInterval(intervalID);
     };
-  }, []);
+  }, [isFindingLobby]);
+
+  useEffect(() => {
+    if (initialRef.current) {
+      initialRef.current = false;
+      return;
+    }
+    playAudio(audioRef);
+    setTimeout(() => {
+      playAudio(audioRef, 0.6);
+    }, 150);
+  }, [isFindingLobby]);
 
   return (
     <div className="menu-options">
-      <button
-        ref={startBtnRef}
-        onMouseEnter={isLobbyFull || !player2 ? (e) => onHover(e, 1) : null}
-        onMouseLeave={isLobbyFull || !player2 ? (e) => onHoverLeave(e, 1) : null}
-        onClick={isAdmin ? startGame : null}
-      >
-        {isLobbyFull ? "start" : !player2 ? "Start Solo" : "waiting for admin to start"}
-      </button>
-
-      {isConnectedServer && !player2 && (
-        <div className="or-separator">
-          <div className="left-line line"></div>
-          <p className="or-text">or</p>
-          <div className="right-line line"></div>
-        </div>
-      )}
-
-      {isConnectedServer && !player2 && (
-        <button
-          ref={joinBtnRef}
-          onMouseEnter={(e) => onHover(e, 2)}
-          onMouseLeave={(e) => onHoverLeave(e, 2)}
-          onClick={joinRandomLobby}
-        >
-          Join Random
-        </button>
-      )}
+      <AnimatePresence mode="wait">
+        {isFindingLobby ? (
+          <motion.div
+            key="other"
+            exit={{ opacity: [0, 1, 0, 1, 0], transition: { duration: 0.3 } }}
+            animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
+            className="loading-container"
+          >
+            <div className="loading-svg">
+              <LoaderCircle className="loading-svg" />
+              <LoaderCircle className="loading-svg" />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="other2"
+            exit={{ opacity: [0, 1, 0, 1, 0], transition: { duration: 0.3 } }}
+            animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
+            className="menu-buttons"
+          >
+            <button
+              ref={startBtnRef}
+              onMouseEnter={isLobbyFull || !player2 ? (e) => onHover(e, 1) : null}
+              onMouseLeave={isLobbyFull || !player2 ? (e) => onHoverLeave(e, 1) : null}
+              onClick={isAdmin ? startGame : null}
+            >
+              {isLobbyFull
+                ? "start"
+                : !player2
+                ? "Start Solo"
+                : "waiting for admin to start"}
+            </button>
+            {isConnectedServer && !player2 && (
+              <>
+                <OrSeparator />
+                <button
+                  ref={joinBtnRef}
+                  onMouseEnter={(e) => onHover(e, 2)}
+                  onMouseLeave={(e) => onHoverLeave(e, 2)}
+                  onClick={joinRandomLobby}
+                >
+                  Join Random
+                </button>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
