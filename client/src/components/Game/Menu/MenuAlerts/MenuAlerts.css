@@ -1,17 +1,35 @@
 .menu .menu-alerts-container .menu-alerts {
-  font-size: 1.4rem;
   position: absolute;
-  bottom: 1.2rem;
-  right: 1.2rem;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
-.menu .menu-alerts-container .menu-alerts.error p {
+
+.menu .menu-alerts-container .menu-alerts .menu-alerts-text p {
+  font-size: 1.4rem;
+}
+.menu .menu-alerts-container .menu-alerts .menu-alerts-icons svg {
+  scale: 0.8;
+}
+
+.menu .menu-alerts-container .menu-alerts .menu-alerts-text,
+.menu .menu-alerts-container .menu-alerts .menu-alerts-icons {
+  position: relative;
+}
+
+.menu .menu-alerts-container .menu-alerts.error .menu-alerts-text p,
+.menu .menu-alerts-container .menu-alerts.error .menu-alerts-icons svg {
   color: rgb(255, 47, 113);
 }
-.menu .menu-alerts-container .menu-alerts.success p {
+.menu .menu-alerts-container .menu-alerts.success .menu-alerts-text p,
+.menu .menu-alerts-container .menu-alerts.success .menu-alerts-icons svg {
   color: rgb(92, 198, 251);
 }
 
-.menu .menu-alerts-container .menu-alerts p:nth-child(2) {
+.menu .menu-alerts-container .menu-alerts .menu-alerts-text p:nth-child(2),
+.menu .menu-alerts-container .menu-alerts .menu-alerts-icons svg:nth-child(2) {
   position: absolute;
   left: 0;
   top: 0;
@@ -20,10 +38,12 @@
   opacity: 1;
 }
 
-.menu .menu-alerts-container .menu-alerts.error p:nth-child(2) {
+.menu .menu-alerts-container .menu-alerts.error .menu-alerts-text p:nth-child(2),
+.menu .menu-alerts-container .menu-alerts.error .menu-alerts-icons svg:nth-child(2) {
   color: rgb(173, 3, 102);
 }
 
-.menu .menu-alerts-container .menu-alerts.success p:nth-child(2) {
+.menu .menu-alerts-container .menu-alerts.success .menu-alerts-text p:nth-child(2),
+.menu .menu-alerts-container .menu-alerts.success .menu-alerts-icons svg:nth-child(2) {
   color: rgb(139, 214, 252);
 }

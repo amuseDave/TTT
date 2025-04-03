@@ -8,7 +8,7 @@ import joinLobby from "./controllers/joinLobby.js";
 import updateUsername from "./controllers/updateUsername.js";
 import onClose from "./controllers/onClose.js";
 import onError from "./controllers/onError.js";
-import errorAlerts from "./controllers/errorAlerts.js";
+import displayAlerts from "./controllers/displayAlerts.js";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -42,7 +42,7 @@ function initializeEvents() {
       else if (action === "switch-moves") switchMoves(argObj);
       else if (action === "start-lobby") startLobby(argObj);
       else if (action === "join-lobby") joinLobby(argObj);
-      else if (action === "error-alert") errorAlerts(argObj);
+      else if (action === "display-alert") displayAlerts(argObj);
       else if (action === "error") console.log(data.msg);
     };
   };
@@ -60,7 +60,6 @@ function initializeEvents() {
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
   console.log("reconnecting ws");
-
   webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
   store.dispatch(uiActions.isConnectingServer(true));
 

@@ -29,11 +29,13 @@ module.exports = (ws, data) => {
       move,
       lobbyID: lobby.lobbyID,
     },
-    type: "new-user",
   });
   existingPlayer.sendToClient({
-    action: "join-lobby",
-    data: { username: newPlayer.username },
+    action: "display-alert",
+    data: {
+      username: newPlayer.username,
+      message: `${newPlayer.username} joined the lobby`,
+    },
     type: "user-joined",
   });
 };

@@ -14,6 +14,7 @@ class Lobby {
   constructor(lobbyID) {
     this.isGameStarted = false;
     this.lobbyID = lobbyID;
+    this.isPrivate = true;
     this.players = [];
     this.gameGrid = [
       [null, null, null],

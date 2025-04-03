@@ -13,7 +13,7 @@ module.exports = (ws, data) => {
 
   lobby.players[0].isAdmin = true;
   lobby.players[0].sendToClient({
-    action: "error-alert",
+    action: "display-alert",
     type: "user-left",
     data: { message: `${player[0].username} left the lobby` },
   });

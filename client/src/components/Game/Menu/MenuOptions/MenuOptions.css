@@ -12,9 +12,10 @@
   text-align: center;
   background-color: transparent;
   border: none;
-  font-size: 3.2rem;
+  font-size: 3.6rem;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.082);
+  color: #ffffff15;
+  transition: 0.3s ease-in-out all;
 }
 
 .menu-options .or-separator {
