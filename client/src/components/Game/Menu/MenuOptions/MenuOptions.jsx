@@ -19,10 +19,8 @@ export default function MenuOptions() {
   const player2 = useSelector((state) => state.game.player2);
 
   const hoverRef = useRef();
-  const hoverRef2 = useRef();
 
-  const joinBtnRef = useRef();
-  const startBtnRef = useRef();
+  const menuButtonsRef = useRef();
 
   const initialRef = useRef(true);
 
@@ -51,20 +49,14 @@ export default function MenuOptions() {
   }
 
   // On hover neon
-  function onHover(e, num) {
-    if (num === 1) hoverRef.current = true;
-    else if (num === 2) hoverRef2.current = true;
+  function onHover() {
+    hoverRef.current = true;
     playAudio(audioRef);
-    e.target.style.color = "#ffffff";
-    e.target.style.textShadow = "0px 0px 5px #9133bc";
   }
   // On leave neon off with audio
-  function onHoverLeave(e, num) {
-    if (num === 1) hoverRef.current = false;
-    else if (num === 2) hoverRef2.current = false;
+  function onHoverLeave() {
+    hoverRef.current = false;
     playAudio(audioRef, 0.6);
-    e.target.style.color = "#ffffff15";
-    e.target.style.textShadow = "none";
   }
 
   const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
@@ -75,9 +67,8 @@ export default function MenuOptions() {
     let intervalID;
 
     intervalID = setInterval(() => {
-      if (hoverRef.current || hoverRef2.current) return;
-      startBtnRef.current.style.color = "#ffffff";
-      startBtnRef.current.style.textShadow = "0px 0px 5px #9133bc";
+      if (hoverRef.current) return;
+      menuButtonsRef.current.classList.add("neon");
 
       playAudio(audioRef);
       setTimeout(() => {
@@ -85,34 +76,20 @@ export default function MenuOptions() {
       }, 150);
 
       animate(
-        startBtnRef.current,
+        menuButtonsRef.current,
         { opacity: [1, 0.2, 1, 0.2, 1] },
         { duration: 0.3 }
       ).then(() => {
-        if (hoverRef.current) return;
-        startBtnRef.current.style.color = "#ffffff15";
-        startBtnRef.current.style.textShadow = "none";
+        menuButtonsRef.current.classList.remove("neon");
       });
-      if (joinBtnRef.current) {
-        joinBtnRef.current.style.color = "#ffffff";
-        joinBtnRef.current.style.textShadow = "0px 0px 5px #9133bc";
-        animate(
-          joinBtnRef.current,
-          { opacity: [1, 0.2, 1, 0.2, 1] },
-          { duration: 0.3 }
-        ).then(() => {
-          if (hoverRef2.current) return;
-          joinBtnRef.current.style.color = "#ffffff15";
-          joinBtnRef.current.style.textShadow = "none";
-        });
-      }
-    }, 8000);
+    }, 10000);
 
     return () => {
       clearInterval(intervalID);
     };
   }, [isFindingLobby]);
 
+  // Play audio on when lobby is founding toggle
   useEffect(() => {
     if (initialRef.current) {
       initialRef.current = false;
@@ -135,15 +112,15 @@ export default function MenuOptions() {
           <FindLoader key="loader" />
         ) : (
           <motion.div
+            ref={menuButtonsRef}
             key="options"
             exit={{ opacity: [0, 1, 0, 1, 0], transition: { duration: 0.3 } }}
             animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
             className="menu-buttons"
           >
             <button
-              ref={startBtnRef}
-              onMouseEnter={isLobbyFull || !player2 ? (e) => onHover(e, 1) : null}
-              onMouseLeave={isLobbyFull || !player2 ? (e) => onHoverLeave(e, 1) : null}
+              onMouseEnter={isLobbyFull || !player2 ? onHover : null}
+              onMouseLeave={isLobbyFull || !player2 ? onHoverLeave : null}
               onClick={isAdmin ? startGame : null}
             >
               {isLobbyFull
@@ -156,9 +133,8 @@ export default function MenuOptions() {
               <>
                 <OrSeparator />
                 <button
-                  ref={joinBtnRef}
-                  onMouseEnter={(e) => onHover(e, 2)}
-                  onMouseLeave={(e) => onHoverLeave(e, 2)}
+                  onMouseEnter={onHover}
+                  onMouseLeave={onHoverLeave}
                   onClick={joinRandomLobby}
                 >
                   Join Random

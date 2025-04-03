@@ -23,7 +23,18 @@
   font-size: 3.6rem;
   text-transform: uppercase;
   color: #ffffff15;
+  text-shadow: 0px 0px 5px #9133bc00;
   transition: 0.3s ease-in-out all;
+}
+
+.menu-options .menu-buttons button:hover {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0px 0px 5px #9133bc;
+}
+
+.menu-options .menu-buttons.neon button {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0px 0px 5px #9133bc;
 }
 
 .menu-options .menu-buttons .or-separator {
@@ -45,6 +56,14 @@
   color: rgba(255, 255, 255, 0.4);
   vertical-align: middle;
   text-transform: uppercase;
+}
+.menu-options .menu-buttons.neon .or-separator .or-text {
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0px 0px 5px #9133bcc3;
+}
+.menu-options .menu-buttons.neon .or-separator .line {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 0px 5px #9133bcc3;
 }
 
 .menu-options .loading-container {
