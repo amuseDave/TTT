@@ -11,14 +11,12 @@ export default function Player1() {
   const [initial, setInitial] = useState(true);
 
   const playerMoveRef = useRef();
-  const playerMoveRef2 = useRef();
 
   const isSwitchingMovesRef = useRef();
 
   const diceRef = useRef();
 
   const inputRef = useRef();
-  const inputRef2 = useRef();
 
   const animationTimeoutID = useRef();
   const animationTimeoutID2 = useRef();
@@ -39,13 +37,11 @@ export default function Player1() {
 
     animate(
       inputRef.current,
-      { color: ["#ff2b60", "#ff2b60", "#ffffffe5"] },
-      { duration: 0.2 }
-    );
-    animate(
-      inputRef2.current,
-      { color: ["#ff43b1", "#ff43b1", "#e2a3fa"] },
-      { duration: 0.2 }
+      {
+        color: ["#ff2b60", "#ff2b60", "#ffffffe6"],
+        textShadow: ["0 0 0", "0 0 5px #ff2b60", `0px 0px 5px #e2a3fa`],
+      },
+      { duration: 0.3 }
     );
 
     animationTimeoutID.current = setTimeout(() => {
@@ -81,17 +77,20 @@ export default function Player1() {
     inputRef.current.focus();
   }, []);
 
+  // Use typing sound effect when player types in the input
   useEffect(() => {
     if (animationTimeoutID2.current) return;
 
     animate(inputRef.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
-    animate(inputRef2.current, { opacity: [1, 0, 1, 0, 1] }, { duration: 0.2 });
+
     playAudio(audioRef);
     animationTimeoutID2.current = setTimeout(() => {
       animationTimeoutID2.current = null;
     }, 150);
   }, [player1]);
 
+  // Update the username in the server when the players type in the input
+  // and the connection was established
   useEffect(() => {
     if (initial) {
       setInitial(false);
@@ -123,60 +122,49 @@ export default function Player1() {
     }
   }, [isConnectedServer]);
 
+  // Handle switch moves animation when the player clicks on the move
   function switchMoves() {
     if (isSwitchingMovesRef.current) return;
 
     isSwitchingMovesRef.current = true;
-
     dispatch(gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" }));
+
+    playerMoveRef.current.classList.add("active");
 
     playAudio(audioRef);
     setTimeout(() => {
       playAudio(audioRef, 0.6);
     }, 150);
-    playerMoveRef.current.style.color = "#fd6a6a";
     animate(
       playerMoveRef.current,
       { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
       { duration: 0.3 }
     ).then(() => {
       isSwitchingMovesRef.current = false;
-      playerMoveRef.current.style.color = "#ffffff33";
+      playerMoveRef.current.classList.remove("active");
     });
-    animate(
-      playerMoveRef2.current,
-      { opacity: [0, 1, 0, 1, 0, 1, 0] },
-      { duration: 0.3 }
-    );
   }
 
+  // Handle interval animation to indicate that the player can click on the move
   useEffect(() => {
     if (isConnectedServer) return;
 
     animationIntervalID.current = setInterval(() => {
+      playerMoveRef.current.classList.add("active");
       playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);
       }, 150);
-      playerMoveRef.current.style.color = "#9c61b4";
-      playerMoveRef2.current.style.color = "#9c61b4";
+
       animate(
         playerMoveRef.current,
         { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
         { duration: 0.3 }
       ).then(() => {
         isSwitchingMovesRef.current = false;
-        playerMoveRef.current.style.color = "#ffffff33";
+        playerMoveRef.current.classList.remove("active");
       });
-      animate(
-        playerMoveRef2.current,
-        { opacity: [0, 1, 0, 1, 0, 1, 0] },
-        { duration: 0.3 }
-      ).then(() => {
-        if (playerMoveRef2.current)
-          playerMoveRef2.current.style.color = "rgb(255, 79, 79)";
-      });
-    }, 2500);
+    }, 4000);
 
     return () => {
       clearInterval(animationIntervalID.current);
@@ -189,35 +177,21 @@ export default function Player1() {
       className="player-1"
       style={{ order: player1Move === "X" ? -1 : 2 }}
     >
-      <div className="move-container">
-        <p
-          ref={playerMoveRef}
-          onClick={isConnectedServer ? null : switchMoves}
-          className="move"
-        >
-          {player1Move}
-        </p>
-        {isConnectedServer || (
-          <p ref={playerMoveRef2} className="move">
-            {player1Move}
-          </p>
-        )}
-      </div>
-      <div className="input">
-        <input
-          onBlur={handleEmptyName}
-          size={player1.length > 1 ? player1.length + 1 : 1}
-          ref={inputRef}
-          onChange={changePlayer1Username}
-          value={player1}
-        />
-        <input
-          size={player1.length > 1 ? player1.length + 1 : 1}
-          ref={inputRef2}
-          disabled={true}
-          value={player1}
-        />
-      </div>
+      <p
+        ref={playerMoveRef}
+        onClick={isConnectedServer ? null : switchMoves}
+        className={`move ${isConnectedServer ? "" : "hover"}`}
+      >
+        {player1Move}
+      </p>
+
+      <input
+        onBlur={handleEmptyName}
+        size={player1.length > 1 ? player1.length + 2 : 1}
+        ref={inputRef}
+        onChange={changePlayer1Username}
+        value={player1}
+      />
 
       <div ref={diceRef} onClick={changePlayer1RandomUsername} className={`dices`}>
         <Dices />

@@ -3,58 +3,36 @@
   right: 1rem;
   position: absolute;
   width: max-content;
-  color: white;
   display: flex;
   align-items: center;
   gap: 8px;
-  /* animation: glitchFix 3s ease-in-out infinite; */
 }
 .menu .connection.connecting {
   animation: pulse 3s ease-in-out infinite;
-}
-
-.menu .connection .text-container {
-  position: relative;
-  z-index: 1;
 }
 
 .menu .connection .text-container .connection-text {
   font-size: 1.3rem;
 }
 
-.menu .connection .text-container .connection-text:nth-child(2) {
-  position: absolute;
-  top: 0;
-  filter: blur(3px);
-  left: 0;
-  z-index: -1;
-}
-
 .menu .connection .text-container .connected {
   color: #79fbbe;
-}
-
-.menu .connection .text-container .connected:nth-child(2) {
-  color: #71ffc1a3;
+  text-shadow: 0px 0px 5px #71ffc1a3;
 }
 
 .menu .connection .text-container .connecting {
   color: rgb(96, 213, 255);
-}
-
-.menu .connection .text-container .connecting:nth-child(2) {
-  color: rgb(71, 159, 190);
+  text-shadow: 0px 0px 5px rgb(71, 159, 190);
 }
 
 .menu .connection .text-container .error {
   color: #ff2b60;
-}
-.menu .connection .text-container .error:nth-child(2) {
-  color: #ff43b1cc;
+  text-shadow: 0px 0px 5px #ff43b1cc;
 }
 
 .menu .connection .svg {
-  scale: 0.7;
+  width: 1.8rem;
+  height: 1.8rem;
 }
 .menu .connection .svg-container {
   position: relative;
@@ -85,15 +63,6 @@
 
 .menu .connection.error .svg-container .svg:nth-child(2) {
   color: #ff43b1cc;
-}
-
-@keyframes glitchFix {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 @keyframes pulse {

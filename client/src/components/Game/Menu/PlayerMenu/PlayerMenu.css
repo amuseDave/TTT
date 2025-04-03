@@ -9,47 +9,41 @@
   display: flex;
   align-items: center;
 }
+.player-menu .player-1 {
+  gap: 6px;
+}
+
 .menu .player-menu .move {
   font-size: 4.2rem;
   font-weight: 600;
   color: #ffffff33;
+  text-shadow: 0px 0px 5px transparent;
+  transition: 0.2s all ease-in-out;
+}
+.menu .player-menu .move.hover:hover {
+  text-shadow: 0px 0px 5px var(--middle-color);
+  color: white;
 }
 
-.menu .player-menu .player-1 .move-container {
-  position: relative;
-}
-.menu .player-menu .player-1 .move-container .move:nth-child(2) {
-  position: absolute;
-  filter: blur(3px);
-  color: rgb(255, 79, 79);
-  z-index: -1;
-  opacity: 0;
+.menu .player-menu .move.active,
+.menu .player-menu .move.active:hover {
+  text-shadow: 0px 0px 5px var(--middle-color);
+  color: var(--middle-color);
 }
 
-.menu .player-menu .player-1 .input {
-  margin-left: 2rem;
-  position: relative;
-}
-.menu .player-menu .player-1 .input input::selection {
-  color: #a64eba63;
-}
-.menu .player-menu .player-1 .input input {
+.menu .player-menu .player-1 input {
   transition: color 0.1s ease-in-out;
-  color: rgba(255, 255, 255, 0.9);
+  color: #ffffffe6;
   background-color: transparent;
   border: none;
   outline: none;
   font-size: 3rem;
-  z-index: 1;
+  text-align: center;
+  text-shadow: 0px 0px 5px var(--test-color);
 }
 
-.menu .player-menu .player-1 .input input:nth-child(2) {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  filter: blur(3px);
-  color: var(--test-color);
+.player-menu .player-1 input::selection {
+  color: #a64eba63;
 }
 
 .menu .player-menu .player-1 .dices {

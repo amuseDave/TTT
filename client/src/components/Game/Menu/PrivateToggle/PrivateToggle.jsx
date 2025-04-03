@@ -40,7 +40,6 @@ export default function PrivateToggle() {
 
   return (
     <>
-      \
       <AnimatePresence>
         {!player2 && isConnectedServer && (
           <motion.div

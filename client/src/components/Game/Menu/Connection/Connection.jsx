@@ -32,8 +32,6 @@ export default function Connection() {
   }, [isConnectedServer]);
 
   useEffect(() => {
-    console.log("animating");
-
     animate(connectionElRef.current, { opacity: [1, 0.2, 1, 0.2, 1] }, { duration: 0.2 });
     playAudio(audioRef);
     setTimeout(() => {
@@ -56,7 +54,6 @@ export default function Connection() {
   return (
     <div ref={connectionElRef} className={`connection ${className}`}>
       <div className="text-container">
-        <p className={`${className} connection-text`}>{text}</p>
         <p className={`${className} connection-text`}>{text}</p>
       </div>
       {isConnectingServer || isConnectedServer ? (
