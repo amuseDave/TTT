@@ -10,26 +10,19 @@
 
 .start-btn {
   letter-spacing: 1rem;
-  position: relative;
   background-color: transparent;
   border: none;
   font-size: 5.6rem;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.35);
+  text-shadow: 0px 0px 5px transparent;
   transition: 0.5s all ease;
   opacity: 1;
 }
 
-.start-btn:nth-child(2) {
-  transition: inherit;
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  color: rgb(255, 132, 218);
-  filter: blur(2px);
-  opacity: 0;
+.start-btn-container .start-btn.hover-effect {
+  color: white;
+  text-shadow: 0px 0px 5px rgb(255, 132, 218);
 }
 
 .start-btn-container .error-container {
@@ -43,13 +36,5 @@
 .start-btn-container .error-container .error-message {
   color: #ff4372;
   font-size: 2rem;
-}
-
-.start-btn-container .error-container .error-message:nth-child(2) {
-  position: absolute;
-  filter: blur(2px);
-  z-index: -1;
-  color: #ff43b1;
-  top: 0;
-  left: 0;
+  text-shadow: 0px 0px 5px #ff43b1;
 }

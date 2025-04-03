@@ -16,18 +16,15 @@ export default function StartLobbyBtn({ className }) {
   const isJoiningLobby = useSelector((state) => state.ui.isJoiningLobby);
   const isCreatingLobby = useSelector((state) => state.ui.isCreatingLobby);
 
-  const elRef = useRef();
-
   const playBtnRef = useRef();
-  const playBtnRef2 = useRef();
 
   const firstRenderRef = useRef(true);
+
+  const isHoverRef = useRef();
 
   const intervalID = useRef();
 
   const animationPlaybackRef = useRef();
-
-  const isHoverRef = useRef();
 
   function startLobbyServer() {
     if (isJoiningLobby || isCreatingLobby) return;
@@ -57,26 +54,22 @@ export default function StartLobbyBtn({ className }) {
   function hoverEffect() {
     isHoverRef.current = true;
     if (isCreatingLobby || isJoiningLobby) return;
-    playBtnRef.current.style.color = "white";
-    playBtnRef2.current.style.opacity = 1;
+    playBtnRef.current.classList.add("hover-effect");
     playAudio(audioRef);
   }
   function leaveHoverEffect() {
     isHoverRef.current = false;
     if (isCreatingLobby || isJoiningLobby) return;
-    playBtnRef.current.style.color = "#00000059";
-    playBtnRef2.current.style.opacity = 0;
+    playBtnRef.current.classList.remove("hover-effect");
     playAudio(audioRef, 0.6);
   }
 
   // If it is joining or creating lobby add pulsating effect to the text then handle ending hover effect if its hovvered
   useEffect(() => {
     if (isCreatingLobby || isJoiningLobby) {
-      playBtnRef.current.style.color = "white";
-      playBtnRef2.current.style.opacity = 1;
       animationPlaybackRef.current = animate(
-        elRef.current,
-        { opacity: [1, 0, 1, 0, 1, 0] },
+        playBtnRef.current,
+        { opacity: [1, 0.1, 1, 0.1, 1, 0.1, 1] },
         { duration: 2, repeat: Infinity }
       );
 
@@ -87,14 +80,16 @@ export default function StartLobbyBtn({ className }) {
     } else {
       // Stop the animation and reset the initial stylings
       if (animationPlaybackRef.current) animationPlaybackRef.current.cancel();
-      animationPlaybackRef.current = null;
-      if (isHoverRef.current) {
-        playBtnRef.current.style.color = "white";
-        playBtnRef2.current.style.opacity = 1;
-      } else {
-        playBtnRef.current.style.color = "#00000059";
-        playBtnRef2.current.style.opacity = 0;
-      }
+
+      animate(
+        playBtnRef.current,
+        { opacity: [1, 0.1, 1, 0.1, 1] },
+        { duration: 0.3 }
+      ).then(() => {
+        if (isHoverRef.current) {
+          playBtnRef.current.classList.add("hover-effect");
+        }
+      });
     }
 
     return () => {
@@ -127,7 +122,6 @@ export default function StartLobbyBtn({ className }) {
 
   return (
     <motion.div
-      ref={elRef}
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       className={`start-btn-container ${className}`}
       onMouseEnter={hoverEffect}
@@ -136,11 +130,8 @@ export default function StartLobbyBtn({ className }) {
       <button
         ref={playBtnRef}
         onClick={isJoiningLobby ? null : startLobbyServer}
-        className="start-btn"
+        className={`start-btn ${isCreatingLobby || isJoiningLobby ? "hover-effect" : ""}`}
       >
-        {isJoiningLobby ? "Joining" : "Play"}
-      </button>
-      <button ref={playBtnRef2} className="start-btn">
         {isJoiningLobby ? "Joining" : "Play"}
       </button>
 
@@ -157,7 +148,6 @@ export default function StartLobbyBtn({ className }) {
             }}
             className="error-container"
           >
-            <p className="error-message">{startError}</p>
             <p className="error-message">{startError}</p>
           </motion.div>
         )}
