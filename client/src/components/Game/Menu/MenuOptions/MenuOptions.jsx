@@ -8,6 +8,7 @@ import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import OrSeparator from "./OrSeparator";
 import { uiActions } from "../../../../store/uiSlicer";
 import { LoaderCircle } from "lucide-react";
+import FindLoader from "./FindLoader";
 
 export default function MenuOptions() {
   const dispatch = useDispatch();
@@ -128,20 +129,10 @@ export default function MenuOptions() {
     <div className="menu-options">
       <AnimatePresence mode="wait">
         {isFindingLobby ? (
-          <motion.div
-            key="other"
-            exit={{ opacity: [0, 1, 0, 1, 0], transition: { duration: 0.3 } }}
-            animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
-            className="loading-container"
-          >
-            <div className="loading-svg">
-              <LoaderCircle className="loading-svg" />
-              <LoaderCircle className="loading-svg" />
-            </div>
-          </motion.div>
+          <FindLoader key="loader" />
         ) : (
           <motion.div
-            key="other2"
+            key="options"
             exit={{ opacity: [0, 1, 0, 1, 0], transition: { duration: 0.3 } }}
             animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
             className="menu-buttons"

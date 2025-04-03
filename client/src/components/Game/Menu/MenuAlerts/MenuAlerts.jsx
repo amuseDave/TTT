@@ -29,7 +29,7 @@ export default function MenuAlerts() {
       if (menuAlertTimeoutRef.current) clearTimeout(menuAlertTimeoutRef.current);
       menuAlertTimeoutRef.current = setTimeout(() => {
         dispatch(uiActions.setMenuAlert({ type: menuAlert.type, message: null }));
-      }, 3500);
+      }, 4500);
     } else {
       if (firstRenderRef.current) {
         firstRenderRef.current = false;

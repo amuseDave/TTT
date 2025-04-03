@@ -33,17 +33,17 @@
   position: absolute;
   left: 0;
   top: 0;
-  z-index: -1;
+  z-index: 0;
   filter: blur(3px);
   opacity: 1;
 }
 
 .menu .menu-alerts-container .menu-alerts.error .menu-alerts-text p:nth-child(2),
 .menu .menu-alerts-container .menu-alerts.error .menu-alerts-icons svg:nth-child(2) {
-  color: rgb(173, 3, 102);
+  color: rgba(173, 3, 102, 0.604);
 }
 
 .menu .menu-alerts-container .menu-alerts.success .menu-alerts-text p:nth-child(2),
 .menu .menu-alerts-container .menu-alerts.success .menu-alerts-icons svg:nth-child(2) {
-  color: rgb(139, 214, 252);
+  color: rgba(139, 214, 252, 0.609);
 }

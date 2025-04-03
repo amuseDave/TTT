@@ -13,7 +13,6 @@
 .menu {
   user-select: none;
   display: flex;
-  /* grid-template-columns: 1fr max-content 1fr; */
   align-items: center;
   gap: 3.2rem;
   position: relative;

@@ -25,7 +25,11 @@ export default function Menu() {
   }, []);
 
   useEffect(() => {
-    function handleLeaveGame() {}
+    function handleLeaveGame() {
+      const message = "Are you sure you want to leave? Your game progress might be lost!";
+      event.returnValue = message;
+      return message;
+    }
     window.addEventListener("beforeunload", handleLeaveGame);
     return () => {
       window.removeEventListener("beforeunload", handleLeaveGame);

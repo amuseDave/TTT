@@ -1,11 +1,14 @@
 import { animate, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import { playAudio } from "../../../../utils/utils";
+import { uiActions } from "../../../../store/uiSlicer";
 
 export default function Player2() {
-  const [initial, setInitial] = useState(true);
+  const dispatch = useDispatch();
+
+  const initial = useRef(true);
 
   const usernameRef = useRef();
 
@@ -18,16 +21,18 @@ export default function Player2() {
   function onMouseLeave() {
     mouseOn.current = false;
     if (timeoutIDRef.current) return;
+    playAudio(audioRef, 0.6);
     animate(usernameRef.current, { opacity: player2 ? 0.4 : 0.6 }, { duration: 0.2 });
   }
   function onMouseEnter() {
     mouseOn.current = true;
     if (timeoutIDRef.current) return;
+    playAudio(audioRef);
     animate(usernameRef.current, { opacity: 1 }, { duration: 0.2 });
   }
 
   useEffect(() => {
-    if (initial) setInitial(false);
+    if (initial.current) initial.current = false;
     else if (player2) {
       timeoutIDRef.current = setTimeout(() => {
         timeoutIDRef.current = null;
@@ -45,6 +50,26 @@ export default function Player2() {
     }
   }, [player2]);
 
+  function inviteCopyLink() {
+    if (player2) return;
+
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        dispatch(
+          uiActions.setMenuAlert({ type: "success", message: "Copied to clipboard!" })
+        );
+      })
+      .catch(() => {
+        dispatch(
+          uiActions.setMenuAlert({
+            type: "error",
+            message: "Failed to copy. Try manually copying url.",
+          })
+        );
+      });
+  }
+
   return (
     <motion.div
       layout
@@ -59,7 +84,7 @@ export default function Player2() {
         ref={usernameRef}
         className={`${player2 ? "username" : "invite"} user`}
       >
-        <p>{player2 ? player2 : "invite"}</p>
+        <p onClick={inviteCopyLink}>{player2 ? player2 : "invite"}</p>
         {player2 && <p>{player2}</p>}
       </motion.div>
     </motion.div>
