@@ -7,7 +7,6 @@ import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import OrSeparator from "./OrSeparator";
 import { uiActions } from "../../../../store/uiSlicer";
-import { LoaderCircle } from "lucide-react";
 import FindLoader from "./FindLoader";
 
 export default function MenuOptions() {
@@ -126,7 +125,11 @@ export default function MenuOptions() {
   }, [isFindingLobby]);
 
   return (
-    <div className="menu-options">
+    <div
+      className={`menu-options ${
+        isConnectedServer && (!player2 || !isAdmin) && "higher-width"
+      }`}
+    >
       <AnimatePresence mode="wait">
         {isFindingLobby ? (
           <FindLoader key="loader" />

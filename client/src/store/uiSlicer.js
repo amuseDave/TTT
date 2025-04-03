@@ -6,8 +6,9 @@ const initialState = {
   isCreatingLobby: false,
   isSwitchingMoves: false,
   isJoiningLobby: false,
-  startError: null,
+  isPrivacyLoading: false,
   isFindingLobby: false,
+  startError: null,
   menuAlert: { type: "", message: null },
 };
 
@@ -32,6 +33,9 @@ const uiSlicer = createSlice({
     },
     isSwitchingMoves(state, action) {
       state.isSwitchingMoves = action.payload;
+    },
+    isPrivacyLoading(state, action) {
+      state.isPrivacyLoading = action.payload;
     },
     setStartError(state, action) {
       state.startError = action.payload;

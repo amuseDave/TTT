@@ -57,14 +57,17 @@ export default function Player2() {
       .writeText(window.location.href)
       .then(() => {
         dispatch(
-          uiActions.setMenuAlert({ type: "success", message: "Copied to clipboard!" })
+          uiActions.setMenuAlert({
+            type: "success",
+            message: "Link copied to cliboard, share with your friend!",
+          })
         );
       })
       .catch(() => {
         dispatch(
           uiActions.setMenuAlert({
             type: "error",
-            message: "Failed to copy. Try manually copying url.",
+            message: "Failed to copy. Try manually copying the url.",
           })
         );
       });

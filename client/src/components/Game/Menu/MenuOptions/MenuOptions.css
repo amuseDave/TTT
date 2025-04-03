@@ -1,12 +1,16 @@
 .menu-options {
-  min-width: 18rem;
-  max-width: 32rem;
+  min-width: 16rem;
   padding: 0rem 2.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
+
+.menu-options.higher-width {
+  width: 32rem;
+}
+
 .menu-options .menu-buttons {
   display: flex;
   flex-direction: column;
@@ -43,31 +47,28 @@
   text-transform: uppercase;
 }
 
-.menu-options .loading-svg {
-  position: relative;
-  height: 4.2rem;
-  width: 4.2rem;
-  margin: 0, auto;
-  animation: spin 3s ease-in-out infinite;
+.menu-options .loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.menu-options .loading-svg svg {
+.menu-options .loading-container {
+  position: relative;
+  animation: spin 2s ease-in-out infinite;
+}
+.menu-options .loading-container svg {
+  width: 4.2rem;
+  height: 4.2rem;
   color: rgb(144, 62, 188);
 }
 
-.menu-options .loading-svg svg:nth-child(2) {
+.menu-options .loading-container svg:nth-child(2) {
   position: absolute;
   filter: blur(2px);
   top: 0;
   left: 0;
   z-index: -1;
   color: rgb(158, 52, 224);
-}
-
-.menu-options .loading-container {
-  min-width: 25.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 @keyframes spin {

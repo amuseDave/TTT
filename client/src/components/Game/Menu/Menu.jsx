@@ -7,6 +7,7 @@ import Connection from "./Connection/Connection";
 import MenuOptions from "./MenuOptions/MenuOptions";
 import MenuDivider from "./MenuDivider/MenuDivider";
 import MenuAlerts from "./MenuAlerts/MenuAlerts";
+import PrivateToggle from "./PrivateToggle/PrivateToggle";
 
 export default function Menu() {
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function Menu() {
           className="menu"
         >
           <Connection />
+          <PrivateToggle />
           <PlayerMenu />
           <MenuDivider />
           <MenuOptions />

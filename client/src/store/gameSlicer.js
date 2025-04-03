@@ -28,10 +28,12 @@ const gameSlicer = createSlice({
       state.lobbyID = action.payload.lobbyID;
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
     },
+    changePrivacy(state, action) {
+      state.isPrivate = action.payload;
+    },
     changeAdmin(state, action) {
       state.isAdmin = action.payload;
     },
-
     changePlayer1Username(state, action) {
       state.player1 = action.payload;
     },

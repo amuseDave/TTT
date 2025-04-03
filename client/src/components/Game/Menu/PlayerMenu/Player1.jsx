@@ -173,7 +173,8 @@ export default function Player1() {
         { opacity: [0, 1, 0, 1, 0, 1, 0] },
         { duration: 0.3 }
       ).then(() => {
-        playerMoveRef2.current.style.color = "rgb(255, 79, 79)";
+        if (playerMoveRef2.current)
+          playerMoveRef2.current.style.color = "rgb(255, 79, 79)";
       });
     }, 2500);
 

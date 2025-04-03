@@ -8,10 +8,8 @@ export default function FindLoader() {
       animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.3 } }}
       className="loading-container"
     >
-      <div className="loading-svg">
-        <LoaderCircle className="loading-svg" />
-        <LoaderCircle className="loading-svg" />
-      </div>
+      <LoaderCircle className="loading-svg" />
+      <LoaderCircle className="loading-svg" />
     </motion.div>
   );
 }
