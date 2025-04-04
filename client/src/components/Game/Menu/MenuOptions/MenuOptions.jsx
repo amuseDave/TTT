@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./MenuOptions.css";
 import getWebSocket from "../../../../web-socket/ws";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animate, AnimatePresence, motion } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
@@ -18,11 +18,10 @@ export default function MenuOptions() {
   const isAdmin = useSelector((state) => state.game.isAdmin);
   const player2 = useSelector((state) => state.game.player2);
 
-  const hoverRef = useRef();
-
   const menuButtonsRef = useRef();
-
   const initialRef = useRef(true);
+
+  const [isHovering, setIsHovering] = useState(false);
 
   function joinRandomLobby() {
     if (!player2 && isConnectedServer) {
@@ -50,30 +49,26 @@ export default function MenuOptions() {
 
   // On hover neon
   function onHover() {
-    hoverRef.current = true;
+    setIsHovering(true);
     playAudio(audioRef);
   }
   // On leave neon off with audio
   function onHoverLeave() {
-    hoverRef.current = false;
+    setIsHovering(false);
     playAudio(audioRef, 0.6);
   }
 
-  const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
-
   // Set interval for options light for liveness
   useEffect(() => {
-    if (isFindingLobby) return;
-    let intervalID;
+    if (isFindingLobby || isHovering) return;
 
-    intervalID = setInterval(() => {
-      if (hoverRef.current) return;
-      menuButtonsRef.current.classList.add("neon");
-
+    const intervalID = setInterval(() => {
       playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);
       }, 150);
+
+      menuButtonsRef.current.classList.add("neon");
 
       animate(
         menuButtonsRef.current,
@@ -82,12 +77,11 @@ export default function MenuOptions() {
       ).then(() => {
         menuButtonsRef.current.classList.remove("neon");
       });
-    }, 10000);
-
+    }, 3000);
     return () => {
       clearInterval(intervalID);
     };
-  }, [isFindingLobby]);
+  }, [isFindingLobby, isHovering]);
 
   // Play audio on when lobby is founding toggle
   useEffect(() => {
@@ -100,6 +94,8 @@ export default function MenuOptions() {
       playAudio(audioRef, 0.6);
     }, 150);
   }, [isFindingLobby]);
+
+  const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
 
   return (
     <div
@@ -119,9 +115,9 @@ export default function MenuOptions() {
             className="menu-buttons"
           >
             <button
-              onMouseEnter={isLobbyFull || !player2 ? onHover : null}
-              onMouseLeave={isLobbyFull || !player2 ? onHoverLeave : null}
-              onClick={isAdmin ? startGame : null}
+              onMouseEnter={onHover}
+              onMouseLeave={onHoverLeave}
+              onClick={startGame}
             >
               {isLobbyFull
                 ? "start"

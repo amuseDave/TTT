@@ -29,7 +29,7 @@ export default function MenuAlerts() {
       if (menuAlertTimeoutRef.current) clearTimeout(menuAlertTimeoutRef.current);
       menuAlertTimeoutRef.current = setTimeout(() => {
         dispatch(uiActions.setMenuAlert({ type: menuAlert.type, message: null }));
-      }, 4500);
+      }, 4111500);
     } else {
       if (firstRenderRef.current) {
         firstRenderRef.current = false;
@@ -44,40 +44,33 @@ export default function MenuAlerts() {
   }, [menuAlert]);
 
   return (
-    <div className="menu-alerts-container">
-      <AnimatePresence>
-        {menuAlert.message && (
-          <motion.div
-            ref={alertContRef}
-            exit={{
-              opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0],
-              transition: { duration: 0.3 },
-            }}
-            className={`menu-alerts ${
-              menuAlert.type === "success" ? "success" : "error"
-            }`}
-          >
-            <div className="menu-alerts-icons">
-              {menuAlert.type === "error" && (
-                <>
-                  <TriangleAlert />
-                  <TriangleAlert />
-                </>
-              )}
-              {menuAlert.type === "success" && (
-                <>
-                  <Info />
-                  <Info />
-                </>
-              )}
-            </div>
-            <div className="menu-alerts-text">
-              <p>{menuAlert.message}</p>
-              <p>{menuAlert.message}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <AnimatePresence>
+      {menuAlert.message && (
+        <motion.div
+          ref={alertContRef}
+          exit={{
+            opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0],
+            transition: { duration: 0.3 },
+          }}
+          className={`menu-alerts ${menuAlert.type === "success" ? "success" : "error"}`}
+        >
+          <div className="menu-alerts-icons">
+            {menuAlert.type === "error" && (
+              <>
+                <TriangleAlert />
+                <TriangleAlert />
+              </>
+            )}
+            {menuAlert.type === "success" && (
+              <>
+                <Info />
+                <Info />
+              </>
+            )}
+          </div>
+          <p className="menu-alerts-text">{menuAlert.message}</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -129,7 +129,7 @@ export default function StartLobbyBtn({ className }) {
     >
       <button
         ref={playBtnRef}
-        onClick={isJoiningLobby ? null : startLobbyServer}
+        onClick={startLobbyServer}
         className={`start-btn ${isCreatingLobby || isJoiningLobby ? "hover-effect" : ""}`}
       >
         {isJoiningLobby ? "Joining" : "Play"}
@@ -137,7 +137,7 @@ export default function StartLobbyBtn({ className }) {
 
       <AnimatePresence>
         {startError && (
-          <motion.div
+          <motion.p
             exit={{
               opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0],
               transition: { duration: 0.3 },
@@ -148,8 +148,8 @@ export default function StartLobbyBtn({ className }) {
             }}
             className="error-container"
           >
-            <p className="error-message">{startError}</p>
-          </motion.div>
+            {startError}
+          </motion.p>
         )}
       </AnimatePresence>
     </motion.div>

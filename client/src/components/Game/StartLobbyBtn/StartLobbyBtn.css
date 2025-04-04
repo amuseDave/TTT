@@ -31,9 +31,6 @@
   bottom: 0;
   transform: translateX(-50%);
   width: max-content;
-}
-
-.start-btn-container .error-container .error-message {
   color: #ff4372;
   font-size: 2rem;
   text-shadow: 0px 0px 5px #ff43b1;

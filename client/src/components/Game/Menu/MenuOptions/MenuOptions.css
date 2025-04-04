@@ -27,11 +27,7 @@
   transition: 0.3s ease-in-out all;
 }
 
-.menu-options .menu-buttons button:hover {
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0px 0px 5px #9133bc;
-}
-
+.menu-options .menu-buttons button:hover,
 .menu-options .menu-buttons.neon button {
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0px 0px 5px #9133bc;
@@ -42,6 +38,10 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
+}
+.menu-options .menu-buttons .or-separator .line,
+.menu-options .menu-buttons .or-separator .or-text {
+  transition: 0.15s ease-in-out all;
 }
 
 .menu-options .menu-buttons .or-separator .line {
@@ -54,7 +54,6 @@
 .menu-options .menu-buttons .or-separator .or-text {
   font-size: 3rem;
   color: rgba(255, 255, 255, 0.4);
-  vertical-align: middle;
   text-transform: uppercase;
 }
 .menu-options .menu-buttons.neon .or-separator .or-text {

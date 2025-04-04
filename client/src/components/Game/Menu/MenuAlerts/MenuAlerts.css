@@ -1,4 +1,4 @@
-.menu .menu-alerts-container .menu-alerts {
+.menu .menu-alerts {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
@@ -7,43 +7,46 @@
   gap: 5px;
 }
 
-.menu .menu-alerts-container .menu-alerts .menu-alerts-text p {
+.menu .menu-alerts .menu-alerts-text {
   font-size: 1.4rem;
 }
-.menu .menu-alerts-container .menu-alerts .menu-alerts-icons svg {
+.menu .menu-alerts .menu-alerts-icons svg {
   scale: 0.8;
 }
 
-.menu .menu-alerts-container .menu-alerts .menu-alerts-text,
-.menu .menu-alerts-container .menu-alerts .menu-alerts-icons {
+.menu .menu-alerts .menu-alerts-icons {
   position: relative;
 }
 
-.menu .menu-alerts-container .menu-alerts.error .menu-alerts-text p,
-.menu .menu-alerts-container .menu-alerts.error .menu-alerts-icons svg {
+.menu .menu-alerts.error .menu-alerts-text {
+  color: rgb(255, 47, 113);
+  text-shadow: 0px 0px 5px rgba(173, 3, 102, 0.6);
+}
+.menu .menu-alerts.success .menu-alerts-text {
+  color: rgb(92, 198, 251);
+  text-shadow: 0px 0px 5px rgba(139, 214, 252, 0.6);
+}
+
+.menu .menu-alerts.error .menu-alerts-icons svg {
   color: rgb(255, 47, 113);
 }
-.menu .menu-alerts-container .menu-alerts.success .menu-alerts-text p,
-.menu .menu-alerts-container .menu-alerts.success .menu-alerts-icons svg {
+
+.menu .menu-alerts.success .menu-alerts-icons svg {
   color: rgb(92, 198, 251);
 }
 
-.menu .menu-alerts-container .menu-alerts .menu-alerts-text p:nth-child(2),
-.menu .menu-alerts-container .menu-alerts .menu-alerts-icons svg:nth-child(2) {
+.menu .menu-alerts .menu-alerts-icons svg:nth-child(2) {
   position: absolute;
   left: 0;
   top: 0;
   z-index: 0;
   filter: blur(3px);
-  opacity: 1;
 }
 
-.menu .menu-alerts-container .menu-alerts.error .menu-alerts-text p:nth-child(2),
-.menu .menu-alerts-container .menu-alerts.error .menu-alerts-icons svg:nth-child(2) {
-  color: rgba(173, 3, 102, 0.604);
+.menu .menu-alerts.error .menu-alerts-icons svg:nth-child(2) {
+  color: rgba(173, 3, 102, 0.6);
 }
 
-.menu .menu-alerts-container .menu-alerts.success .menu-alerts-text p:nth-child(2),
-.menu .menu-alerts-container .menu-alerts.success .menu-alerts-icons svg:nth-child(2) {
-  color: rgba(139, 214, 252, 0.609);
+.menu .menu-alerts.success .menu-alerts-icons svg:nth-child(2) {
+  color: rgba(139, 214, 252, 0.6);
 }
