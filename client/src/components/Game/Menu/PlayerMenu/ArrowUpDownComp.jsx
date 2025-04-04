@@ -2,7 +2,6 @@ import { ArrowUpDown, LoaderCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { animate } from "framer-motion";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import getWebSocket from "../../../../web-socket/ws";
 import { uiActions } from "../../../../store/uiSlicer";
@@ -11,23 +10,22 @@ import { playAudio } from "../../../../utils/utils";
 export default function ArrowUpDownComp() {
   const isSwitchingMoves = useSelector((state) => state.ui.isSwitchingMoves);
   const isAdmin = useSelector((state) => state.game.isAdmin);
-  const player1Move = useSelector((state) => state.game.player1Move);
 
   const dispatch = useDispatch();
 
-  const iconRef = useRef();
+  const elRef = useRef();
   const timeoutIDRef = useRef();
   const mouseOn = useRef();
 
   function onMouseLeave() {
     mouseOn.current = false;
     if (timeoutIDRef.current) return;
-    animate(iconRef.current, { opacity: 0.3 }, { duration: 0.2 });
+    elRef.current.style.opacity = 0.35;
   }
   function onMouseEnter() {
     mouseOn.current = true;
     if (timeoutIDRef.current) return;
-    animate(iconRef.current, { opacity: 1 }, { duration: 0.2 });
+    elRef.current.style.opacity = 1;
   }
 
   function switchMoves() {
@@ -41,37 +39,25 @@ export default function ArrowUpDownComp() {
   }
 
   useEffect(() => {
-    if (!isSwitchingMoves) return;
     timeoutIDRef.current = setTimeout(() => {
       timeoutIDRef.current = null;
-    }, 400);
-
-    animate(
-      iconRef.current,
-      { opacity: [1, 0, 1, 0, 1, 0, 1, 0.3, mouseOn.current ? 1 : 0.3] },
-      { duration: 0.4 }
-    );
+    }, 300);
 
     playAudio(audioRef);
+    setTimeout(() => {
+      playAudio(audioRef, 0.6);
+    }, 150);
   }, [isSwitchingMoves]);
 
-  useEffect(() => {
-    timeoutIDRef.current = setTimeout(() => {
-      timeoutIDRef.current = null;
-    }, 400);
-
-    animate(
-      iconRef.current,
-      { opacity: [1, 0, 1, 0, 1, 0, 1, 0.3, mouseOn.current ? 1 : 0.3] },
-      { duration: 0.4 }
-    );
-    playAudio(audioRef);
-  }, [player1Move]);
-
   return (
-    <motion.div layout ref={iconRef} className="svg-switch-container">
+    <motion.div layout className="svg-switch-container">
       {!isSwitchingMoves && (
         <motion.div
+          ref={elRef}
+          animate={{
+            opacity: [1, 0, 1, 0, 1, 0, 1, 0.35, mouseOn.current ? 1 : 0.35],
+            transition: { duration: 0.3 },
+          }}
           onMouseEnter={isAdmin ? onMouseEnter : null}
           onMouseLeave={isAdmin ? onMouseLeave : null}
           className="arrow-up-down"
@@ -87,8 +73,11 @@ export default function ArrowUpDownComp() {
         <motion.div
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          animate={{ rotateZ: [0, 360], transition: { duration: 1, repeat: Infinity } }}
-          className="arrow-up-down"
+          animate={{
+            opacity: [1, 0, 1, 0, 1, 0, 1],
+            transition: { duration: 0.3 },
+          }}
+          className="arrow-up-down spinner"
         >
           <LoaderCircle />
           <LoaderCircle />

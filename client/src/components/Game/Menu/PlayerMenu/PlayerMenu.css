@@ -1,7 +1,7 @@
 .player-menu {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 2rem;
   padding: 0rem 2.4rem;
 }
 
@@ -68,10 +68,11 @@
 .menu .player-menu .svg-switch-container {
   display: flex;
   justify-content: center;
-  transition: opacity 0.2s ease-in-out;
 }
 
 .menu .player-menu .arrow-up-down {
+  transition: opacity 0.2s ease-in-out;
+
   position: relative;
 }
 
@@ -126,4 +127,8 @@
   z-index: 0;
   filter: blur(3px);
   color: var(--test-color);
+}
+
+.menu .player-menu .spinner {
+  animation: spin 2s ease-in-out infinite;
 }
