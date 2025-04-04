@@ -1,5 +1,5 @@
 import { ArrowUpDown, LoaderCircle } from "lucide-react";
-import { animate, motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
@@ -13,17 +13,20 @@ export default function ArrowUpDownComp() {
 
   const dispatch = useDispatch();
 
-  const elRef = useRef();
+  const [elRef, animate] = useAnimate();
   const mouseOn = useRef();
 
   function onMouseLeave() {
     mouseOn.current = false;
     if (isSwitchingMoves) return;
+    playAudio(audioRef);
+
     elRef.current.style.opacity = 0.35;
   }
   function onMouseEnter() {
     mouseOn.current = true;
     if (isSwitchingMoves) return;
+    playAudio(audioRef, 0.6);
     elRef.current.style.opacity = 1;
   }
 
@@ -38,14 +41,25 @@ export default function ArrowUpDownComp() {
   }
 
   useEffect(() => {
-    const dynamicOpacity = mouseOn.current || isSwitchingMoves ? 1 : 0.35;
-    animate(
-      elRef.current,
-      {
-        opacity: [1, 0, 1, 0, 1, 0, 1, dynamicOpacity],
-      },
-      { duration: 0.3 }
-    );
+    const animation = async () => {
+      await animate(
+        elRef.current,
+        {
+          opacity: [1, 0, 1, 0, 1, 0, 1],
+        },
+        { duration: 0.3 }
+      );
+      await animate(
+        elRef.current,
+        {
+          opacity: mouseOn.current || isSwitchingMoves ? 1 : 0.35,
+        },
+        { duration: 0 }
+      );
+    };
+
+    animation();
+
     playAudio(audioRef);
     setTimeout(() => {
       playAudio(audioRef, 0.6);

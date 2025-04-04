@@ -3,7 +3,7 @@ import { Dices } from "lucide-react";
 import { gameActions } from "../../../../store/gameSlicer";
 import { getRandomItem, playAudio, usernames } from "../../../../utils/utils";
 import { useEffect, useRef, useState } from "react";
-import { animate, motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import getWebSocket from "../../../../web-socket/ws";
 
@@ -16,7 +16,7 @@ export default function Player1() {
 
   const diceRef = useRef();
 
-  const inputRef = useRef();
+  const [inputRef, animate] = useAnimate();
 
   const animationTimeoutID = useRef();
   const animationTimeoutID2 = useRef();
@@ -131,18 +131,21 @@ export default function Player1() {
 
     playerMoveRef.current.classList.add("active");
 
+    const animation = async () => {
+      await animate(
+        playerMoveRef.current,
+        { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
+        { duration: 0.3 }
+      );
+      isSwitchingMovesRef.current = false;
+      playerMoveRef.current.classList.remove("active");
+    };
+    animation();
+
     playAudio(audioRef);
     setTimeout(() => {
       playAudio(audioRef, 0.6);
     }, 150);
-    animate(
-      playerMoveRef.current,
-      { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
-      { duration: 0.3 }
-    ).then(() => {
-      isSwitchingMovesRef.current = false;
-      playerMoveRef.current.classList.remove("active");
-    });
   }
 
   // Handle interval animation to indicate that the player can click on the move
@@ -156,14 +159,17 @@ export default function Player1() {
         playAudio(audioRef, 0.6);
       }, 150);
 
-      animate(
-        playerMoveRef.current,
-        { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
-        { duration: 0.3 }
-      ).then(() => {
+      const animation = async () => {
+        await animate(
+          playerMoveRef.current,
+          { opacity: [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1] },
+          { duration: 0.3 }
+        );
         isSwitchingMovesRef.current = false;
         playerMoveRef.current.classList.remove("active");
-      });
+      };
+
+      animation();
     }, 4000);
 
     return () => {

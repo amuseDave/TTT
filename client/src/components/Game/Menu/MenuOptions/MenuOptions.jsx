@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./MenuOptions.css";
 import getWebSocket from "../../../../web-socket/ws";
 import { useEffect, useRef, useState } from "react";
-import { animate, AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import OrSeparator from "./OrSeparator";
@@ -18,7 +18,8 @@ export default function MenuOptions() {
   const isAdmin = useSelector((state) => state.game.isAdmin);
   const player2 = useSelector((state) => state.game.player2);
 
-  const menuButtonsRef = useRef();
+  const [menuButtonsRef, animate] = useAnimate();
+
   const initialRef = useRef(true);
 
   const [isHovering, setIsHovering] = useState(false);
@@ -70,14 +71,17 @@ export default function MenuOptions() {
 
       menuButtonsRef.current.classList.add("neon");
 
-      animate(
-        menuButtonsRef.current,
-        { opacity: [1, 0.2, 1, 0.2, 1] },
-        { duration: 0.3 }
-      ).then(() => {
+      const animation = async () => {
+        await animate(
+          menuButtonsRef.current,
+          { opacity: [1, 0.2, 1, 0.2, 1] },
+          { duration: 0.3 }
+        );
         menuButtonsRef.current.classList.remove("neon");
-      });
-    }, 3000);
+      };
+      animation();
+    }, 10000);
+
     return () => {
       clearInterval(intervalID);
     };

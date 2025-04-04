@@ -32,13 +32,13 @@
 }
 
 .menu .player-menu .player-1 input {
+  margin-left: 2rem;
   transition: color 0.1s ease-in-out;
   color: #ffffffe6;
   background-color: transparent;
   border: none;
   outline: none;
   font-size: 3rem;
-  text-align: center;
   text-shadow: 0px 0px 5px var(--test-color);
 }
 
@@ -94,39 +94,36 @@
 }
 
 .menu .player-menu .player-2 .invite {
-  color: white;
+  opacity: 0.5;
+  color: rgb(255, 255, 255);
   font-weight: 100;
   letter-spacing: 1.2rem;
   font-size: 2.8rem;
   text-align: center;
   border-bottom: 2px solid white;
   padding-bottom: 5px;
-  transition: 0.2s all ease-in-out;
-  opacity: 0.4;
+  transition: 0.3s opacity ease-in-out;
+}
+
+.menu .player-menu .player-2 .invite:hover {
+  opacity: 1;
 }
 
 .menu .player-menu .player-2 .username {
-  opacity: 0.3;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.menu .player-menu .player-2 .username p {
-  transition: color 0.1s ease-in-out;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.959);
   background-color: transparent;
   border: none;
   outline: none;
   font-size: 3rem;
   z-index: 1;
+  transition: color 0.1s ease-in-out;
+  opacity: 0.3;
+  transition: opacity 0.3s ease-in-out;
+  text-shadow: 0px 0px 5px var(--test-color);
 }
 
-.menu .player-menu .player-2 .username p:nth-child(2) {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  filter: blur(3px);
-  color: var(--test-color);
+.menu .player-menu .player-2 .username:hover {
+  opacity: 1;
 }
 
 .menu .player-menu .spinner {

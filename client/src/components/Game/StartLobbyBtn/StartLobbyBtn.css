@@ -25,6 +25,10 @@
   text-shadow: 0px 0px 5px rgb(255, 132, 218);
 }
 
+.start-btn-container .start-btn.hover-effect.pulsating {
+  animation: pulse 2s ease-in-out infinite;
+}
+
 .start-btn-container .error-container {
   position: absolute;
   left: 50%;

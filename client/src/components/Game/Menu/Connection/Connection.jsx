@@ -3,13 +3,13 @@ import "./Connection.css";
 
 import { useSelector } from "react-redux";
 import { reconnectWebSocket } from "../../../../web-socket/ws";
-import { animate } from "framer-motion";
+import { useAnimate } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import { Wifi, WifiOff } from "lucide-react";
 
 export default function Connection() {
-  const connectionElRef = useRef();
+  const [connectionElRef, animate] = useAnimate();
   const intervalID = useRef();
 
   const isConnectingServer = useSelector((state) => state.ui.isConnectingServer);

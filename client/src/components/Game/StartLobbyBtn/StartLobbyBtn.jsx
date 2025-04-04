@@ -1,6 +1,6 @@
 import "./StartLobbyBtn.css";
 
-import { animate, motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import getWebSocket from "../../../web-socket/ws";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,15 +16,13 @@ export default function StartLobbyBtn({ className }) {
   const isJoiningLobby = useSelector((state) => state.ui.isJoiningLobby);
   const isCreatingLobby = useSelector((state) => state.ui.isCreatingLobby);
 
-  const playBtnRef = useRef();
+  const [playBtnRef, animate] = useAnimate();
 
   const firstRenderRef = useRef(true);
 
   const isHoverRef = useRef();
 
   const intervalID = useRef();
-
-  const animationPlaybackRef = useRef();
 
   function startLobbyServer() {
     if (isJoiningLobby || isCreatingLobby) return;
@@ -66,32 +64,28 @@ export default function StartLobbyBtn({ className }) {
 
   // If it is joining or creating lobby add pulsating effect to the text then handle ending hover effect if its hovvered
   useEffect(() => {
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      return;
+    }
     if (isCreatingLobby || isJoiningLobby) {
-      animationPlaybackRef.current = animate(
-        playBtnRef.current,
-        { opacity: [1, 0.1, 1, 0.1, 1, 0.1, 1] },
-        { duration: 2, repeat: Infinity }
-      );
-
-      // Use interval to indicate neon pulsing
+      // Use interval to indicate neon pulsing with audio
       intervalID.current = setInterval(() => {
         playAudio(audioRef);
       }, 1000);
     } else {
-      // Stop the animation and reset the initial stylings
-      if (animationPlaybackRef.current) animationPlaybackRef.current.cancel();
-
-      animate(
-        playBtnRef.current,
-        { opacity: [1, 0.1, 1, 0.1, 1] },
-        { duration: 0.3 }
-      ).then(() => {
+      const animation = async () => {
+        await animate(
+          playBtnRef.current,
+          { opacity: [1, 0.1, 1, 0.1, 1] },
+          { duration: 0.3 }
+        );
         if (isHoverRef.current) {
           playBtnRef.current.classList.add("hover-effect");
         }
-      });
+      };
+      animation();
     }
-
     return () => {
       clearInterval(intervalID.current);
     };
@@ -112,7 +106,6 @@ export default function StartLobbyBtn({ className }) {
         firstRenderRef.current = false;
         return;
       }
-
       playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);
@@ -130,7 +123,9 @@ export default function StartLobbyBtn({ className }) {
       <button
         ref={playBtnRef}
         onClick={startLobbyServer}
-        className={`start-btn ${isCreatingLobby || isJoiningLobby ? "hover-effect" : ""}`}
+        className={`start-btn ${
+          isCreatingLobby || isJoiningLobby ? "hover-effect pulsating" : ""
+        }`}
       >
         {isJoiningLobby ? "Joining" : "Play"}
       </button>
