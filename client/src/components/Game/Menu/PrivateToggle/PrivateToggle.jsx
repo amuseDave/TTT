@@ -26,7 +26,7 @@ export default function PrivateToggle() {
         playAudio(audioRef, 0.6);
       }, 150);
     }
-  }, [isPrivate, isPrivacyLoading]);
+  }, [isPrivacyLoading]);
 
   function togglePrivate() {
     if (isPrivacyLoading) return;

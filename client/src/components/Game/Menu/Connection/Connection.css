@@ -11,21 +11,21 @@
   animation: pulse 3s ease-in-out infinite;
 }
 
-.menu .connection .text-container .connection-text {
+.menu .connection .connection-text {
   font-size: 1.3rem;
 }
 
-.menu .connection .text-container .connected {
+.menu .connection .connected {
   color: #79fbbe;
   text-shadow: 0px 0px 5px #71ffc1a3;
 }
 
-.menu .connection .text-container .connecting {
+.menu .connection .connecting {
   color: rgb(96, 213, 255);
   text-shadow: 0px 0px 5px rgb(71, 159, 190);
 }
 
-.menu .connection .text-container .error {
+.menu .connection .error {
   color: #ff2b60;
   text-shadow: 0px 0px 5px #ff43b1cc;
 }

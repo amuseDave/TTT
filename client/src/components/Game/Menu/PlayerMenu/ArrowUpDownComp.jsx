@@ -1,5 +1,5 @@
 import { ArrowUpDown, LoaderCircle } from "lucide-react";
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
@@ -14,17 +14,16 @@ export default function ArrowUpDownComp() {
   const dispatch = useDispatch();
 
   const elRef = useRef();
-  const timeoutIDRef = useRef();
   const mouseOn = useRef();
 
   function onMouseLeave() {
     mouseOn.current = false;
-    if (timeoutIDRef.current) return;
+    if (isSwitchingMoves) return;
     elRef.current.style.opacity = 0.35;
   }
   function onMouseEnter() {
     mouseOn.current = true;
-    if (timeoutIDRef.current) return;
+    if (isSwitchingMoves) return;
     elRef.current.style.opacity = 1;
   }
 
@@ -39,10 +38,14 @@ export default function ArrowUpDownComp() {
   }
 
   useEffect(() => {
-    timeoutIDRef.current = setTimeout(() => {
-      timeoutIDRef.current = null;
-    }, 300);
-
+    const dynamicOpacity = mouseOn.current || isSwitchingMoves ? 1 : 0.35;
+    animate(
+      elRef.current,
+      {
+        opacity: [1, 0, 1, 0, 1, 0, 1, dynamicOpacity],
+      },
+      { duration: 0.3 }
+    );
     playAudio(audioRef);
     setTimeout(() => {
       playAudio(audioRef, 0.6);
@@ -51,38 +54,27 @@ export default function ArrowUpDownComp() {
 
   return (
     <motion.div layout className="svg-switch-container">
-      {!isSwitchingMoves && (
-        <motion.div
-          ref={elRef}
-          animate={{
-            opacity: [1, 0, 1, 0, 1, 0, 1, 0.35, mouseOn.current ? 1 : 0.35],
-            transition: { duration: 0.3 },
-          }}
-          onMouseEnter={isAdmin ? onMouseEnter : null}
-          onMouseLeave={isAdmin ? onMouseLeave : null}
-          className="arrow-up-down"
-        >
-          <ArrowUpDown
-            style={{ cursor: isAdmin ? "inherit" : "not-allowed" }}
-            onClick={switchMoves}
-          />
-          <ArrowUpDown />
-        </motion.div>
-      )}
-      {isSwitchingMoves && (
-        <motion.div
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          animate={{
-            opacity: [1, 0, 1, 0, 1, 0, 1],
-            transition: { duration: 0.3 },
-          }}
-          className="arrow-up-down spinner"
-        >
-          <LoaderCircle />
-          <LoaderCircle />
-        </motion.div>
-      )}
+      <motion.div
+        ref={elRef}
+        onMouseEnter={isAdmin ? onMouseEnter : null}
+        onMouseLeave={isAdmin ? onMouseLeave : null}
+        className={`arrow-up-down ${isSwitchingMoves ? "spinner" : ""}`}
+      >
+        {!isSwitchingMoves ? (
+          <>
+            <ArrowUpDown
+              style={{ cursor: isAdmin ? "inherit" : "not-allowed" }}
+              onClick={switchMoves}
+            />
+            <ArrowUpDown />
+          </>
+        ) : (
+          <>
+            <LoaderCircle />
+            <LoaderCircle />
+          </>
+        )}
+      </motion.div>
     </motion.div>
   );
 }

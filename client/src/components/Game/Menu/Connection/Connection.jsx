@@ -53,20 +53,21 @@ export default function Connection() {
 
   return (
     <div ref={connectionElRef} className={`connection ${className}`}>
-      <div className="text-container">
-        <p className={`${className} connection-text`}>{text}</p>
+      <p className={`${className} connection-text`}>{text}</p>
+
+      <div className="svg-container">
+        {isConnectingServer || isConnectedServer ? (
+          <>
+            <Wifi className="svg" />
+            <Wifi className="svg" />
+          </>
+        ) : (
+          <>
+            <WifiOff className="svg" />
+            <WifiOff className="svg" />
+          </>
+        )}
       </div>
-      {isConnectingServer || isConnectedServer ? (
-        <div className="svg-container">
-          <Wifi className="svg" />
-          <Wifi className="svg" />
-        </div>
-      ) : (
-        <div className="svg-container">
-          <WifiOff className="svg" />
-          <WifiOff className="svg" />
-        </div>
-      )}
     </div>
   );
 }
