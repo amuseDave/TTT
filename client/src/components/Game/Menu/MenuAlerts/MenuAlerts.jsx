@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
 import { playAudio } from "../../../../utils/utils";
 import { uiActions } from "../../../../store/uiSlicer";
-import { animate, AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { Info, TriangleAlert } from "lucide-react";
 
 export default function MenuAlerts() {
@@ -12,7 +12,7 @@ export default function MenuAlerts() {
   const dispatch = useDispatch();
 
   const firstRenderRef = useRef(true);
-  const alertContRef = useRef();
+  const [alertContRef, animate] = useAnimate();
   const menuAlertTimeoutRef = useRef();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function MenuAlerts() {
       if (menuAlertTimeoutRef.current) clearTimeout(menuAlertTimeoutRef.current);
       menuAlertTimeoutRef.current = setTimeout(() => {
         dispatch(uiActions.setMenuAlert({ type: menuAlert.type, message: null }));
-      }, 4111500);
+      }, 4500);
     } else {
       if (firstRenderRef.current) {
         firstRenderRef.current = false;

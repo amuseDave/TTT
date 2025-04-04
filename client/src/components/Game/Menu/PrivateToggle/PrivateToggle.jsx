@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./PrivateToggle.css";
 import getWebSocket from "../../../../web-socket/ws";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { uiActions } from "../../../../store/uiSlicer";
 import { playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
-import { animate, AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
 export default function PrivateToggle() {
   const dispatch = useDispatch();
 
-  const privacyContRef = useRef();
+  const [privacyContRef, animate] = useAnimate();
 
   const isPrivate = useSelector((state) => state.game.isPrivate);
   const isPrivacyLoading = useSelector((state) => state.ui.isPrivacyLoading);
