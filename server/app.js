@@ -6,6 +6,7 @@ const leaveLobby = require("./controllers/leaveLobby.js");
 const updateUsername = require("./controllers/updateUsername.js");
 const findLobby = require("./controllers/findLobby.js");
 const togglePrivacy = require("./controllers/togglePrivacy.js");
+const startGame = require("./controllers/startGame.js");
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -22,6 +23,7 @@ wss.on("connection", (ws) => {
       else if (action === "join-lobby") joinLobby(ws, data);
       else if (action === "toggle-privacy") togglePrivacy(ws);
       else if (action === "find-lobby") findLobby(ws);
+      else if (action === "start-game") startGame(ws);
     } catch (err) {
       ws.send(JSON.stringify({ action: "error", data: { msg: err.message } }));
     }

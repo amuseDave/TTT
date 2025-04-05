@@ -9,7 +9,7 @@ const initialState = {
   player2: null,
   player1Move: "X",
   lobbyID: null,
-  gameGrid: null,
+  game: null,
 };
 
 const gameSlicer = createSlice({
@@ -28,6 +28,22 @@ const gameSlicer = createSlice({
       state.lobbyID = action.payload.lobbyID;
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
     },
+    initiateClientGame(state) {
+      state.lobby = true;
+      state.game = {
+        grid: [null, null, null, null, null, null, null, null, null],
+        curMove: "X",
+      };
+    },
+    updateClientGame(state, action) {
+      if (state.game.grid[action.payload]) return;
+      const curMove = state.game.curMove;
+      state.game.grid[action.payload] = curMove;
+      state.game.curMove = curMove === "X" ? "O" : "X";
+    },
+    updateServerGame(state, action) {
+      state.game = action.payload.game;
+    },
     changePrivacy(state, action) {
       state.isPrivate = action.payload;
     },
@@ -43,7 +59,7 @@ const gameSlicer = createSlice({
     },
 
     changePlayerMoves(state, action) {
-      if (!state.gameGrid) {
+      if (!state.lobby) {
         state.player1Move = action.payload.move;
       }
     },

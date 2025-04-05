@@ -10,6 +10,8 @@ import onClose from "./controllers/onClose.js";
 import onError from "./controllers/onError.js";
 import displayAlerts from "./controllers/displayAlerts.js";
 import togglePrivacy from "./controllers/togglePrivacy.js";
+import startGame from "./controllers/startGame.js";
+import updateGame from "./controllers/updateGame.js";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -40,18 +42,20 @@ function initializeEvents() {
       const argObj = { data, store, gameActions, uiActions, type, audioRef };
 
       if (action === "update-username") updateUsername(argObj);
+      else if (action === "update-game") updateGame(argObj);
       else if (action === "switch-moves") switchMoves(argObj);
       else if (action === "display-alert") displayAlerts(argObj);
       else if (action === "toggle-privacy") togglePrivacy(argObj);
       else if (action === "start-lobby") startLobby(argObj);
       else if (action === "join-lobby") joinLobby(argObj);
+      else if (action === "start-game") startGame(argObj);
       else if (action === "error") console.log(data.msg);
     };
   };
 
   // Handle close and error events
-  webSocket.onclose = () => {
-    onClose({ store, gameActions, uiActions });
+  webSocket.onclose = (e) => {
+    onClose(e, { store, gameActions, uiActions });
   };
   // Handle  error events
   webSocket.onerror = () => {

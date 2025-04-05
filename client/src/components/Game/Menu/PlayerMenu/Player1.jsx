@@ -95,7 +95,8 @@ export default function Player1() {
     if (initial) {
       setInitial(false);
     } else {
-      if (getWebSocket().readyState !== getWebSocket().OPEN) return;
+      const { readyState, OPEN } = getWebSocket();
+      if (readyState !== OPEN) return;
       if (debounceID.current) clearTimeout(debounceID.current);
 
       debounceID.current = setTimeout(() => {
@@ -106,7 +107,7 @@ export default function Player1() {
     }
   }, [player1]);
 
-  // Pass the username and create lobby in the server if the connection was established when the lobby was created
+  // Pass the username and create lobby in the server if the connection was established when the lobby was created before it was established
   useEffect(() => {
     if (initial) {
       setInitial(false);
@@ -123,6 +124,7 @@ export default function Player1() {
   }, [isConnectedServer]);
 
   // Handle switch moves animation when the player clicks on the move
+  // With somesort of debounce so they can not do too quick move changes
   function switchMoves() {
     if (isSwitchingMovesRef.current) return;
 

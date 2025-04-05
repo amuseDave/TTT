@@ -28,7 +28,9 @@ export default function StartLobbyBtn({ className }) {
     if (isJoiningLobby || isCreatingLobby) return;
 
     // Check if the connection is established and start lobby right from server if it is
-    if (getWebSocket().readyState === getWebSocket().OPEN) {
+    const { readyState, OPEN } = getWebSocket();
+
+    if (readyState === OPEN) {
       // Test out delay UI
       setTimeout(() => {
         getWebSocket().send(JSON.stringify({ action: "start-lobby", data: null }));

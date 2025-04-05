@@ -1,4 +1,4 @@
-export default function onClose({ store, uiActions, gameActions }) {
+export default function onClose(e, { store, uiActions, gameActions }) {
   console.log("On Close event");
   const {
     ui: { isJoiningLobby, isConnectedServer, isFindingLobby, isPrivacyLoading },
@@ -7,7 +7,8 @@ export default function onClose({ store, uiActions, gameActions }) {
 
   if (!isAdmin) store.dispatch(gameActions.changeAdmin(true));
   if (isFindingLobby) store.dispatch(uiActions.isFindingLobby(false));
-  if (isConnectedServer) store.dispatch(uiActions.isConnectedServer(false));
+  if (isConnectedServer && e.reason !== "from-server-to-client")
+    store.dispatch(uiActions.isConnectedServer(false));
   if (isPrivacyLoading) store.dispatch(uiActions.isPrivacyLoading(false));
   else if (isJoiningLobby) {
     history.pushState({}, null, "/");

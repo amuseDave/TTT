@@ -37,12 +37,12 @@ export default function Menu() {
 
   return (
     <motion.div
+      exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
       animate={{ opacity: [0, 1], transition: { delay: 0.1 } }}
       className={`menu-container`}
     >
       <LayoutGroup>
         <motion.div
-          layout
           animate={{ opacity: [1, 0, 1, 0, 1], transition: { duration: 0.5 } }}
           className="menu"
         >

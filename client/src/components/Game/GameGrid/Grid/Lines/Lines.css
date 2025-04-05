@@ -1,0 +1,35 @@
+.game-grid .grid .line {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 1rem;
+  background-color: rgb(22, 5, 34);
+  box-shadow: 0px 0px 5px rgb(160, 27, 255);
+}
+.game-grid .grid .line.hor-1,
+.game-grid .grid .line.hor-2 {
+  width: 100%;
+  height: 6px;
+}
+
+.game-grid .grid .line.ver-1,
+.game-grid .grid .line.ver-2 {
+  width: 6px;
+  height: 100%;
+}
+
+.game-grid .grid .line.hor-1 {
+  top: calc(100% / 3);
+  transform: translateY(-50%);
+}
+.game-grid .grid .line.hor-2 {
+  bottom: calc(100% / 3);
+  transform: translateY(50%);
+}
+.game-grid .grid .line.ver-1 {
+  left: calc(100% / 3);
+  transform: translateX(-50%);
+}
+.game-grid .grid .line.ver-2 {
+  right: calc(100% / 3);
+  transform: translateX(50%);
+}

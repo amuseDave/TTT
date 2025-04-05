@@ -8,11 +8,13 @@ import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import OrSeparator from "./OrSeparator";
 import { uiActions } from "../../../../store/uiSlicer";
 import FindLoader from "./FindLoader";
+import { gameActions } from "../../../../store/gameSlicer";
 
 export default function MenuOptions() {
   const dispatch = useDispatch();
 
   const isFindingLobby = useSelector((state) => state.ui.isFindingLobby);
+  const isStartingGame = useSelector((state) => state.ui.isStartingGame);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   const isAdmin = useSelector((state) => state.game.isAdmin);
@@ -37,14 +39,13 @@ export default function MenuOptions() {
 
   function startGame() {
     if (!isConnectedServer) {
-      console.log("start game on the client");
-      return;
+      dispatch(gameActions.initiateClientGame());
     } else if (!player2) {
-      console.log("start game on the client if noone is in the lobby");
-      console.log(getWebSocket().close());
+      dispatch(gameActions.initiateClientGame());
+      getWebSocket().close(3000, "from-server-to-client");
     } else if (isAdmin && player2) {
+      getWebSocket().send(JSON.stringify({}));
       console.log("start game on server");
-      return;
     }
   }
 
@@ -97,7 +98,7 @@ export default function MenuOptions() {
     setTimeout(() => {
       playAudio(audioRef, 0.6);
     }, 150);
-  }, [isFindingLobby]);
+  }, [isFindingLobby, isStartingGame]);
 
   const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
 
@@ -108,7 +109,7 @@ export default function MenuOptions() {
       }`}
     >
       <AnimatePresence mode="wait">
-        {isFindingLobby ? (
+        {isFindingLobby || isStartingGame ? (
           <FindLoader key="loader" />
         ) : (
           <motion.div

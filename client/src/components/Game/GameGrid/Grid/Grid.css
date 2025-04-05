@@ -1,0 +1,16 @@
+.game-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.game-grid .grid {
+  display: grid;
+  grid-template-columns: 10dvw 10dvw 10dvw;
+  grid-template-rows: 10dvw 10dvw 10dvw;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  position: relative;
+}
