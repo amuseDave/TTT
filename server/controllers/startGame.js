@@ -12,9 +12,11 @@ module.exports = (ws) => {
   if (!ws.isAdmin) {
     if (player.isAdmin) ws.isAdmin = true;
   }
-  if (!ws.isAdmin) return;
+  if (!ws.isAdmin || lobby.players.length < 2) return;
+
+  lobby.isGameStarted = true;
 
   lobby.players.forEach((player) => {
-    player.sendToClient();
+    player.sendToClient({ action: "start-game" });
   });
 };

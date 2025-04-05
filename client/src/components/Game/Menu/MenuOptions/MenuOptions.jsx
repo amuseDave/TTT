@@ -15,6 +15,7 @@ export default function MenuOptions() {
 
   const isFindingLobby = useSelector((state) => state.ui.isFindingLobby);
   const isStartingGame = useSelector((state) => state.ui.isStartingGame);
+  const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   const isAdmin = useSelector((state) => state.game.isAdmin);
@@ -27,6 +28,7 @@ export default function MenuOptions() {
   const [isHovering, setIsHovering] = useState(false);
 
   function joinRandomLobby() {
+    if (isStartingSolo) return;
     if (!player2 && isConnectedServer) {
       dispatch(uiActions.isFindingLobby(true));
 
@@ -38,14 +40,17 @@ export default function MenuOptions() {
   }
 
   function startGame() {
+    if (isStartingSolo) return;
     if (!isConnectedServer) {
-      dispatch(gameActions.initiateClientGame());
+      dispatch(gameActions.initiateClientGame(true));
     } else if (!player2) {
-      dispatch(gameActions.initiateClientGame());
-      getWebSocket().close(3000, "from-server-to-client");
+      dispatch(gameActions.initiateClientGame(true));
+      dispatch(uiActions.isStartingSolo(true));
+      getWebSocket().close();
     } else if (isAdmin && player2) {
-      getWebSocket().send(JSON.stringify({}));
-      console.log("start game on server");
+      // To have a loader spinner
+      dispatch(uiActions.isStartingGame(true));
+      getWebSocket().send(JSON.stringify({ action: "start-game" }));
     }
   }
 
@@ -100,12 +105,13 @@ export default function MenuOptions() {
     }, 150);
   }, [isFindingLobby, isStartingGame]);
 
-  const isLobbyFull = !isConnectedServer || (isConnectedServer && isAdmin && player2);
+  const isLobbyFull =
+    (!isConnectedServer && !isStartingSolo) || (isConnectedServer && isAdmin && player2);
 
   return (
     <div
       className={`menu-options ${
-        isConnectedServer && (!player2 || !isAdmin) && "higher-width"
+        (isConnectedServer || isStartingSolo) && (!player2 || !isAdmin) && "higher-width"
       }`}
     >
       <AnimatePresence mode="wait">
@@ -130,7 +136,7 @@ export default function MenuOptions() {
                 ? "Start Solo"
                 : "waiting for admin to start"}
             </button>
-            {isConnectedServer && !player2 && (
+            {(isConnectedServer || isStartingSolo) && !player2 && (
               <>
                 <OrSeparator />
                 <button

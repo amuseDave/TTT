@@ -11,7 +11,6 @@ export default function MenuAlerts() {
   const menuAlert = useSelector((state) => state.ui.menuAlert);
   const dispatch = useDispatch();
 
-  const firstRenderRef = useRef(true);
   const [alertContRef, animate] = useAnimate();
   const menuAlertTimeoutRef = useRef();
 
@@ -31,11 +30,6 @@ export default function MenuAlerts() {
         dispatch(uiActions.setMenuAlert({ type: menuAlert.type, message: null }));
       }, 4500);
     } else {
-      if (firstRenderRef.current) {
-        firstRenderRef.current = false;
-        return;
-      }
-
       playAudio(audioRef);
       setTimeout(() => {
         playAudio(audioRef, 0.6);

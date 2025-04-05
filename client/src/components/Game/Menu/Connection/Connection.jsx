@@ -12,6 +12,8 @@ export default function Connection() {
   const [connectionElRef, animate] = useAnimate();
   const intervalID = useRef();
 
+  const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
+
   const isConnectingServer = useSelector((state) => state.ui.isConnectingServer);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
@@ -32,6 +34,7 @@ export default function Connection() {
   }, [isConnectedServer]);
 
   useEffect(() => {
+    if (isStartingSolo) return;
     animate(connectionElRef.current, { opacity: [1, 0.2, 1, 0.2, 1] }, { duration: 0.2 });
     playAudio(audioRef);
     setTimeout(() => {
@@ -41,13 +44,13 @@ export default function Connection() {
 
   const className = isConnectingServer
     ? "connecting"
-    : isConnectedServer
+    : isConnectedServer || isStartingSolo
     ? "connected"
     : "error";
 
   const text = isConnectingServer
     ? "Establishing Connection"
-    : isConnectedServer
+    : isConnectedServer || isStartingSolo
     ? "Connection Established"
     : "No Server Connection";
 
@@ -56,7 +59,7 @@ export default function Connection() {
       <p className={`${className} connection-text`}>{text}</p>
 
       <div className="svg-container">
-        {isConnectingServer || isConnectedServer ? (
+        {isConnectingServer || isConnectedServer || isStartingSolo ? (
           <>
             <Wifi className="svg" />
             <Wifi className="svg" />

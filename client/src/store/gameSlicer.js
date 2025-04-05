@@ -26,19 +26,24 @@ const gameSlicer = createSlice({
       state.player1Move = action.payload.move;
       state.player2 = action.payload.player2;
       state.lobbyID = action.payload.lobbyID;
+      state.isPrivate = action.payload.isPrivate;
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
     },
-    initiateClientGame(state) {
-      state.lobby = true;
+    initiateClientGame(state, action) {
+      state.lobby = action.payload;
       state.game = {
         grid: [null, null, null, null, null, null, null, null, null],
         curMove: "X",
       };
     },
     updateClientGame(state, action) {
+      // If current made move exist return
       if (state.game.grid[action.payload]) return;
+
       const curMove = state.game.curMove;
+      // Set grid move from player or robot
       state.game.grid[action.payload] = curMove;
+      // Change current move to the opposite of prevCur
       state.game.curMove = curMove === "X" ? "O" : "X";
     },
     updateServerGame(state, action) {

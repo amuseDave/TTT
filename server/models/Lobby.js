@@ -28,11 +28,9 @@ class Lobby {
     this.lobbyID = lobbyID;
     this.isPrivate = true;
     this.players = [];
-    this.gameGrid = [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null],
-    ];
+    this.gameGrid = [null, null, null, null, null, null, null, null, null];
+    this.curMove = "X";
+    this.moveTime = 10;
   }
 
   addPlayer(player) {

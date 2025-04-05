@@ -1,17 +1,24 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../../store/uiSlicer";
-import getWebSocket from "../../../web-socket/ws";
+import { gameActions } from "../../../store/gameSlicer";
 
 export default function InitialConnection() {
   const dispatch = useDispatch();
+  const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
+  const player2 = useSelector((state) => state.game.player2);
   useEffect(() => {
-    const { readyState, CLOSED } = getWebSocket();
-
-    if (isConnectedServer && readyState === CLOSED)
-      dispatch(uiActions.isConnectedServer(false));
-  }, []);
+    if (isStartingSolo) {
+      dispatch(uiActions.isStartingSolo(false));
+    } else {
+      if (!isConnectedServer || !player2) {
+        console.log("resetting back to lobby");
+        dispatch(gameActions.initiateClientGame(null));
+      }
+    }
+    // Reset the game back to lobby if player2 leaves, or the connection is lost after initial render of game grid
+  }, [isConnectedServer, player2]);
 
   return <></>;
 }

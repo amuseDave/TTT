@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 
 export default function MenuDivider() {
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
+  const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
 
   return (
-    <motion.div layout className="menu-divider">
-      <div className={`divider ${isConnectedServer ? "duo" : "solo"}`}></div>
-      <div className={`divider ${isConnectedServer ? "duo" : "solo"}`}></div>
-    </motion.div>
+    <motion.div
+      className={`divider ${isConnectedServer || isStartingSolo ? "duo" : "solo"}`}
+      layout
+    ></motion.div>
   );
 }

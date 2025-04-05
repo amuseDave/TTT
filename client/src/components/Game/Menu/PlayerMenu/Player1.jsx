@@ -29,6 +29,7 @@ export default function Player1() {
   const player1 = useSelector((state) => state.game.player1);
   const player1Move = useSelector((state) => state.game.player1Move);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
+  const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
 
   function changeNameError() {
     if (animationTimeoutID.current) return;
@@ -96,7 +97,7 @@ export default function Player1() {
       setInitial(false);
     } else {
       const { readyState, OPEN } = getWebSocket();
-      if (readyState !== OPEN) return;
+      if (readyState !== OPEN || isStartingSolo) return;
       if (debounceID.current) clearTimeout(debounceID.current);
 
       debounceID.current = setTimeout(() => {

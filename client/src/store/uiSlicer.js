@@ -9,6 +9,7 @@ const initialState = {
   isPrivacyLoading: false,
   isFindingLobby: false,
   isStartingGame: false,
+  isStartingSolo: false,
   startError: null,
   menuAlert: { type: "", message: null },
 };
@@ -40,6 +41,9 @@ const uiSlicer = createSlice({
     },
     isStartingGame(state, action) {
       state.isStartingGame = action.payload;
+    },
+    isStartingSolo(state, action) {
+      state.isStartingSolo = action.payload;
     },
     setStartError(state, action) {
       state.startError = action.payload;

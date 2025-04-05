@@ -11,6 +11,11 @@ module.exports = (ws, data) => {
     return;
   }
 
+  if (lobby.isGameStarted) {
+    lobby.isGameStarted = false;
+    lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
+  }
+
   lobby.players[0].isAdmin = true;
   lobby.players[0].sendToClient({
     action: "display-alert",

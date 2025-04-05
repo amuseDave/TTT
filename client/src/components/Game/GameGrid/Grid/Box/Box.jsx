@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { playAudio } from "../../../../../utils/utils";
 import { audioRef } from "../../../../Static/AudioAndTitle/AudioAndTitle";
 import { useEffect } from "react";
+import getWebSocket from "../../../../../web-socket/ws";
 
 export default function Box({ state, idx }) {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ export default function Box({ state, idx }) {
 
   function handleMove() {
     if (player1Move !== curMove) return;
+    console.log("updating from player pov");
+    getWebSocket().close();
     dispatch(gameActions.updateClientGame(idx));
   }
 

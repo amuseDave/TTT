@@ -32,6 +32,13 @@ module.exports = (ws, data) => {
 
   player.sendToClient({
     action: "start-lobby",
-    data: { lobbyID, player1: player.username, player2: null, isAdmin: true, move },
+    data: {
+      lobbyID,
+      player1: player.username,
+      player2: null,
+      isAdmin: true,
+      move,
+      isPrivate: true,
+    },
   });
 };

@@ -35,6 +35,7 @@ function joinLobbyHelper(ws, curLobby, newPlayer = null) {
       isAdmin: false,
       move: newPlayer.move,
       lobbyID: curLobby.lobbyID,
+      isPrivate: curLobby.isPrivate,
     },
   });
   existingPlayer.sendToClient({

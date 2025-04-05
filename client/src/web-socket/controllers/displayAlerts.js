@@ -2,7 +2,6 @@ export default function displayAlerts({ type, store, uiActions, gameActions, dat
   if (type === "user-left") {
     store.dispatch(gameActions.changePlayer2Username(null));
   } else if (type === "user-joined") {
-    store.dispatch(uiActions.isFindingLobby(false));
     store.dispatch(gameActions.changePlayer2Username(data.username));
   }
 
