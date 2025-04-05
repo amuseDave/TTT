@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { uiActions } from "../../../../store/uiSlicer";
 import { playAudio } from "../../../../utils/utils";
-import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
 export default function PrivateToggle() {
   const dispatch = useDispatch();

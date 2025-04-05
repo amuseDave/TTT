@@ -4,7 +4,7 @@ import { gameActions } from "../../../../store/gameSlicer";
 import { getRandomItem, playAudio, usernames } from "../../../../utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
-import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import getWebSocket from "../../../../web-socket/ws";
 
 export default function Player1() {

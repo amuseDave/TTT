@@ -4,7 +4,7 @@ import getWebSocket from "../../../../web-socket/ws";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
-import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import OrSeparator from "./OrSeparator";
 import { uiActions } from "../../../../store/uiSlicer";
 import FindLoader from "./FindLoader";

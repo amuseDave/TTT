@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import getWebSocket from "../../../web-socket/ws";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { audioRef } from "../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../Static/AudioAndTitle/AudioAndTitle";
 import { playAudio } from "../../../utils/utils";
 import { gameActions } from "../../../store/gameSlicer";
 import { uiActions } from "../../../store/uiSlicer";

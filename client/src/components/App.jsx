@@ -1,7 +1,7 @@
 import "./index.css";
 import Game from "./Game/Game";
-import AudioAndTitle from "./AudioAndTitle/AudioAndTitle";
-import CanvasLight from "./CanvasLight/CanvasLight";
+import AudioAndTitle from "./Static/AudioAndTitle/AudioAndTitle";
+import CanvasLight from "./Static/CanvasLight/CanvasLight";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../store/uiSlicer";

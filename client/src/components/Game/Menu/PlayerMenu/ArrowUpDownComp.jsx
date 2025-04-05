@@ -2,7 +2,7 @@ import { ArrowUpDown, LoaderCircle } from "lucide-react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import getWebSocket from "../../../../web-socket/ws";
 import { uiActions } from "../../../../store/uiSlicer";
 import { playAudio } from "../../../../utils/utils";

@@ -1,6 +1,6 @@
 import store from "../store/store.js";
 import { gameActions } from "../store/gameSlicer";
-import { audioRef } from "../components/AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../components/Static/AudioAndTitle/AudioAndTitle";
 import { uiActions } from "../store/uiSlicer";
 import startLobby from "./controllers/startLobby.js";
 import switchMoves from "./controllers/switchMoves.js";

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { reconnectWebSocket } from "../../../../web-socket/ws";
 import { useAnimate } from "framer-motion";
 import { playAudio } from "../../../../utils/utils";
-import { audioRef } from "../../../AudioAndTitle/AudioAndTitle";
+import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import { Wifi, WifiOff } from "lucide-react";
 
 export default function Connection() {

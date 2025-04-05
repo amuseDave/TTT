@@ -1,6 +1,6 @@
 import "./Menu.css";
 import { useEffect } from "react";
-import { audioTitleRef } from "../../AudioAndTitle/AudioAndTitle";
+import { audioTitleRef } from "../../Static/AudioAndTitle/AudioAndTitle";
 import { LayoutGroup, motion } from "framer-motion";
 import PlayerMenu from "./PlayerMenu/PlayerMenu";
 import Connection from "./Connection/Connection";
@@ -26,9 +26,8 @@ export default function Menu() {
   }, []);
 
   useEffect(() => {
-    function handleLeaveGame() {
-      const message = "Are you sure you want to leave? Your game progress might be lost!";
-      return message;
+    function handleLeaveGame(e) {
+      e.returnValue = "Pop Up";
     }
     window.addEventListener("beforeunload", handleLeaveGame);
     return () => {
