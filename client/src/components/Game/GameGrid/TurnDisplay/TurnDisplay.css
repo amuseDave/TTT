@@ -1,0 +1,24 @@
+.turn-display .player {
+  font-size: 4.8rem;
+  color: white;
+  text-align: center;
+  text-shadow: 0px 0px 5px var(--test-color);
+}
+
+.turn-display .timer {
+  position: relative;
+  width: 100%;
+  height: 1.6rem;
+  background-color: rgba(0, 0, 0, 0.504);
+  margin-top: 2.4rem;
+  border-radius: 2rem;
+  overflow: hidden;
+  border: 2px solid var(--test-color);
+  box-shadow: 0px 0px 5px var(--test-color);
+}
+
+.turn-display .timer .clock {
+  background-color: var(--test-color);
+  height: 100%;
+  width: 100%;
+}

@@ -34,6 +34,7 @@ const gameSlicer = createSlice({
       state.game = {
         grid: [null, null, null, null, null, null, null, null, null],
         curMove: "X",
+        timeLimit: 10000,
       };
     },
     updateClientGame(state, action) {
@@ -47,7 +48,12 @@ const gameSlicer = createSlice({
       state.game.curMove = curMove === "X" ? "O" : "X";
     },
     updateServerGame(state, action) {
-      state.game = action.payload.game;
+      state.game.curMove = action.payload.game.curMove;
+      state.game.grid = action.payload.game.grid;
+      state.game.timeLimit = state.game.timeLimit === 10000 ? 9999 : 10000;
+    },
+    changeTimeLimit(state, action) {
+      state.game.timeLimit = action.payload;
     },
     changePrivacy(state, action) {
       state.isPrivate = action.payload;

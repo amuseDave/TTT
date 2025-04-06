@@ -1,14 +1,8 @@
-.game-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 .game-grid .grid {
+  margin-top: 6rem;
   display: grid;
-  grid-template-columns: 10dvw 10dvw 10dvw;
-  grid-template-rows: 10dvw 10dvw 10dvw;
+  grid-template-columns: 140px 140px 140px;
+  grid-template-rows: 140px 140px 140px;
   justify-content: center;
   align-items: center;
   justify-items: center;

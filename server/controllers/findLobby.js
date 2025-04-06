@@ -7,8 +7,6 @@ module.exports = (ws) => {
   const lobby = lobbies.getLobby(ws.lobbyID);
   if (lobby.players.length > 1) return;
 
-  console.log(lobby.players);
-
   const curPlayer = lobby.players[0];
   const foundLobby = lobbies.findLobby(ws.lobbyID);
 

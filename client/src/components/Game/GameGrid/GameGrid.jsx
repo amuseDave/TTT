@@ -5,6 +5,7 @@ import InitialConnection from "./InitialConnection";
 import { playAudio } from "../../../utils/utils";
 import { audioRef } from "../../Static/AudioAndTitle/AudioAndTitle";
 import Grid from "./Grid/Grid";
+import TurnDisplay from "./TurnDisplay/TurnDisplay";
 
 export default function GameGrid() {
   useEffect(() => {
@@ -20,12 +21,16 @@ export default function GameGrid() {
   }, []);
 
   return (
-    <motion.div
-      animate={{ opacity: [0, 1], transition: { delay: 0.1 } }}
-      className="game-grid"
-    >
-      <InitialConnection />
-      <Grid />
-    </motion.div>
+    <>
+      <div className="game-blur"></div>
+      <motion.div
+        animate={{ opacity: [0, 1], transition: { delay: 0.1 } }}
+        className="game-grid"
+      >
+        <InitialConnection />
+        <TurnDisplay />
+        <Grid />
+      </motion.div>
+    </>
   );
 }

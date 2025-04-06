@@ -20,9 +20,6 @@ export default function Menu() {
         intervalID = null;
       }
     }, 1000);
-    return () => {
-      if (audioTitleRef) audioTitleRef.volume = 0.2;
-    };
   }, []);
 
   useEffect(() => {

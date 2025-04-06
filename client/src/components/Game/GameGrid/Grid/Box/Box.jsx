@@ -13,13 +13,18 @@ export default function Box({ state, idx }) {
   const [moveElRef, animate] = useAnimate();
 
   const curMove = useSelector((state) => state.game.game.curMove);
+  const timeLimit = useSelector((state) => state.game.game.timeLimit);
   const player1Move = useSelector((state) => state.game.player1Move);
 
+  const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
+
   function handleMove() {
-    if (player1Move !== curMove) return;
-    console.log("updating from player pov");
-    getWebSocket().close();
+    if (player1Move !== curMove || state || !timeLimit) return;
     dispatch(gameActions.updateClientGame(idx));
+
+    if (isConnectedServer) {
+      getWebSocket().send(JSON.stringify({ action: "update-game", data: { idx } }));
+    }
   }
 
   const isMyMove = player1Move === state ? 1 : 0.4;

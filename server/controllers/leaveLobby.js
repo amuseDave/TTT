@@ -13,6 +13,7 @@ module.exports = (ws, data) => {
 
   if (lobby.isGameStarted) {
     lobby.isGameStarted = false;
+    lobby.curMove = "X";
     lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
   }
 

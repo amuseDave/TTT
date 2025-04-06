@@ -1,0 +1,17 @@
+.game-grid {
+  z-index: 2;
+  position: relative;
+  margin-top: 6.8rem;
+}
+
+.game-blur {
+  position: fixed;
+  z-index: 1;
+  width: 100dvw;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+}
