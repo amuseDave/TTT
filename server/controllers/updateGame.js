@@ -13,13 +13,12 @@ module.exports = (ws, data) => {
 
   if (lobby.intervalID) {
     clearInterval(lobby.intervalID);
-    setInterval(() => {
+    lobby.intervalID = setInterval(() => {
       lobbyInterval(lobby);
     }, 1000);
   }
 
   lobby.totalTime = 10000;
-  lobby.totalTime -= 1000;
 
   lobby.gameGrid[data.idx] = lobby.curMove;
   lobby.curMove = lobby.curMove === "X" ? "O" : "X";

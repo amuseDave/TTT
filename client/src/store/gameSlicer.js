@@ -11,6 +11,7 @@ const initialState = {
   lobbyID: null,
   game: null,
   version: 0,
+  result: null,
 };
 
 const gameSlicer = createSlice({
@@ -31,6 +32,7 @@ const gameSlicer = createSlice({
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
     },
     initiateClientGame(state, action) {
+      state.result = null;
       state.lobby = action.payload;
       state.game = {
         grid: [null, null, null, null, null, null, null, null, null],
@@ -59,6 +61,9 @@ const gameSlicer = createSlice({
     },
     updateTotalTime(state, action) {
       state.game.totalTime = action.payload;
+    },
+    updateResult(state, action) {
+      state.result = action.payload;
     },
     changePrivacy(state, action) {
       state.isPrivate = action.payload;

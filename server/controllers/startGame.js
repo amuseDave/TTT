@@ -27,7 +27,6 @@ module.exports = (ws) => {
 
   // Start interval to update the timelimit and skip turn if the timelimit is empty
 
-  lobby.totalTime -= 1000;
   lobby.intervalID = setInterval(() => {
     lobbyInterval(lobby);
   }, 1000);

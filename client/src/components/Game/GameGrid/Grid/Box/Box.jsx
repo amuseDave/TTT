@@ -15,11 +15,11 @@ export default function Box({ state, idx }) {
   const curMove = useSelector((state) => state.game.game.curMove);
   const timeLimit = useSelector((state) => state.game.game.timeLimit);
   const player1Move = useSelector((state) => state.game.player1Move);
-
+  const result = useSelector((state) => state.game.result);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   function handleMove() {
-    if (player1Move !== curMove || state || !timeLimit) return;
+    if (player1Move !== curMove || state || !timeLimit || result) return;
     dispatch(gameActions.updateClientGame(idx));
 
     if (isConnectedServer) {

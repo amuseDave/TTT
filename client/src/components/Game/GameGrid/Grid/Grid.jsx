@@ -13,31 +13,28 @@ export default function Grid() {
   const curMove = useSelector((state) => state.game.game.curMove);
   const timeLimit = useSelector((state) => state.game.game.timeLimit);
   const player1Move = useSelector((state) => state.game.player1Move);
-
+  const result = useSelector((state) => state.game.result);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   // Select random grid box as a robot player
   useEffect(() => {
-    if (timeLimit || isConnectedServer) return;
+    if (timeLimit || isConnectedServer || result) return;
 
     const gridIdx = grid.reduce((acc, val, idx) => {
       if (!val) acc.push(idx);
       return acc;
     }, []);
-    if (gridIdx.length === 0) {
-      console.log("handle tie game or win on robot play");
-    } else {
-      if (curMove === player1Move) {
-        dispatch(
-          uiActions.setGameAlert({
-            type: "error",
-            message: "Turn Skipped, Selected Random",
-          })
-        );
-      }
-      const randomIdx = gridIdx[Math.floor(Math.random() * gridIdx.length)];
-      dispatch(gameActions.updateClientGame(randomIdx));
+
+    if (curMove === player1Move) {
+      dispatch(
+        uiActions.setGameAlert({
+          type: "error",
+          message: "Turn Skipped, Selected Random",
+        })
+      );
     }
+    const randomIdx = gridIdx[Math.floor(Math.random() * gridIdx.length)];
+    dispatch(gameActions.updateClientGame(randomIdx));
   }, [timeLimit]);
 
   return (
@@ -50,14 +47,6 @@ export default function Grid() {
         {grid.map((state, idx) => (
           <Box state={state} idx={idx} key={idx} />
         ))}
-
-        <button
-          onClick={() => {
-            dispatch(gameActions.initiateClientGame(true));
-          }}
-        >
-          reset for test
-        </button>
       </div>
     </>
   );

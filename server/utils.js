@@ -29,9 +29,8 @@ exports.lobbyInterval = (lobby) => {
   lobby.totalTime -= 1000;
 
   // Skip the turn
-  if (lobby.totalTime < 0) {
+  if (lobby.totalTime <= 0) {
     lobby.totalTime = 10000;
-    lobby.totalTime -= 1000;
     const gridIdx = lobby.gameGrid.reduce((acc, val, idx) => {
       if (!val) acc.push(idx);
       return acc;

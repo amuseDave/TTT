@@ -1,8 +1,19 @@
 .turn-display .player {
+  text-align: center;
   font-size: 4.8rem;
   color: white;
-  text-align: center;
+  font-weight: 300;
+}
+.turn-display .player.default {
   text-shadow: 0px 0px 5px var(--test-color);
+}
+
+.turn-display .player.win {
+  text-shadow: 0px 0px 5px rgb(22, 255, 236);
+}
+
+.turn-display .player.loss {
+  text-shadow: 0px 0px 5px rgb(195, 0, 62);
 }
 
 .turn-display .timer {
@@ -13,7 +24,7 @@
   margin-top: 2.4rem;
   border-radius: 2rem;
   overflow: hidden;
-  border: 2px solid var(--test-color);
+  border: 1px solid white;
   box-shadow: 0px 0px 5px var(--test-color);
 }
 
