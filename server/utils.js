@@ -1,3 +1,5 @@
+const { checkWin } = require("../client/src/utils/utils");
+
 exports.getRandomItem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
@@ -44,7 +46,12 @@ exports.lobbyInterval = (lobby) => {
       const randomIdx = gridIdx[Math.floor(Math.random() * gridIdx.length)];
       lobby.gameGrid[randomIdx] = lobby.curMove;
       lobby.curMove = lobby.curMove === "X" ? "O" : "X";
+
+      const isEnded = checkWin(lobby.gameGrid);
+
       lobby.players.forEach((pl) => {
+        if (isEnded) pl.move = pl.move === "X" ? "O" : "X";
+
         pl.sendToClient({
           action: "skip-turn",
           data: {
@@ -57,6 +64,14 @@ exports.lobbyInterval = (lobby) => {
           },
         });
       });
+
+      if (isEnded) {
+        clearInterval(lobby.intervalID);
+        lobby.curMove = "X";
+        lobby.isGameStarted = false;
+        lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
+        lobby.totalTime = 10000;
+      }
     }
   } else {
     lobby.players.forEach((pl) => {
