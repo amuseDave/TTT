@@ -10,9 +10,9 @@ module.exports = (ws, data) => {
     lobbies.lobbies.delete(ws.lobbyID);
     return;
   }
-  if (lobby.intervalID) clearInterval(lobby.intervalID);
 
   if (lobby.isGameStarted) {
+    if (lobby.intervalID) clearInterval(lobby.intervalID);
     lobby.isGameStarted = false;
     lobby.curMove = "X";
     lobby.gameGrid = [null, null, null, null, null, null, null, null, null];

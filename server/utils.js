@@ -68,3 +68,34 @@ exports.lobbyInterval = (lobby) => {
     // Update total time to client
   }
 };
+exports.checkWin = (grid) => {
+  // Define all winning combinations (indices of the 3x3 grid)
+  const winConditions = [
+    [0, 1, 2], // Row 1
+    [3, 4, 5], // Row 2
+    [6, 7, 8], // Row 3
+    [0, 3, 6], // Column 1
+    [1, 4, 7], // Column 2
+    [2, 5, 8], // Column 3
+    [0, 4, 8], // Diagonal top-left to bottom-right
+    [2, 4, 6], // Diagonal top-right to bottom-left
+  ];
+
+  console.log(grid);
+
+  // Check each winning condition
+  for (let condition of winConditions) {
+    const [a, b, c] = condition;
+    if (grid[a] !== null && grid[a] === grid[b] && grid[b] === grid[c]) {
+      return grid[a]; // Return the winner ('x' or 'o')
+    }
+  }
+
+  // Check if the game is a draw (no null values left and no winner)
+  if (!grid.includes(null)) {
+    return "draw";
+  }
+
+  // Game is not finished yet
+  return null;
+};
