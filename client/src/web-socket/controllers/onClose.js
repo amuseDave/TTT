@@ -1,7 +1,13 @@
 export default function onClose(e, { store, uiActions, gameActions }) {
   console.log("On Close event");
   const {
-    ui: { isJoiningLobby, isFindingLobby, isPrivacyLoading, isStartingGame },
+    ui: {
+      isJoiningLobby,
+      isFindingLobby,
+      isPrivacyLoading,
+      isStartingGame,
+      isWaitingRes,
+    },
     game: { isAdmin },
   } = store.getState();
 
@@ -9,6 +15,7 @@ export default function onClose(e, { store, uiActions, gameActions }) {
 
   if (isStartingGame) store.dispatch(uiActions.isStartingGame(false));
   if (isFindingLobby) store.dispatch(uiActions.isFindingLobby(false));
+  if (isWaitingRes) store.dispatch(uiActions.isWaitingRes(false));
 
   store.dispatch(uiActions.isConnectedServer(false));
 

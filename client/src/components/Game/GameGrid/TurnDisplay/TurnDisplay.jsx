@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { checkWin, playAudio } from "../../../../utils/utils";
 import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import { gameActions } from "../../../../store/gameSlicer";
+import { uiActions } from "../../../../store/uiSlicer";
 
 export default function TurnDisplay() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function TurnDisplay() {
   const player2 = useSelector((state) => state.game.player2);
   const version = useSelector((state) => state.game.version);
   const result = useSelector((state) => state.game.result);
+  const isWaitingRes = useSelector((state) => state.ui.result);
 
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
@@ -39,15 +41,14 @@ export default function TurnDisplay() {
     }, 150);
 
     // When cur move changes update timer for solo game
-    if (!isConnectedServer) {
-      const result = checkWin(grid);
 
-      if (result) {
-        dispatch(gameActions.updateResult(result));
-      } else {
-        if (curMove === player1Move) dispatch(gameActions.updateTimeLimit(10000));
-        else dispatch(gameActions.updateTimeLimit(700));
-      }
+    const result = checkWin(grid);
+
+    if (result) {
+      dispatch(gameActions.updateResult(result));
+    } else if (!isConnectedServer) {
+      if (curMove === player1Move) dispatch(gameActions.updateTimeLimit(10000));
+      else dispatch(gameActions.updateTimeLimit(700));
     }
   }, [curMove]);
 
@@ -93,6 +94,8 @@ export default function TurnDisplay() {
           dispatch(
             gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" })
           );
+
+          if (isConnectedServer) dispatch(uiActions.isWaitingRes(true));
         }
 
         barRef.current.style.width = `${100 - (timePassed / timeLimit) * 100}%`;
@@ -155,14 +158,15 @@ export default function TurnDisplay() {
       >
         <div
           style={{
+            width: !timeLimit || isWaitingRes ? "100%" : "",
             backgroundColor:
               result === player1Move || result === "draw"
                 ? "#14e7ff"
                 : !timeLimit && !result
                 ? "#ff0059"
-                : result !== player1Move
-                ? "#ff0059"
-                : "#0000000",
+                : timeLimit && !isWaitingRes
+                ? "#f693b6"
+                : "#ff0059",
           }}
           ref={barRef}
           className="clock"

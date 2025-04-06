@@ -10,6 +10,7 @@ const initialState = {
   isFindingLobby: false,
   isStartingGame: false,
   isStartingSolo: false,
+  isWaitingRes: false,
   startError: null,
   gameAlert: { type: "", message: null },
   menuAlert: { type: "", message: null },
@@ -45,6 +46,9 @@ const uiSlicer = createSlice({
     },
     isStartingSolo(state, action) {
       state.isStartingSolo = action.payload;
+    },
+    isWaitingRes(state, action) {
+      state.isWaitingRes = action.payload;
     },
     setStartError(state, action) {
       state.startError = action.payload;

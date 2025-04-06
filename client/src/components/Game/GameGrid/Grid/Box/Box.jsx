@@ -6,6 +6,7 @@ import { playAudio } from "../../../../../utils/utils";
 import { audioRef } from "../../../../Static/AudioAndTitle/AudioAndTitle";
 import { useEffect } from "react";
 import getWebSocket from "../../../../../web-socket/ws";
+import { uiActions } from "../../../../../store/uiSlicer";
 
 export default function Box({ state, idx }) {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function Box({ state, idx }) {
     dispatch(gameActions.updateClientGame(idx));
 
     if (isConnectedServer) {
+      dispatch(uiActions.isWaitingRes(true));
       getWebSocket().send(JSON.stringify({ action: "update-game", data: { idx } }));
     }
   }
