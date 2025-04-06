@@ -1,4 +1,5 @@
 const { lobbies } = require("../models/Lobby");
+const { lobbyInterval } = require("../utils");
 
 module.exports = (ws, data) => {
   if (!ws.lobbyID) return;
@@ -10,13 +11,30 @@ module.exports = (ws, data) => {
 
   if (lobby.gameGrid[data.idx] || lobby.gameGrid[data.idx] === undefined) return;
 
+  if (lobby.intervalID) {
+    clearInterval(lobby.intervalID);
+    setInterval(() => {
+      lobbyInterval(lobby);
+    }, 1000);
+  }
+
+  lobby.totalTime = 10000;
+  lobby.totalTime -= 1000;
+
   lobby.gameGrid[data.idx] = lobby.curMove;
   lobby.curMove = lobby.curMove === "X" ? "O" : "X";
 
   lobby.players.forEach((pl) => {
     pl.sendToClient({
       action: "update-game",
-      data: { game: { grid: lobby.gameGrid, curMove: lobby.curMove } },
+      data: {
+        game: {
+          grid: lobby.gameGrid,
+          curMove: lobby.curMove,
+          totalTime: lobby.totalTime,
+          timeLimit: lobby.timeLimit,
+        },
+      },
     });
   });
 };

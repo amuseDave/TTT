@@ -11,14 +11,14 @@ export default function InitialConnection() {
 
   const initialRef = useRef(true);
 
-  console.log(player2, isStartingSolo, isConnectedServer);
-
   useEffect(() => {
     if (initialRef.current === "solo") return;
-    if (initialRef.current && (!player2 || !isConnectedServer)) {
+    if (initialRef.current && !isConnectedServer) {
       if (isStartingSolo) dispatch(uiActions.isStartingSolo(false));
       initialRef.current = "solo";
       return;
+    } else {
+      initialRef.current = false;
     }
 
     if (!isConnectedServer || !player2) {

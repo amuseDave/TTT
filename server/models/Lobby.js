@@ -30,7 +30,9 @@ class Lobby {
     this.players = [];
     this.gameGrid = [null, null, null, null, null, null, null, null, null];
     this.curMove = "X";
-    this.moveTime = 10;
+    this.totalTime = 10000;
+    this.timeLimit = 10000;
+    this.intervalID = null;
   }
 
   addPlayer(player) {

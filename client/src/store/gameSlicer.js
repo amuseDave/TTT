@@ -10,6 +10,7 @@ const initialState = {
   player1Move: "X",
   lobbyID: null,
   game: null,
+  version: 0,
 };
 
 const gameSlicer = createSlice({
@@ -35,7 +36,9 @@ const gameSlicer = createSlice({
         grid: [null, null, null, null, null, null, null, null, null],
         curMove: "X",
         timeLimit: 10000,
+        totalTime: 10000,
       };
+      state.version++;
     },
     updateClientGame(state, action) {
       // If current made move exist return
@@ -48,12 +51,14 @@ const gameSlicer = createSlice({
       state.game.curMove = curMove === "X" ? "O" : "X";
     },
     updateServerGame(state, action) {
-      state.game.curMove = action.payload.game.curMove;
-      state.game.grid = action.payload.game.grid;
-      state.game.timeLimit = state.game.timeLimit === 10000 ? 9999 : 10000;
+      state.game = action.payload.game;
+      state.version += 1;
     },
-    changeTimeLimit(state, action) {
+    updateTimeLimit(state, action) {
       state.game.timeLimit = action.payload;
+    },
+    updateTotalTime(state, action) {
+      state.game.totalTime = action.payload;
     },
     changePrivacy(state, action) {
       state.isPrivate = action.payload;

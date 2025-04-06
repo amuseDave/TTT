@@ -1,4 +1,5 @@
 const { lobbies } = require("../models/Lobby");
+const { lobbyInterval } = require("../utils");
 
 module.exports = (ws) => {
   console.log(ws.lobbyID);
@@ -23,4 +24,11 @@ module.exports = (ws) => {
   lobby.players.forEach((player) => {
     player.sendToClient({ action: "start-game" });
   });
+
+  // Start interval to update the timelimit and skip turn if the timelimit is empty
+
+  lobby.totalTime -= 1000;
+  lobby.intervalID = setInterval(() => {
+    lobbyInterval(lobby);
+  }, 1000);
 };

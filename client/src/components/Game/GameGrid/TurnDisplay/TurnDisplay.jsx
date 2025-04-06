@@ -11,8 +11,10 @@ export default function TurnDisplay() {
 
   const curMove = useSelector((state) => state.game.game.curMove);
   const timeLimit = useSelector((state) => state.game.game.timeLimit);
+  const totalTime = useSelector((state) => state.game.game.totalTime);
   const player1Move = useSelector((state) => state.game.player1Move);
   const player2 = useSelector((state) => state.game.player2);
+  const version = useSelector((state) => state.game.version);
 
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
@@ -35,9 +37,9 @@ export default function TurnDisplay() {
     }, 150);
 
     // When cur move changes update timer for solo game
-    if (!timeLimit && !isConnectedServer) {
-      if (curMove === player1Move) dispatch(gameActions.changeTimeLimit(10000));
-      else dispatch(gameActions.changeTimeLimit(700));
+    if (!isConnectedServer) {
+      if (curMove === player1Move) dispatch(gameActions.updateTimeLimit(10000));
+      else dispatch(gameActions.updateTimeLimit(700));
     }
   }, [curMove]);
 
@@ -49,9 +51,12 @@ export default function TurnDisplay() {
 
     function runTimer(timestamp) {
       if (!start) start = timestamp;
-      const timePassed = timestamp - start;
 
-      if (timePassed > timeLimit) dispatch(gameActions.changeTimeLimit(null));
+      let additionalTime = 0;
+      if (isConnectedServer) additionalTime = timeLimit - totalTime - 1000;
+      const timePassed = timestamp + additionalTime - start;
+
+      if (timePassed > timeLimit) dispatch(gameActions.updateTimeLimit(null));
 
       barRef.current.style.width = `${100 - (timePassed / timeLimit) * 100}%`;
 
@@ -62,16 +67,24 @@ export default function TurnDisplay() {
     return () => {
       cancelAnimationFrame(animationReq);
     };
-  }, [timeLimit]);
+  }, [timeLimit, version, totalTime]);
 
   return (
     <div className="turn-display">
       <h1 ref={usernameRef} className="player">
         {curMove === player1Move ? "Your Turn" : player2 ? player2 : "Computer's turn"}
       </h1>
-      <div className="timer">
+      <div
+        style={{
+          boxShadow: !timeLimit ? "0px 0px 5px #ff005989" : "",
+        }}
+        className="timer"
+      >
         <div
-          style={{ width: !timeLimit ? "100%" : "" }}
+          style={{
+            width: !timeLimit ? "100%" : "",
+            backgroundColor: !timeLimit ? "#ff0059" : "",
+          }}
           ref={barRef}
           className="clock"
         ></div>

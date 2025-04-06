@@ -1,0 +1,22 @@
+.game-alerts-cont {
+  position: relative;
+}
+
+.game-alerts-cont .game-alerts-text {
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  width: max-content;
+}
+
+.game-alerts-cont .game-alerts-text.error {
+  color: rgb(195, 0, 62);
+  text-shadow: 0px 0px 5px rgb(195, 0, 62);
+}
+
+.game-alerts-cont .game-alerts-text.success {
+  color: rgb(0, 255, 251);
+  text-shadow: 0px 0px 5px rgb(22, 255, 236);
+}

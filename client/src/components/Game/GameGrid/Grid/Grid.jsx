@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Box from "./Box/Box";
 import Lines from "./Lines/Lines";
 import { gameActions } from "../../../../store/gameSlicer";
-import getWebSocket from "../../../../web-socket/ws";
+import { uiActions } from "../../../../store/uiSlicer";
 
 export default function Grid() {
   const dispatch = useDispatch();
@@ -18,31 +18,25 @@ export default function Grid() {
 
   // Select random grid box as a robot player
   useEffect(() => {
-    if (timeLimit) return;
+    if (timeLimit || isConnectedServer) return;
 
     const gridIdx = grid.reduce((acc, val, idx) => {
       if (!val) acc.push(idx);
       return acc;
     }, []);
-
     if (gridIdx.length === 0) {
-      console.log("handle tie game or win");
+      console.log("handle tie game or win on robot play");
     } else {
-      if (player1Move !== curMove && isConnectedServer) {
-        // Potentially display error message that user skipped a turn
-        // Don't handle anything if it isn't your move and you are connected
-        // Wait for user response
-      } else {
-        const randomIdx = gridIdx[Math.floor(Math.random() * gridIdx.length)];
-        dispatch(gameActions.updateClientGame(randomIdx));
-
-        if (isConnectedServer) {
-          getWebSocket().send(
-            JSON.stringify({ action: "skip-turn", data: { randomIdx } })
-          );
-          console.log("handle skip turn random on server");
-        }
+      if (curMove === player1Move) {
+        dispatch(
+          uiActions.setGameAlert({
+            type: "error",
+            message: "Turn Skipped, Selected Random",
+          })
+        );
       }
+      const randomIdx = gridIdx[Math.floor(Math.random() * gridIdx.length)];
+      dispatch(gameActions.updateClientGame(randomIdx));
     }
   }, [timeLimit]);
 

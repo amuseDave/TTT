@@ -10,11 +10,13 @@ module.exports = (ws, data) => {
     lobbies.lobbies.delete(ws.lobbyID);
     return;
   }
+  if (lobby.intervalID) clearInterval(lobby.intervalID);
 
   if (lobby.isGameStarted) {
     lobby.isGameStarted = false;
     lobby.curMove = "X";
     lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
+    lobby.totalTime = 10000;
   }
 
   lobby.players[0].isAdmin = true;

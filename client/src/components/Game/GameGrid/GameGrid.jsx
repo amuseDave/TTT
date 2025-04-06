@@ -5,6 +5,7 @@ import InitialConnection from "./InitialConnection";
 import { playAudio } from "../../../utils/utils";
 import { audioRef } from "../../Static/AudioAndTitle/AudioAndTitle";
 import Grid from "./Grid/Grid";
+import GameAlerts from "./GameAlerts/GameAlerts";
 import TurnDisplay from "./TurnDisplay/TurnDisplay";
 
 export default function GameGrid() {
@@ -29,6 +30,7 @@ export default function GameGrid() {
       >
         <InitialConnection />
         <TurnDisplay />
+        <GameAlerts />
         <Grid />
       </motion.div>
     </>

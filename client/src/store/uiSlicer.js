@@ -11,6 +11,7 @@ const initialState = {
   isStartingGame: false,
   isStartingSolo: false,
   startError: null,
+  gameAlert: { type: "", message: null },
   menuAlert: { type: "", message: null },
 };
 
@@ -50,6 +51,9 @@ const uiSlicer = createSlice({
     },
     setMenuAlert(state, action) {
       state.menuAlert = action.payload;
+    },
+    setGameAlert(state, action) {
+      state.gameAlert = action.payload;
     },
   },
 });
