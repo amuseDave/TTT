@@ -3,10 +3,12 @@ import "./AudioAndTitle.css";
 import { getRandomItem, playAudio } from "../../../utils/utils";
 import thirdNeon from "../../../assets/thirdNeon.mp3";
 import fourthNeon from "../../../assets/thirdNeon.mp3";
+import staticNeon from "../../../assets/staticNeon.mp3";
 import { useEffect, useRef } from "react";
 
 export let audioRef = null;
 export let audioTitleRef = null;
+export let staticAudioRef = null;
 
 export default function AudioAndTitle() {
   const ticRef = useRef();
@@ -19,6 +21,8 @@ export default function AudioAndTitle() {
       audioTitleRef = new Audio(thirdNeon);
       audioTitleRef.volume = 0.3;
       audioRef = new Audio(fourthNeon);
+      staticAudioRef = new Audio(staticNeon);
+      staticAudioRef.volume = 0.1;
 
       window.removeEventListener("click", setAudio);
       window.removeEventListener("resize", setAudio);

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../../store/uiSlicer";
 import { gameActions } from "../../../store/gameSlicer";
 import { reconnectWebSocket } from "../../../web-socket/ws";
+import { staticAudioRef } from "../../Static/AudioAndTitle/AudioAndTitle";
 
 export default function InitialConnection() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export default function InitialConnection() {
   // Reconnect back to server when game is finished on offline
   useEffect(() => {
     return () => {
+      if (staticAudioRef) staticAudioRef.pause();
       if (!isConnectedServer && !lobby) reconnectWebSocket();
     };
   }, [lobby]);

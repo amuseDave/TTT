@@ -44,7 +44,7 @@ module.exports = (ws, data) => {
         game: {
           grid: lobby.gameGrid,
           curMove: lobby.curMove,
-          totalTime: !result ? lobby.totalTime : 4000,
+          totalTime: !result ? lobby.totalTime : 3500,
           timeLimit: lobby.timeLimit,
           result: !result ? { state: null, pattern: null } : result,
         },
@@ -53,10 +53,10 @@ module.exports = (ws, data) => {
   });
 
   if (result) {
-    let totalTime = 4000;
+    let totalTime = 3500;
 
     lobby.intervalID = setInterval(() => {
-      totalTime -= 1000;
+      totalTime -= 700;
       lobby.players.forEach((pl) => {
         pl.sendToClient({
           action: "update-time",
@@ -71,7 +71,7 @@ module.exports = (ws, data) => {
           });
         }
       });
-    }, 1000);
+    }, 700);
 
     lobby.totalMoves = 0;
     lobby.curMove = "X";

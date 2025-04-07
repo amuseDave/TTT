@@ -3,7 +3,7 @@ import "./TurnDisplay.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { checkWin, playAudio } from "../../../../utils/utils";
-import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
+import { audioRef, staticAudioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import { gameActions } from "../../../../store/gameSlicer";
 import { uiActions } from "../../../../store/uiSlicer";
 
@@ -29,6 +29,7 @@ export default function TurnDisplay() {
 
   // When curMove changes update the timelimit for the solo gameplay & trigger neon username effect
   useEffect(() => {
+    playAudio(staticAudioRef);
     animate(
       usernameRef.current,
       { opacity: [1, 0.2, 1, 0.2, 1, 0.2, opacity] },
@@ -58,6 +59,10 @@ export default function TurnDisplay() {
       if (curMove === player1Move) dispatch(gameActions.updateTimeLimit(10000));
       else dispatch(gameActions.updateTimeLimit(700));
     }
+
+    return () => {
+      if (staticAudioRef) staticAudioRef.pause();
+    };
   }, [curMove]);
 
   // Time limit animation with action dispatch of timelimit to null
@@ -95,7 +100,7 @@ export default function TurnDisplay() {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 400000;
+      const timeLimit = 3500;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
