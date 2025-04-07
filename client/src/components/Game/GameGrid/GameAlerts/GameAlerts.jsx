@@ -48,7 +48,7 @@ export default function GameAlerts() {
               transition: { duration: 0.3 },
             }}
             className={`game-alerts-text ${
-              gameAlert.type === "success" || result ? "success" : "error"
+              gameAlert.type === "success" || result.state ? "success" : "error"
             }`}
           >
             {gameAlert.message}

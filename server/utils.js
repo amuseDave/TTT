@@ -11,19 +11,17 @@ function checkWin(grid) {
     [2, 4, 6], // Diagonal top-right to bottom-left
   ];
 
-  console.log(grid);
-
   // Check each winning condition
-  for (let condition of winConditions) {
-    const [a, b, c] = condition;
+  for (let i = 0; i < winConditions.length; i++) {
+    const [a, b, c] = winConditions[i];
     if (grid[a] !== null && grid[a] === grid[b] && grid[b] === grid[c]) {
-      return grid[a]; // Return the winner ('x' or 'o')
+      return { state: grid[a], pattern: i };
     }
   }
 
   // Check if the game is a draw (no null values left and no winner)
   if (!grid.includes(null)) {
-    return "draw";
+    return { state: "draw", pattern: null };
   }
 
   // Game is not finished yet
@@ -73,21 +71,19 @@ exports.lobbyInterval = (lobby) => {
     lobby.gameGrid[randomIdx] = lobby.curMove;
     lobby.curMove = lobby.curMove === "X" ? "O" : "X";
 
-    let isEnded = null;
-    if (lobby.totalMoves > 4) isEnded = checkWin(lobby.gameGrid);
+    let result = null;
+    if (lobby.totalMoves > 4) result = checkWin(lobby.gameGrid);
 
     lobby.players.forEach((pl) => {
-      let result = null;
-
       const player = `${pl.move !== lobby.curMove ? "You" : pl.username}`;
       let message = `${player} Exceeded Time Limit - Selecting Random Move!`;
-      if (isEnded) {
-        result =
-          isEnded === "draw"
+      if (result) {
+        result.state =
+          result.state === "draw"
             ? "draw"
-            : isEnded === pl.move
+            : result.state === pl.move || result.state === "loss"
             ? "win"
-            : !isEnded
+            : !result
             ? null
             : "loss";
         pl.move = pl.move === "X" ? "O" : "X";
@@ -104,14 +100,14 @@ exports.lobbyInterval = (lobby) => {
             curMove: lobby.curMove,
             totalTime: !result ? lobby.totalTime : 5000,
             timeLimit: lobby.timeLimit,
-            result,
+            result: !result ? { state: null, pattern: null } : result,
           },
           message,
         },
       });
     });
 
-    if (isEnded) {
+    if (result) {
       clearInterval(lobby.intervalID);
 
       let totalTime = 5000;
@@ -140,14 +136,15 @@ exports.lobbyInterval = (lobby) => {
       lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
       lobby.totalTime = 10000;
     }
-  } else {
+  }
+  // Update total time to client
+  else {
     lobby.players.forEach((pl) => {
       pl.sendToClient({
         action: "update-time",
         data: { totalTime: lobby.totalTime },
       });
     });
-    // Update total time to client
   }
 };
 exports.checkWin = checkWin;

@@ -21,20 +21,19 @@ module.exports = (ws, data) => {
     clearInterval(lobby.intervalID);
   }
 
-  let isEnded = null;
+  let result = null;
 
-  if (lobby.totalMoves > 4) isEnded = checkWin(lobby.gameGrid);
+  if (lobby.totalMoves > 4) result = checkWin(lobby.gameGrid);
 
   lobby.players.forEach((pl) => {
-    let result = null;
-    if (isEnded) {
-      result =
-        isEnded === "draw"
+    if (result) {
+      console.log(result.state, pl.move);
+
+      result.state =
+        result.state === "draw"
           ? "draw"
-          : isEnded === pl.move
+          : result.state === pl.move || result.state === "loss"
           ? "win"
-          : !isEnded
-          ? null
           : "loss";
       pl.move = pl.move === "X" ? "O" : "X";
     }
@@ -47,13 +46,13 @@ module.exports = (ws, data) => {
           curMove: lobby.curMove,
           totalTime: !result ? lobby.totalTime : 5000,
           timeLimit: lobby.timeLimit,
-          result,
+          result: !result ? { state: null, pattern: null } : result,
         },
       },
     });
   });
 
-  if (isEnded) {
+  if (result) {
     let totalTime = 5000;
 
     lobby.intervalID = setInterval(() => {

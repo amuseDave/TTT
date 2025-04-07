@@ -18,14 +18,14 @@ export default function TurnDisplay() {
   const player2 = useSelector((state) => state.game.player2);
   const version = useSelector((state) => state.game.version);
   const result = useSelector((state) => state.game.game.result);
-  const isWaitingRes = useSelector((state) => state.ui.result);
+  const isWaitingRes = useSelector((state) => state.ui.isWaitingRes);
 
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   const [usernameRef, animate] = useAnimate();
   const barRef = useRef();
 
-  const opacity = curMove === player1Move || result ? 1 : 0.4;
+  const opacity = curMove === player1Move || result.state ? 1 : 0.4;
 
   // When curMove changes update the timelimit for the solo gameplay & trigger neon username effect
   useEffect(() => {
@@ -46,7 +46,12 @@ export default function TurnDisplay() {
       let result;
       if (version > 4) result = checkWin(grid);
       if (result) {
-        result = result === "draw" ? result : result === player1Move ? "win" : "loss";
+        result.state =
+          result.state === "draw"
+            ? result.state
+            : result.state === player1Move
+            ? "win"
+            : "loss";
         dispatch(gameActions.updateResult(result));
       }
 
@@ -57,7 +62,7 @@ export default function TurnDisplay() {
 
   // Time limit animation with action dispatch of timelimit to null
   useEffect(() => {
-    if (!timeLimit || result) return;
+    if (!timeLimit || result.state) return;
 
     let start;
 
@@ -89,7 +94,7 @@ export default function TurnDisplay() {
   useEffect(() => {
     let start;
     let animationReq;
-    if (result) {
+    if (result.state) {
       const timeLimit = 5000;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
@@ -127,7 +132,7 @@ export default function TurnDisplay() {
   return (
     <div className="turn-display">
       <AnimatePresence mode="sync">
-        {!result ? (
+        {!result.state ? (
           <motion.h1
             exit={{ opacity: [1, 0.2, 1, 0.2, 1, 0], transition: { duration: 0.3 } }}
             ref={usernameRef}
@@ -141,15 +146,17 @@ export default function TurnDisplay() {
           </motion.h1>
         ) : (
           <motion.h1
-            className={`player ${result === "win" || result === "draw" ? "win" : "loss"}`}
+            className={`player ${
+              result.state === "win" || result.state === "draw" ? "win" : "loss"
+            }`}
             animate={{
               opacity: [1, 0.2, 1, 0.2, 1, 0, 1],
               transition: { duration: 0.3 },
             }}
           >
-            {result === "win"
+            {result.state === "win"
               ? "You Won!"
-              : result === "draw"
+              : result.state === "draw"
               ? "It's a draw, try again!"
               : "You Lost, try again"}
           </motion.h1>
@@ -159,9 +166,9 @@ export default function TurnDisplay() {
       <div
         style={{
           boxShadow: `0px 0px 5px ${
-            result === "win" || result === "draw"
+            result.state === "win" || result.state === "draw"
               ? "#05ffa8"
-              : !timeLimit || result === "loss"
+              : !timeLimit || result.state === "loss"
               ? "#ff0059"
               : "#fef7f9"
           }`,
@@ -172,9 +179,9 @@ export default function TurnDisplay() {
           style={{
             width: !timeLimit || isWaitingRes ? "100%" : "",
             backgroundColor:
-              result === "win" || result === "draw"
+              result.state === "win" || result.state === "draw"
                 ? "#14e7ff"
-                : !timeLimit || result === "loss" || isWaitingRes
+                : !timeLimit || result.state === "loss" || isWaitingRes
                 ? "#ff0059"
                 : "#f693b6",
           }}

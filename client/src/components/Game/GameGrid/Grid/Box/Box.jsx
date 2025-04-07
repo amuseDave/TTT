@@ -20,7 +20,7 @@ export default function Box({ state, idx }) {
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   function handleMove() {
-    if (player1Move !== curMove || state || !timeLimit || result) return;
+    if (player1Move !== curMove || state || !timeLimit || result.state) return;
     dispatch(gameActions.updateClientGame(idx));
 
     if (isConnectedServer) {

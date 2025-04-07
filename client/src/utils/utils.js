@@ -46,19 +46,17 @@ export function checkWin(grid) {
     [2, 4, 6], // Diagonal top-right to bottom-left
   ];
 
-  console.log(grid);
-
   // Check each winning condition
-  for (let condition of winConditions) {
-    const [a, b, c] = condition;
+  for (let i = 0; i < winConditions.length; i++) {
+    const [a, b, c] = winConditions[i];
     if (grid[a] !== null && grid[a] === grid[b] && grid[b] === grid[c]) {
-      return grid[a]; // Return the winner ('x' or 'o')
+      return { state: grid[a], pattern: i };
     }
   }
 
   // Check if the game is a draw (no null values left and no winner)
   if (!grid.includes(null)) {
-    return "draw";
+    return { state: "draw", pattern: null };
   }
 
   // Game is not finished yet

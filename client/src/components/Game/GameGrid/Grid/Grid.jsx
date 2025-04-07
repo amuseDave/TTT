@@ -18,7 +18,7 @@ export default function Grid() {
 
   // Select random grid box as a robot player
   useEffect(() => {
-    if (timeLimit || isConnectedServer || result) return;
+    if (timeLimit || isConnectedServer || result.state) return;
 
     const gridIdx = grid.reduce((acc, val, idx) => {
       if (!val) acc.push(idx);
@@ -29,7 +29,7 @@ export default function Grid() {
       dispatch(
         uiActions.setGameAlert({
           type: "error",
-          message: "Turn Skipped, Selected Random",
+          message: "Exceeded Time Limit - Selecting Random Move!",
         })
       );
     }
@@ -40,7 +40,7 @@ export default function Grid() {
   return (
     <>
       <div
-        style={{ cursor: player1Move !== curMove && !result ? "not-allowed" : "" }}
+        style={{ cursor: player1Move !== curMove && !result.state ? "not-allowed" : "" }}
         className="grid"
       >
         <Lines />

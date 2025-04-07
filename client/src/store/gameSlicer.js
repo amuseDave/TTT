@@ -31,14 +31,13 @@ const gameSlicer = createSlice({
       history.pushState({}, null, `?lobbyID=${action.payload.lobbyID}`);
     },
     initiateClientGame(state, action) {
-      state.result = null;
       state.lobby = action.payload;
       state.game = {
         grid: [null, null, null, null, null, null, null, null, null],
         curMove: "X",
         timeLimit: 10000,
         totalTime: 10000,
-        result: null,
+        result: { state: null, pattern: null },
       };
       state.version = 0;
     },
@@ -94,7 +93,7 @@ const gameSlicer = createSlice({
         curMove: "X",
         timeLimit: 10000,
         totalTime: 10000,
-        result: null,
+        result: { state: null, pattern: null },
       };
       state.version = 0;
       state.player1Move = action.payload.move;
