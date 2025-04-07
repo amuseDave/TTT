@@ -33,3 +33,74 @@
   right: calc(100% / 3);
   transform: translateX(50%);
 }
+
+.game-grid .grid .game-end-line {
+  z-index: 1;
+  position: absolute;
+  border-radius: 2rem;
+}
+
+/*HORIZONTAL TYPES*/
+.game-grid .grid .game-end-line.type-0,
+.game-grid .grid .game-end-line.type-1,
+.game-grid .grid .game-end-line.type-2 {
+  height: 1rem;
+  width: 84%;
+}
+.game-grid .grid .game-end-line.type-0 {
+  top: calc(100% / 3 - 100% / 3 / 2);
+  transform: translateY(-50%);
+}
+.game-grid .grid .game-end-line.type-1 {
+  top: calc(100% / 2);
+  transform: translateY(-50%);
+}
+.game-grid .grid .game-end-line.type-2 {
+  bottom: calc(100% / 3 - 100% / 3 / 2);
+  transform: translateY(50%);
+}
+
+/*VERTICAL TYPES*/
+.game-grid .grid .game-end-line.type-3,
+.game-grid .grid .game-end-line.type-4,
+.game-grid .grid .game-end-line.type-5 {
+  height: 84%;
+  width: 1rem;
+}
+
+.game-grid .grid .game-end-line.type-3 {
+  left: calc(100% / 3 - 100% / 3 / 2);
+  transform: translateX(-50%);
+}
+.game-grid .grid .game-end-line.type-4 {
+  left: calc(100% / 2);
+  transform: translateX(-50%);
+}
+.game-grid .grid .game-end-line.type-5 {
+  right: calc(100% / 3 - 100% / 3 / 2);
+  transform: translateX(50%);
+}
+
+/*DIAGIONAL*/
+.game-grid .grid .game-end-line.type-6,
+.game-grid .grid .game-end-line.type-7 {
+  width: 110%;
+  height: 1rem;
+}
+
+.game-grid .grid .game-end-line.type-6 {
+  transform: rotate(45deg);
+}
+
+.game-grid .grid .game-end-line.type-7 {
+  transform: rotate(-45deg);
+}
+
+.game-grid .grid .game-end-line.win {
+  background-color: rgba(33, 255, 240, 0.624);
+  box-shadow: 0px 0px 7px rgb(5, 255, 188);
+}
+.game-grid .grid .game-end-line.loss {
+  background-color: rgba(255, 33, 85, 0.624);
+  box-shadow: 0px 0px 7px rgb(255, 57, 255);
+}

@@ -16,7 +16,6 @@ wss.on("connection", (ws) => {
   ws.on("message", (req) => {
     try {
       const { action, data } = JSON.parse(req.toString("utf-8"));
-      console.log("Action: ", action, "Data: ", data);
 
       if (action === "update-username") updateUsername(ws, data);
       else if (action === "update-game") updateGame(ws, data);

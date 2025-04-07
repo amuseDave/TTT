@@ -20,6 +20,7 @@ export default function Connection() {
   // Handle auto reconnections in menu component
   useEffect(() => {
     if (isConnectedServer) return;
+
     intervalID.current = setInterval(() => {
       if (isConnectingServer) return;
       if (isConnectedServer) {

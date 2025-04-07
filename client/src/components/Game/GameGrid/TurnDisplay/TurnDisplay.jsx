@@ -73,8 +73,6 @@ export default function TurnDisplay() {
       if (isConnectedServer) additionalTime = timeLimit - totalTime;
       const timePassed = timestamp + additionalTime - start;
 
-      console.log(timePassed);
-
       if (timePassed > timeLimit) {
         dispatch(gameActions.updateTimeLimit(null));
         if (isConnectedServer) dispatch(uiActions.isWaitingRes(true));
@@ -95,15 +93,13 @@ export default function TurnDisplay() {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 5000;
+      const timeLimit = 500000000;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
         let additionalTime = 0;
         if (isConnectedServer) additionalTime = timeLimit - totalTime;
         const timePassed = timestamp + additionalTime - start;
-
-        console.log(timePassed);
 
         if (timePassed > timeLimit) {
           dispatch(gameActions.updateTimeLimit(null));

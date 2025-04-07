@@ -43,7 +43,7 @@ export default function Grid() {
         style={{ cursor: player1Move !== curMove && !result.state ? "not-allowed" : "" }}
         className="grid"
       >
-        <Lines />
+        <Lines result={result} />
         {grid.map((state, idx) => (
           <Box state={state} idx={idx} key={idx} />
         ))}

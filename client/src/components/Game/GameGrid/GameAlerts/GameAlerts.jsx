@@ -8,6 +8,7 @@ import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 
 export default function GameAlerts() {
   const gameAlert = useSelector((state) => state.ui.gameAlert);
+  const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
   const result = useSelector((state) => state.game.game.result);
   const dispatch = useDispatch();
 
@@ -48,7 +49,9 @@ export default function GameAlerts() {
               transition: { duration: 0.3 },
             }}
             className={`game-alerts-text ${
-              gameAlert.type === "success" || result.state ? "success" : "error"
+              gameAlert.type === "success" || (result.state && isConnectedServer)
+                ? "success"
+                : "error"
             }`}
           >
             {gameAlert.message}
