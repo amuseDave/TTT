@@ -46,7 +46,7 @@ export default function TurnDisplay() {
       let result;
       if (version > 4) result = checkWin(grid);
       if (result) {
-        result = result === "draw" ? result : result === curMove ? "win" : "loss";
+        result = result === "draw" ? result : result === player1Move ? "win" : "loss";
         dispatch(gameActions.updateResult(result));
       }
 
@@ -163,7 +163,7 @@ export default function TurnDisplay() {
               ? "#05ffa8"
               : !timeLimit || result === "loss"
               ? "#ff0059"
-              : "#0000000"
+              : "#fef7f9"
           }`,
         }}
         className="timer"
