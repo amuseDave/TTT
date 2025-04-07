@@ -11,7 +11,7 @@ export default function Lines({ result }) {
       <div className="line ver-1"></div>
       <div className="line ver-2"></div>
 
-      {result.pattern ? (
+      {result.pattern !== null ? (
         <motion.div
           className={`game-end-line type-${result.pattern} ${result.state}`}
           animate={{ opacity: [1, 0, 1, 0, 1, 0, 1], transition: { duration: 0.3 } }}

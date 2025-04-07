@@ -9,27 +9,38 @@
 }
 
 .turn-display .player.win {
-  text-shadow: 0px 0px 5px rgb(22, 255, 236);
+  text-shadow: 0px 0px 5px #14e7ff;
 }
 
 .turn-display .player.loss {
-  text-shadow: 0px 0px 5px rgb(195, 0, 62);
+  text-shadow: 0px 0px 5px #ff0059;
 }
 
 .turn-display .timer {
   position: relative;
   width: 100%;
-  height: 1.6rem;
-  background-color: rgba(0, 0, 0, 0.504);
+  height: 1.2rem;
   margin-top: 2.4rem;
   border-radius: 2rem;
-  overflow: hidden;
-  border: 1px solid white;
-  box-shadow: 0px 0px 5px var(--test-color);
 }
 
 .turn-display .timer .clock {
-  background-color: var(--test-color);
+  position: absolute;
+  border-radius: 2rem;
+  border-bottom-right-radius: 0rem;
+  border-top-right-radius: 0rem;
   height: 100%;
-  width: 100%;
+  z-index: 2;
+}
+
+.turn-display .timer .clock .small-shadow {
+  z-index: -10;
+  position: absolute;
+  right: -2rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+  filter: blur(3px);
+  top: 50%;
+  transform: translateY(-50%);
 }

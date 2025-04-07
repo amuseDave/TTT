@@ -98,7 +98,7 @@ exports.lobbyInterval = (lobby) => {
           game: {
             grid: lobby.gameGrid,
             curMove: lobby.curMove,
-            totalTime: !result ? lobby.totalTime : 5000,
+            totalTime: !result ? lobby.totalTime : 4000,
             timeLimit: lobby.timeLimit,
             result: !result ? { state: null, pattern: null } : result,
           },
@@ -110,7 +110,7 @@ exports.lobbyInterval = (lobby) => {
     if (result) {
       clearInterval(lobby.intervalID);
 
-      let totalTime = 5000;
+      let totalTime = 4000;
 
       lobby.intervalID = setInterval(() => {
         totalTime -= 1000;

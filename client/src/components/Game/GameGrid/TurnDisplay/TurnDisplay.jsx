@@ -89,11 +89,13 @@ export default function TurnDisplay() {
     };
   }, [timeLimit, version, totalTime, result]);
 
+  console.log(result.pattern);
+
   useEffect(() => {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 500000000;
+      const timeLimit = 400000;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
@@ -160,19 +162,26 @@ export default function TurnDisplay() {
       </AnimatePresence>
 
       <div
-        style={{
-          boxShadow: `0px 0px 5px ${
-            result.state === "win" || result.state === "draw"
-              ? "#05ffa8"
-              : !timeLimit || result.state === "loss"
-              ? "#ff0059"
-              : "#fef7f9"
-          }`,
-        }}
+        // style={{
+        //   boxShadow: `0px 0px 5px ${
+        //     result.state === "win" || result.state === "draw"
+        //       ? "#05ffa8"
+        //       : !timeLimit || result.state === "loss"
+        //       ? "#ff0059"
+        //       : "#fef7f9"
+        //   }`,
+        // }}
         className="timer"
       >
         <div
           style={{
+            boxShadow: `0px 0px 5px ${
+              result.state === "win" || result.state === "draw"
+                ? "#14e7ff"
+                : !timeLimit || result.state === "loss"
+                ? "#ff0059"
+                : "#fef7f9"
+            }`,
             width: !timeLimit || isWaitingRes ? "100%" : "",
             backgroundColor:
               result.state === "win" || result.state === "draw"
@@ -183,7 +192,24 @@ export default function TurnDisplay() {
           }}
           ref={barRef}
           className="clock"
-        ></div>
+        >
+          <motion.div
+            style={{
+              opacity: 0.2,
+              backgroundColor:
+                result.state === "win" || result.state === "draw"
+                  ? "#14e7ff"
+                  : !timeLimit || result.state === "loss" || isWaitingRes
+                  ? "#ff0059"
+                  : "#f693b6",
+            }}
+            animate={{
+              opacity: [1, 0.4, 1, 0.4, 1],
+              transition: { repeat: Infinity, duration: 0.3 },
+            }}
+            className="small-shadow"
+          ></motion.div>
+        </div>
       </div>
     </div>
   );

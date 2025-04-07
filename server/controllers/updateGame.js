@@ -44,7 +44,7 @@ module.exports = (ws, data) => {
         game: {
           grid: lobby.gameGrid,
           curMove: lobby.curMove,
-          totalTime: !result ? lobby.totalTime : 5000,
+          totalTime: !result ? lobby.totalTime : 4000,
           timeLimit: lobby.timeLimit,
           result: !result ? { state: null, pattern: null } : result,
         },
@@ -53,7 +53,7 @@ module.exports = (ws, data) => {
   });
 
   if (result) {
-    let totalTime = 5000;
+    let totalTime = 4000;
 
     lobby.intervalID = setInterval(() => {
       totalTime -= 1000;
