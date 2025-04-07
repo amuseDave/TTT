@@ -17,7 +17,7 @@ export default function TurnDisplay() {
   const player1Move = useSelector((state) => state.game.player1Move);
   const player2 = useSelector((state) => state.game.player2);
   const version = useSelector((state) => state.game.version);
-  const result = useSelector((state) => state.game.result);
+  const result = useSelector((state) => state.game.game.result);
   const isWaitingRes = useSelector((state) => state.ui.result);
 
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
@@ -25,7 +25,7 @@ export default function TurnDisplay() {
   const [usernameRef, animate] = useAnimate();
   const barRef = useRef();
 
-  const opacity = curMove === player1Move ? 1 : 0.4;
+  const opacity = curMove === player1Move || result ? 1 : 0.4;
 
   // When curMove changes update the timelimit for the solo gameplay & trigger neon username effect
   useEffect(() => {
@@ -42,11 +42,14 @@ export default function TurnDisplay() {
 
     // When cur move changes update timer for solo game
 
-    const result = checkWin(grid);
+    if (!isConnectedServer) {
+      let result;
+      if (version > 4) result = checkWin(grid);
+      if (result) {
+        result = result === "draw" ? result : result === curMove ? "win" : "loss";
+        dispatch(gameActions.updateResult(result));
+      }
 
-    if (result) {
-      dispatch(gameActions.updateResult(result));
-    } else if (!isConnectedServer) {
       if (curMove === player1Move) dispatch(gameActions.updateTimeLimit(10000));
       else dispatch(gameActions.updateTimeLimit(700));
     }
@@ -67,7 +70,10 @@ export default function TurnDisplay() {
 
       console.log(timePassed);
 
-      if (timePassed > timeLimit) dispatch(gameActions.updateTimeLimit(null));
+      if (timePassed > timeLimit) {
+        dispatch(gameActions.updateTimeLimit(null));
+        if (isConnectedServer) dispatch(uiActions.isWaitingRes(true));
+      }
 
       barRef.current.style.width = `${100 - (timePassed / timeLimit) * 100}%`;
 
@@ -94,8 +100,6 @@ export default function TurnDisplay() {
           dispatch(
             gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" })
           );
-
-          if (isConnectedServer) dispatch(uiActions.isWaitingRes(true));
         }
 
         barRef.current.style.width = `${100 - (timePassed / timeLimit) * 100}%`;
@@ -127,15 +131,13 @@ export default function TurnDisplay() {
           </motion.h1>
         ) : (
           <motion.h1
-            className={`player ${
-              result === player1Move || result === "draw" ? "win" : "loss"
-            }`}
+            className={`player ${result === "win" || result === "draw" ? "win" : "loss"}`}
             animate={{
               opacity: [1, 0.2, 1, 0.2, 1, 0, 1],
               transition: { duration: 0.3 },
             }}
           >
-            {result === player1Move
+            {result === "win"
               ? "You Won!"
               : result === "draw"
               ? "It's a draw, try again!"
@@ -147,9 +149,9 @@ export default function TurnDisplay() {
       <div
         style={{
           boxShadow: `0px 0px 5px ${
-            result === player1Move || result === "draw"
+            result === "win" || result === "draw"
               ? "#05ffa8"
-              : !timeLimit || result !== player1Move
+              : !timeLimit || result === "loss"
               ? "#ff0059"
               : "#0000000"
           }`,
@@ -160,7 +162,7 @@ export default function TurnDisplay() {
           style={{
             width: !timeLimit || isWaitingRes ? "100%" : "",
             backgroundColor:
-              result === player1Move || result === "draw"
+              result === "win" || result === "draw"
                 ? "#14e7ff"
                 : !timeLimit && !result
                 ? "#ff0059"

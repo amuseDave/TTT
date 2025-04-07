@@ -11,7 +11,6 @@ const initialState = {
   lobbyID: null,
   game: null,
   version: 0,
-  result: null,
 };
 
 const gameSlicer = createSlice({
@@ -39,8 +38,9 @@ const gameSlicer = createSlice({
         curMove: "X",
         timeLimit: 10000,
         totalTime: 10000,
+        result: null,
       };
-      state.version++;
+      state.version = 0;
     },
     updateClientGame(state, action) {
       // If current made move exist return
@@ -51,6 +51,7 @@ const gameSlicer = createSlice({
       state.game.grid[action.payload] = curMove;
       // Change current move to the opposite of prevCur
       state.game.curMove = curMove === "X" ? "O" : "X";
+      state.version += 1;
     },
     updateServerGame(state, action) {
       state.game = action.payload.game;
@@ -63,7 +64,7 @@ const gameSlicer = createSlice({
       state.game.totalTime = action.payload;
     },
     updateResult(state, action) {
-      state.result = action.payload;
+      state.game.result = action.payload;
     },
     changePrivacy(state, action) {
       state.isPrivate = action.payload;
@@ -80,9 +81,8 @@ const gameSlicer = createSlice({
     },
 
     changePlayerMoves(state, action) {
-      if (!state.lobby) {
-        state.player1Move = action.payload.move;
-      }
+      if (state.player1Move === action.payload.move) return;
+      state.player1Move = action.payload.move;
     },
   },
 });

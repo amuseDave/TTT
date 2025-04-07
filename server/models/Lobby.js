@@ -33,6 +33,7 @@ class Lobby {
     this.totalTime = 10000;
     this.timeLimit = 10000;
     this.intervalID = null;
+    this.totalMoves = 0;
   }
 
   addPlayer(player) {

@@ -11,6 +11,7 @@ module.exports = (ws, data) => {
 
   if (lobby.gameGrid[data.idx] || lobby.gameGrid[data.idx] === undefined) return;
 
+  lobby.totalMoves++;
   lobby.totalTime = 10000;
 
   lobby.gameGrid[data.idx] = lobby.curMove;
@@ -20,9 +21,26 @@ module.exports = (ws, data) => {
     clearInterval(lobby.intervalID);
   }
 
-  const isEnded = checkWin(lobby.gameGrid);
+  let isEnded = null;
+
+  if (lobby.totalMoves > 4) isEnded = checkWin(lobby.gameGrid);
+
   lobby.players.forEach((pl) => {
-    if (isEnded) pl.move = pl.move === "X" ? "O" : "X";
+    let result = null;
+    if (isEnded) {
+      result =
+        isEnded === "draw"
+          ? "draw"
+          : isEnded === pl.move
+          ? "win"
+          : !isEnded
+          ? null
+          : "loss";
+      pl.move = pl.move === "X" ? "O" : "X";
+      setTimeout(() => {
+        pl.sendToClient({ action: "switch-moves", data: { move: pl.move } });
+      }, 1000);
+    }
 
     pl.sendToClient({
       action: "update-game",
@@ -32,12 +50,14 @@ module.exports = (ws, data) => {
           curMove: lobby.curMove,
           totalTime: lobby.totalTime,
           timeLimit: lobby.timeLimit,
+          result,
         },
       },
     });
   });
 
   if (isEnded) {
+    lobby.totalMoves = 0;
     lobby.curMove = "X";
     lobby.isGameStarted = false;
     lobby.gameGrid = [null, null, null, null, null, null, null, null, null];

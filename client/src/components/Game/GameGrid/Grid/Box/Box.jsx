@@ -16,7 +16,7 @@ export default function Box({ state, idx }) {
   const curMove = useSelector((state) => state.game.game.curMove);
   const timeLimit = useSelector((state) => state.game.game.timeLimit);
   const player1Move = useSelector((state) => state.game.player1Move);
-  const result = useSelector((state) => state.game.result);
+  const result = useSelector((state) => state.game.game.result);
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
 
   function handleMove() {

@@ -26,7 +26,7 @@ export default function Connection() {
         clearInterval(intervalID.current);
         return;
       } else reconnectWebSocket();
-    }, 10000);
+    }, 8000);
 
     return () => {
       clearInterval(intervalID.current);

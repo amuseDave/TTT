@@ -8,7 +8,7 @@ import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 
 export default function GameAlerts() {
   const gameAlert = useSelector((state) => state.ui.gameAlert);
-  const result = useSelector((state) => state.game.result);
+  const result = useSelector((state) => state.game.game.result);
   const dispatch = useDispatch();
 
   const [alertContRef, animate] = useAnimate();
@@ -51,7 +51,7 @@ export default function GameAlerts() {
               gameAlert.type === "success" || result ? "success" : "error"
             }`}
           >
-            {gameAlert.message} {result && "Has Won By Skipping!"}
+            {gameAlert.message}
           </motion.p>
         )}
       </AnimatePresence>
