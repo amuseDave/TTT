@@ -7,6 +7,7 @@ export default function onClose(e, { store, uiActions, gameActions }) {
       isPrivacyLoading,
       isStartingGame,
       isWaitingRes,
+      player2,
     },
     game: { isAdmin },
   } = store.getState();
@@ -16,6 +17,7 @@ export default function onClose(e, { store, uiActions, gameActions }) {
   if (isStartingGame) store.dispatch(uiActions.isStartingGame(false));
   if (isFindingLobby) store.dispatch(uiActions.isFindingLobby(false));
   if (isWaitingRes) store.dispatch(uiActions.isWaitingRes(false));
+  if (player2) store.dispatch(gameActions.changePlayer2Username(null));
 
   store.dispatch(uiActions.isConnectedServer(false));
 
