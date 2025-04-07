@@ -164,11 +164,9 @@ export default function TurnDisplay() {
             backgroundColor:
               result === "win" || result === "draw"
                 ? "#14e7ff"
-                : !timeLimit && !result
+                : !timeLimit || result === "loss" || isWaitingRes
                 ? "#ff0059"
-                : timeLimit && !isWaitingRes
-                ? "#f693b6"
-                : "#ff0059",
+                : "#f693b6",
           }}
           ref={barRef}
           className="clock"
