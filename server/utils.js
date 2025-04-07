@@ -102,7 +102,7 @@ exports.lobbyInterval = (lobby) => {
           game: {
             grid: lobby.gameGrid,
             curMove: lobby.curMove,
-            totalTime: lobby.totalTime,
+            totalTime: !result ? lobby.totalTime : 5000,
             timeLimit: lobby.timeLimit,
             result,
           },
@@ -113,6 +113,27 @@ exports.lobbyInterval = (lobby) => {
 
     if (isEnded) {
       clearInterval(lobby.intervalID);
+
+      let totalTime = 5000;
+
+      lobby.intervalID = setInterval(() => {
+        totalTime -= 1000;
+        lobby.players.forEach((pl) => {
+          pl.sendToClient({
+            action: "update-time",
+            data: { totalTime: totalTime },
+          });
+
+          if (totalTime <= 0) {
+            clearInterval(lobby.intervalID);
+            pl.sendToClient({
+              action: "reset-game",
+              data: { move: pl.move },
+            });
+          }
+        });
+      }, 1000);
+
       lobby.totalMoves = 0;
       lobby.curMove = "X";
       lobby.isGameStarted = false;

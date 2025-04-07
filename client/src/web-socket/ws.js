@@ -14,6 +14,7 @@ import startGame from "./controllers/startGame.js";
 import updateGame from "./controllers/updateGame.js";
 import skipTurn from "./controllers/skipTurn.js";
 import updateTime from "./controllers/updateTime.js";
+import resetGame from "./controllers/resetGame.js";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -53,6 +54,7 @@ function initializeEvents() {
       else if (action === "start-lobby") startLobby(argObj);
       else if (action === "join-lobby") joinLobby(argObj);
       else if (action === "start-game") startGame(argObj);
+      else if (action === "reset-game") resetGame(argObj);
       else if (action === "error") console.log(data.msg);
     };
   };

@@ -93,13 +93,23 @@ export default function TurnDisplay() {
       const timeLimit = 5000;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
-        const timePassed = timestamp - start;
+
+        let additionalTime = 0;
+        if (isConnectedServer) additionalTime = timeLimit - totalTime;
+        const timePassed = timestamp + additionalTime - start;
+
+        console.log(timePassed);
 
         if (timePassed > timeLimit) {
-          dispatch(gameActions.initiateClientGame(null));
-          dispatch(
-            gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" })
-          );
+          dispatch(gameActions.updateTimeLimit(null));
+          if (!isConnectedServer) {
+            dispatch(gameActions.initiateClientGame(null));
+            dispatch(
+              gameActions.changePlayerMoves({ move: player1Move === "X" ? "O" : "X" })
+            );
+          } else {
+            dispatch(uiActions.isWaitingRes(true));
+          }
         }
 
         barRef.current.style.width = `${100 - (timePassed / timeLimit) * 100}%`;
@@ -112,7 +122,7 @@ export default function TurnDisplay() {
     return () => {
       cancelAnimationFrame(animationReq);
     };
-  }, [result]);
+  }, [result, totalTime]);
 
   return (
     <div className="turn-display">

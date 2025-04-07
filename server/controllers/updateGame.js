@@ -37,9 +37,6 @@ module.exports = (ws, data) => {
           ? null
           : "loss";
       pl.move = pl.move === "X" ? "O" : "X";
-      setTimeout(() => {
-        pl.sendToClient({ action: "switch-moves", data: { move: pl.move } });
-      }, 1000);
     }
 
     pl.sendToClient({
@@ -48,7 +45,7 @@ module.exports = (ws, data) => {
         game: {
           grid: lobby.gameGrid,
           curMove: lobby.curMove,
-          totalTime: lobby.totalTime,
+          totalTime: !result ? lobby.totalTime : 5000,
           timeLimit: lobby.timeLimit,
           result,
         },
@@ -57,6 +54,26 @@ module.exports = (ws, data) => {
   });
 
   if (isEnded) {
+    let totalTime = 5000;
+
+    lobby.intervalID = setInterval(() => {
+      totalTime -= 1000;
+      lobby.players.forEach((pl) => {
+        pl.sendToClient({
+          action: "update-time",
+          data: { totalTime: totalTime },
+        });
+
+        if (totalTime <= 0) {
+          clearInterval(lobby.intervalID);
+          pl.sendToClient({
+            action: "reset-game",
+            data: { move: pl.move },
+          });
+        }
+      });
+    }, 1000);
+
     lobby.totalMoves = 0;
     lobby.curMove = "X";
     lobby.isGameStarted = false;

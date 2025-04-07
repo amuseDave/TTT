@@ -81,7 +81,22 @@ const gameSlicer = createSlice({
     },
 
     changePlayerMoves(state, action) {
-      if (state.player1Move === action.payload.move) return;
+      if (!state.lobby) {
+        if (state.player1Move === action.payload.move) return;
+        state.player1Move = action.payload.move;
+      }
+    },
+    resetGame(state, action) {
+      state.result = null;
+      state.lobby = null;
+      state.game = {
+        grid: [null, null, null, null, null, null, null, null, null],
+        curMove: "X",
+        timeLimit: 10000,
+        totalTime: 10000,
+        result: null,
+      };
+      state.version = 0;
       state.player1Move = action.payload.move;
     },
   },

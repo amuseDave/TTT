@@ -17,6 +17,7 @@ module.exports = (ws, data) => {
     lobby.curMove = "X";
     lobby.gameGrid = [null, null, null, null, null, null, null, null, null];
     lobby.totalTime = 10000;
+    lobby.totalMoves = 0;
   }
 
   lobby.players[0].isAdmin = true;
