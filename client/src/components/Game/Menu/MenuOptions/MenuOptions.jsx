@@ -112,7 +112,7 @@ export default function MenuOptions() {
     <div
       className={`menu-options ${
         (isConnectedServer || isStartingSolo) && (!player2 || !isAdmin) && "higher-width"
-      }`}
+      } ${isConnectedServer || isStartingSolo ? "extra-margin" : ""}`}
     >
       <AnimatePresence mode="wait">
         {isFindingLobby || isStartingGame ? (

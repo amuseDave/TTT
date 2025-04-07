@@ -9,7 +9,11 @@ export default function PlayerMenu() {
   const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
 
   return (
-    <div className="player-menu">
+    <div
+      className={`player-menu ${
+        isConnectedServer || isStartingSolo ? "extra-margin" : ""
+      }`}
+    >
       <Player1 />
       {(isConnectedServer || isStartingSolo) && (
         <>

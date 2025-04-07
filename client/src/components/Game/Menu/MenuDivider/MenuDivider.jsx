@@ -8,7 +8,9 @@ export default function MenuDivider() {
 
   return (
     <motion.div
-      className={`divider ${isConnectedServer || isStartingSolo ? "duo" : "solo"}`}
+      className={`divider ${isConnectedServer || isStartingSolo ? "duo" : "solo"} ${
+        isConnectedServer || isStartingSolo ? "extra-margin" : ""
+      }`}
       layout
     ></motion.div>
   );

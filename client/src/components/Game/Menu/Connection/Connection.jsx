@@ -27,12 +27,12 @@ export default function Connection() {
         clearInterval(intervalID.current);
         return;
       } else reconnectWebSocket();
-    }, 8000);
+    }, 6500);
 
     return () => {
       clearInterval(intervalID.current);
     };
-  }, [isConnectedServer]);
+  }, [isConnectedServer, isConnectingServer]);
 
   useEffect(() => {
     if (isStartingSolo) return;

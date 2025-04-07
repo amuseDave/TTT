@@ -20,7 +20,7 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 export const lobbyID = params.get("lobbyID");
 
-let webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
+let webSocket = new WebSocket("http://localhost:8080");
 initializeEvents();
 
 // Initialize web socket event on every new connection
@@ -71,10 +71,8 @@ function initializeEvents() {
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
-  console.log("reconnecting ws");
-  webSocket = new WebSocket(import.meta.env.VITE_CONNECTION_URL);
+  webSocket = new WebSocket("http://localhost:8080");
   store.dispatch(uiActions.isConnectingServer(true));
-
   initializeEvents();
 }
 

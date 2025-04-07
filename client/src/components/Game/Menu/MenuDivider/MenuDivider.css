@@ -1,8 +1,9 @@
 .menu .divider {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgb(40, 23, 45);
   border-radius: 2rem;
   width: 4px;
+  margin: 0rem 3.2rem;
 }
 
 .menu .divider.solo {
