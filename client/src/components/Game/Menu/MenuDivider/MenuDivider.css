@@ -3,7 +3,7 @@
   background-color: rgb(40, 23, 45);
   border-radius: 2rem;
   width: 4px;
-  margin: 0rem 3.2rem;
+  margin: 2.4rem;
 }
 
 .menu .divider.solo {
@@ -12,4 +12,8 @@
 
 .menu .divider.duo {
   height: 24rem;
+}
+
+.menu .divider.duo.extra-margin {
+  height: 20rem;
 }

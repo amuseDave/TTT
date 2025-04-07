@@ -7,11 +7,12 @@ import { useSelector } from "react-redux";
 export default function PlayerMenu() {
   const isConnectedServer = useSelector((state) => state.ui.isConnectedServer);
   const isStartingSolo = useSelector((state) => state.ui.isStartingSolo);
+  const player2 = useSelector((state) => state.game.player2);
 
   return (
     <div
       className={`player-menu ${
-        isConnectedServer || isStartingSolo ? "extra-margin" : ""
+        (isConnectedServer || isStartingSolo) && !player2 ? "extra-margin" : ""
       }`}
     >
       <Player1 />
