@@ -29,8 +29,11 @@ export default function GameGrid() {
         className="game-grid"
       >
         <InitialConnection />
-        <TurnDisplay />
-        <GameAlerts />
+
+        <div className="turn-display">
+          <TurnDisplay />
+          <GameAlerts />
+        </div>
         <Grid />
       </motion.div>
     </>

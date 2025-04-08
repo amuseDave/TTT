@@ -30,9 +30,9 @@ export default function StartLobbyBtn() {
 
     if (readyState === OPEN) {
       // Test out delay UI
-      setTimeout(() => {
-        getWebSocket().send(JSON.stringify({ action: "start-lobby", data: null }));
-      }, 1000);
+
+      getWebSocket().send(JSON.stringify({ action: "start-lobby", data: null }));
+
       dispatch(uiActions.isCreatingLobby(true));
     } else {
       // If connections is not establish start lobby from client to play against bot

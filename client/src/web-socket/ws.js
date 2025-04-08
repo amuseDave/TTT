@@ -16,7 +16,9 @@ import skipTurn from "./controllers/skipTurn.js";
 import updateTime from "./controllers/updateTime.js";
 import resetGame from "./controllers/resetGame.js";
 
-let webSocket = new WebSocket("http://localhost:8080");
+let webSocket = new WebSocket(
+  "https://c7d709c5-3f90-4e26-a7fd-a2e5bc70cdf6-00-1a0z5z8fel4d1.janeway.replit.dev/"
+);
 initializeEvents();
 
 const url = new URL(window.location.href);
@@ -34,9 +36,8 @@ function initializeEvents() {
     if (store.getState().game.lobby === undefined && lobbyID) {
       store.dispatch(uiActions.isJoiningLobby(true));
       // Test out delay UI
-      setTimeout(() => {
-        webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));
-      }, 2000);
+
+      webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));
     }
 
     // Handle incoming messages from the server to update the UI & GAME states
@@ -71,7 +72,9 @@ function initializeEvents() {
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
-  webSocket = new WebSocket("http://localhost:8080");
+  webSocket = new WebSocket(
+    "https://c7d709c5-3f90-4e26-a7fd-a2e5bc70cdf6-00-1a0z5z8fel4d1.janeway.replit.dev/"
+  );
   store.dispatch(uiActions.isConnectingServer(true));
   initializeEvents();
 }

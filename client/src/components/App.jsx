@@ -2,8 +2,22 @@ import "./index.css";
 import Game from "./Game/Game";
 import AudioAndTitle from "./Static/AudioAndTitle/AudioAndTitle";
 import CanvasLight from "./Static/CanvasLight/CanvasLight";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../store/uiSlicer";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  const url = new URL(window.location.href);
+  const params = new URLSearchParams(url.search);
+  const lobbyID = params.get("lobbyID");
+
+  useEffect(() => {
+    if (lobbyID) {
+      dispatch(uiActions.isJoiningLobby(true));
+    }
+  }, []);
   return (
     <>
       <CanvasLight />

@@ -1,12 +1,17 @@
 .turn-display {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -3rem;
+  min-width: 120%;
 }
 
 .turn-display .player {
-  text-align: center;
   font-size: 6.2rem;
   color: white;
   font-weight: 300;
+  width: max-content;
+  margin: 0 auto;
 }
 .turn-display .player.default {
   text-shadow: 0px 0px 5px var(--test-color);
@@ -22,7 +27,7 @@
 
 .turn-display .timer {
   position: absolute;
-  width: 120%;
+  width: 100%;
   height: 1rem;
   margin-top: 2.4rem;
   border-radius: 2rem;

@@ -33,9 +33,7 @@ export default function MenuOptions() {
       dispatch(uiActions.isFindingLobby(true));
 
       // Test out UI delay
-      setTimeout(() => {
-        getWebSocket().send(JSON.stringify({ action: "find-lobby" }));
-      }, 2000);
+      getWebSocket().send(JSON.stringify({ action: "find-lobby" }));
     }
   }
 

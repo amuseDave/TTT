@@ -5,7 +5,7 @@
 .game-alerts-cont .game-alerts-text {
   position: absolute;
   left: 50%;
-  top: 1rem;
+  margin-top: 5.2rem;
   transform: translateX(-50%);
   font-size: 2rem;
   width: max-content;

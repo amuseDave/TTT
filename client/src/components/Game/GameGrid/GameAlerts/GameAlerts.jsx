@@ -29,7 +29,7 @@ export default function GameAlerts() {
       if (gameAlertTimeoutRef.current) clearTimeout(gameAlertTimeoutRef.current);
       gameAlertTimeoutRef.current = setTimeout(() => {
         dispatch(uiActions.setGameAlert({ type: gameAlert.type, message: null }));
-      }, 3500);
+      }, 2500);
     } else {
       playAudio(audioRef);
       setTimeout(() => {

@@ -33,9 +33,8 @@ export default function ArrowUpDownComp() {
   function switchMoves() {
     if (isSwitchingMoves || !isAdmin) return;
     // Test out delay UI
-    setTimeout(() => {
-      getWebSocket().send(JSON.stringify({ action: "switch-moves" }));
-    }, 1000);
+
+    getWebSocket().send(JSON.stringify({ action: "switch-moves" }));
 
     dispatch(uiActions.isSwitchingMoves(true));
   }

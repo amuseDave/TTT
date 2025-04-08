@@ -1,4 +1,7 @@
 @media (max-width: 54em) {
+  .turn-display {
+    min-width: 110%;
+  }
   .menu-container .menu {
     padding-top: 3.6rem;
     padding-bottom: 2.4rem;
@@ -132,11 +135,12 @@
   .turn-display .player {
     font-size: 5.4rem;
   }
-  .turn-display .timer {
-    width: 110%;
-  }
+
   .turn-display .timer {
     height: 0.9rem;
+  }
+  .turn-display {
+    min-width: 106%;
   }
 }
 @media (max-width: 32em) {
@@ -150,9 +154,6 @@
   .turn-display .player {
     font-size: 5.2rem;
   }
-  .turn-display .timer {
-    width: 106%;
-  }
 }
 @media (max-width: 27em) {
   .game-grid .grid {
@@ -165,8 +166,8 @@
   .turn-display .player {
     font-size: 4.8rem;
   }
-  .turn-display .timer {
-    width: 102%;
+  .game-alerts-cont .game-alerts-text.error {
+    font-size: 1.8rem;
   }
 }
 @media (max-width: 23em) {
@@ -177,5 +178,11 @@
 
   .turn-display .player {
     font-size: 4.2rem;
+  }
+  .game-alerts-cont .game-alerts-text.error {
+    font-size: 1.7rem;
+  }
+  .turn-display {
+    min-width: 100%;
   }
 }

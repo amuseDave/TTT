@@ -10,6 +10,7 @@ import { uiActions } from "../../../../store/uiSlicer";
 export default function TurnDisplay() {
   const dispatch = useDispatch();
 
+  const gameAlert = useSelector((state) => state.ui.gameAlert);
   const grid = useSelector((state) => state.game.game.grid);
   const curMove = useSelector((state) => state.game.game.curMove);
   const timeLimit = useSelector((state) => state.game.game.timeLimit);
@@ -98,7 +99,7 @@ export default function TurnDisplay() {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 3444500;
+      const timeLimit = 3500000;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
@@ -131,7 +132,7 @@ export default function TurnDisplay() {
   }, [result, totalTime]);
 
   return (
-    <div className="turn-display">
+    <>
       <AnimatePresence mode="sync">
         {!result.state ? (
           <motion.h1
@@ -158,30 +159,19 @@ export default function TurnDisplay() {
             {result.state === "win"
               ? "You Won!"
               : result.state === "draw"
-              ? "It's a draw, try again!"
-              : "You Lost, try again"}
+              ? "Draw, Try again!"
+              : "You Lost, Try again"}
           </motion.h1>
         )}
       </AnimatePresence>
 
-      <div
-        // style={{
-        //   boxShadow: `0px 0px 5px ${
-        //     result.state === "win" || result.state === "draw"
-        //       ? "#05ffa8"
-        //       : !timeLimit || result.state === "loss"
-        //       ? "#ff0059"
-        //       : "#fef7f9"
-        //   }`,
-        // }}
-        className="timer"
-      >
+      <div className="timer">
         <div
           style={{
             boxShadow: `0px 0px 5px ${
               result.state === "win" || result.state === "draw"
                 ? "#14e7ff"
-                : !timeLimit || result.state === "loss"
+                : !timeLimit || result.state === "loss" || gameAlert.message
                 ? "#ff0059"
                 : "#fef7f9"
             }`,
@@ -189,7 +179,10 @@ export default function TurnDisplay() {
             backgroundColor:
               result.state === "win" || result.state === "draw"
                 ? "rgba(20, 231, 255, 0.6)"
-                : !timeLimit || result.state === "loss" || isWaitingRes
+                : !timeLimit ||
+                  result.state === "loss" ||
+                  isWaitingRes ||
+                  gameAlert.message
                 ? "rgb(255, 0, 89, 0.6)"
                 : "rgb(246, 147, 182, 0.6)",
           }}
@@ -202,7 +195,10 @@ export default function TurnDisplay() {
               backgroundColor:
                 result.state === "win" || result.state === "draw"
                   ? "#14e7ff"
-                  : !timeLimit || result.state === "loss" || isWaitingRes
+                  : !timeLimit ||
+                    result.state === "loss" ||
+                    isWaitingRes ||
+                    gameAlert.message
                   ? "#ff0059"
                   : "#f693b6",
             }}
@@ -216,6 +212,6 @@ export default function TurnDisplay() {
           ></motion.div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
