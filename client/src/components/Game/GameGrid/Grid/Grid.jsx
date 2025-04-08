@@ -40,7 +40,12 @@ export default function Grid() {
   return (
     <>
       <div
-        style={{ cursor: player1Move !== curMove && !result.state ? "not-allowed" : "" }}
+        style={{
+          cursor:
+            player1Move !== curMove && !result.state
+              ? "url(./notAllowed.png), default"
+              : "",
+        }}
         className="grid"
       >
         <Lines result={result} />
