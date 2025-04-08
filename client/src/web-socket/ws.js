@@ -16,9 +16,7 @@ import skipTurn from "./controllers/skipTurn.js";
 import updateTime from "./controllers/updateTime.js";
 import resetGame from "./controllers/resetGame.js";
 
-let webSocket = new WebSocket(
-  "https://c7d709c5-3f90-4e26-a7fd-a2e5bc70cdf6-00-1a0z5z8fel4d1.janeway.replit.dev/"
-);
+let webSocket = new WebSocket("https://tictactoe-gg.up.railway.app/");
 initializeEvents();
 
 const url = new URL(window.location.href);
@@ -72,9 +70,7 @@ function initializeEvents() {
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
-  webSocket = new WebSocket(
-    "https://c7d709c5-3f90-4e26-a7fd-a2e5bc70cdf6-00-1a0z5z8fel4d1.janeway.replit.dev/"
-  );
+  webSocket = new WebSocket("https://tictactoe-gg.up.railway.app/");
   store.dispatch(uiActions.isConnectingServer(true));
   initializeEvents();
 }
