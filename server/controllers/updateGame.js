@@ -51,10 +51,10 @@ module.exports = (ws, data) => {
   });
 
   if (result) {
-    let totalTime = 3500;
+    let totalTime = 3000;
 
     lobby.intervalID = setInterval(() => {
-      totalTime -= 700;
+      totalTime -= 1000;
       lobby.players.forEach((pl) => {
         pl.sendToClient({
           action: "update-time",
@@ -69,7 +69,7 @@ module.exports = (ws, data) => {
           });
         }
       });
-    }, 700);
+    }, 1000);
 
     lobby.totalMoves = 0;
     lobby.curMove = "X";
