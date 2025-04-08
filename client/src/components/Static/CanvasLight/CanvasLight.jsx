@@ -27,8 +27,8 @@ export default function CanvasLight() {
     }
 
     function animate() {
-      currentX += (targetX - currentX) * 0.05;
-      currentY += (targetY - currentY) * 0.05;
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
 
       ctx.clearRect(0, 0, canvasEl.width * 1.2, canvasEl.height * 1.2);
 
