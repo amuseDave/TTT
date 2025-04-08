@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { WebSocketServer } = require("ws");
 const startLobby = require("./controllers/startLobby.js");
 const switchMoves = require("./controllers/switchMoves.js");
@@ -9,7 +10,8 @@ const togglePrivacy = require("./controllers/togglePrivacy.js");
 const startGame = require("./controllers/startGame.js");
 const updateGame = require("./controllers/updateGame.js");
 
-const wss = new WebSocketServer({ port: 8080 });
+const PORT = process.env.PORT || 8080;
+const wss = new WebSocketServer({ port: PORT });
 
 //wss.clients
 wss.on("connection", (ws) => {
