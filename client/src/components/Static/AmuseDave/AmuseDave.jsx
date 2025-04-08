@@ -1,28 +1,31 @@
 import { useEffect } from "react";
 import "./AmuseDave.css";
-import { useAnimate } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 
 export default function AmuseDave() {
   const [amuseDaveRef, animate] = useAnimate();
   useEffect(() => {
     const intervalID = setInterval(() => {
-      animate(
-        amuseDaveRef.current,
-        { opacity: [0.3, 1, 0.3, 1, 0.3, 1, 0.3] },
-        { duration: 0.4 }
-      );
+      async function animation() {
+        const aaa = await animate(
+          amuseDaveRef.current,
+          { opacity: [0.3, 1, 0.3, 1, 0.3, 1, 0.3] },
+          { duration: 0.4 }
+        );
+        aaa.cancel();
+      }
+      animation();
     }, 15000);
 
     return () => {
       clearInterval(intervalID);
     };
   }, []);
-
   return (
-    <div ref={amuseDaveRef} className="amuseDave">
+    <motion.div whileHover={{ opacity: 1 }} ref={amuseDaveRef} className="amuseDave">
       <a href="https://youtube.com/@amusedave" target="_blank">
         made by amuseDave
       </a>
-    </div>
+    </motion.div>
   );
 }
