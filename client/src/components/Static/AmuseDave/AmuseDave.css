@@ -1,0 +1,19 @@
+.amuseDave {
+  padding: 1rem;
+  opacity: 0.3;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0px 0px 5px var(--test-color);
+  transition: 0.3s ease-in-out opacity;
+}
+
+.amuseDave a {
+  color: white;
+}
+.amuseDave:hover {
+  opacity: 1;
+}

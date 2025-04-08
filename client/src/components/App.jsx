@@ -4,6 +4,7 @@ import CanvasLight from "./Static/CanvasLight/CanvasLight";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../store/uiSlicer";
+import AmuseDave from "./Static/AmuseDave/AmuseDave";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function App() {
   }, []);
   return (
     <>
+      <AmuseDave />
       <CanvasLight />
       <AudioAndTitle />
       <div className="letter letter-0">X</div>

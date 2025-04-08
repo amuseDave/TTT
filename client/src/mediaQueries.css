@@ -84,6 +84,13 @@
     color: white;
     text-shadow: 0px 0px 5px rgb(255, 132, 218);
   }
+  .menu .menu-alerts .menu-alerts-icons svg {
+    scale: 0.6;
+  }
+  .menu .menu-alerts {
+    gap: 3px;
+    width: max-content;
+  }
 }
 
 @media (max-width: 26em) {
@@ -106,6 +113,9 @@
 
   .menu .player-menu .player-1 input {
     max-inline-size: 25rem;
+  }
+  .menu .menu-alerts {
+    gap: 2px;
   }
 }
 

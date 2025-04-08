@@ -63,7 +63,7 @@ export default function Player2() {
         dispatch(
           uiActions.setMenuAlert({
             type: "success",
-            message: "Link copied to cliboard, share with your friend!",
+            message: "Link copied! Share it with a friend.",
           })
         );
       })
@@ -71,7 +71,7 @@ export default function Player2() {
         dispatch(
           uiActions.setMenuAlert({
             type: "error",
-            message: "Failed to copy. Try manually copying the url.",
+            message: "Copy failed. Try copying the URL manually.",
           })
         );
       });
