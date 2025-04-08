@@ -1,4 +1,3 @@
-import "./index.css";
 import Game from "./Game/Game";
 import AudioAndTitle from "./Static/AudioAndTitle/AudioAndTitle";
 import CanvasLight from "./Static/CanvasLight/CanvasLight";

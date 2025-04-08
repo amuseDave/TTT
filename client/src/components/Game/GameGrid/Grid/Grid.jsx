@@ -6,6 +6,8 @@ import Lines from "./Lines/Lines";
 import { gameActions } from "../../../../store/gameSlicer";
 import { uiActions } from "../../../../store/uiSlicer";
 
+import notAllowed from "../../../../assets/notAllowed.png";
+
 export default function Grid() {
   const dispatch = useDispatch();
 
@@ -42,9 +44,7 @@ export default function Grid() {
       <div
         style={{
           cursor:
-            player1Move !== curMove && !result.state
-              ? "url(./notAllowed.png), default"
-              : "",
+            player1Move !== curMove && !result.state ? `url(${notAllowed}), default` : "",
         }}
         className="grid"
       >
