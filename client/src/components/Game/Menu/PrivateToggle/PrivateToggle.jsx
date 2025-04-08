@@ -33,9 +33,8 @@ export default function PrivateToggle() {
 
     dispatch(uiActions.isPrivacyLoading(true));
     // Test out UI delay
-    setTimeout(() => {
-      getWebSocket().send(JSON.stringify({ action: "toggle-privacy" }));
-    }, 2000);
+
+    getWebSocket().send(JSON.stringify({ action: "toggle-privacy" }));
   }
 
   return (
