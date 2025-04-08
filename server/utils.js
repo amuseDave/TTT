@@ -110,10 +110,10 @@ exports.lobbyInterval = (lobby) => {
     if (result) {
       clearInterval(lobby.intervalID);
 
-      let totalTime = 3000;
+      let totalTime = 2400;
 
       lobby.intervalID = setInterval(() => {
-        totalTime -= 1000;
+        totalTime -= 800;
         lobby.players.forEach((pl) => {
           pl.sendToClient({
             action: "update-time",
@@ -128,7 +128,7 @@ exports.lobbyInterval = (lobby) => {
             });
           }
         });
-      }, 1000);
+      }, 800);
 
       lobby.totalMoves = 0;
       lobby.curMove = "X";

@@ -99,7 +99,7 @@ export default function TurnDisplay() {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 3000;
+      const timeLimit = 2400;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
