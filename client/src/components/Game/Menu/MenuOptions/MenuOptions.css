@@ -22,7 +22,7 @@
   border: none;
   font-size: 3.6rem;
   text-transform: uppercase;
-  color: #ffffff15;
+  color: rgba(255, 255, 255, 0.35);
   text-shadow: 0px 0px 5px #9133bc00;
   transition: 0.3s ease-in-out all;
 }
@@ -48,12 +48,12 @@
   min-width: 10rem;
   height: 4px;
   border-radius: 1rem;
-  background-color: rgba(253, 253, 253, 0.2);
+  background-color: rgba(253, 253, 253, 0.1);
 }
 
 .menu-options .menu-buttons .or-separator .or-text {
   font-size: 3rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.25);
   text-transform: uppercase;
 }
 .menu-options .menu-buttons.neon .or-separator .or-text {
