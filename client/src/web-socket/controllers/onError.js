@@ -1,6 +1,4 @@
 export default function onError({ store, uiActions, gameActions }) {
-  console.log("On error event");
-
   const {
     ui: { isJoiningLobby, isConnectingServer },
     game: { isAdmin },

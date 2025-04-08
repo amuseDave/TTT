@@ -108,3 +108,62 @@
     margin: 0.4rem 0;
   }
 }
+
+@media (max-width: 40em) {
+  .game-grid .grid {
+    grid-template-columns: 136px 136px 136px;
+    grid-template-rows: 136px 136px 136px;
+  }
+  .game-grid .grid .box {
+    font-size: 10.8rem;
+  }
+  .turn-display .player {
+    font-size: 5.4rem;
+  }
+  .turn-display .timer {
+    width: 110%;
+  }
+  .turn-display .timer {
+    height: 0.9rem;
+  }
+}
+@media (max-width: 32em) {
+  .game-grid .grid {
+    grid-template-columns: 120px 120px 120px;
+    grid-template-rows: 120px 120px 120px;
+  }
+  .game-grid .grid .box {
+    font-size: 10rem;
+  }
+  .turn-display .player {
+    font-size: 5.2rem;
+  }
+  .turn-display .timer {
+    width: 106%;
+  }
+}
+@media (max-width: 27em) {
+  .game-grid .grid {
+    grid-template-columns: 112px 112px 112px;
+    grid-template-rows: 112px 112px 112px;
+  }
+  .game-grid .grid .box {
+    font-size: 9.2rem;
+  }
+  .turn-display .player {
+    font-size: 4.8rem;
+  }
+  .turn-display .timer {
+    width: 102%;
+  }
+}
+@media (max-width: 23em) {
+  .game-grid .grid {
+    grid-template-columns: 102px 102px 102px;
+    grid-template-rows: 102px 102px 102px;
+  }
+
+  .turn-display .player {
+    font-size: 4.2rem;
+  }
+}

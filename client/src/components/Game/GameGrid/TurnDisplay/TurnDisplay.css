@@ -1,6 +1,10 @@
+.turn-display {
+  position: relative;
+}
+
 .turn-display .player {
   text-align: center;
-  font-size: 5.4rem;
+  font-size: 6.2rem;
   color: white;
   font-weight: 300;
 }
@@ -17,11 +21,13 @@
 }
 
 .turn-display .timer {
-  position: relative;
-  width: 100%;
+  position: absolute;
+  width: 120%;
   height: 1rem;
   margin-top: 2.4rem;
   border-radius: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .turn-display .timer .clock {

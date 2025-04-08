@@ -42,7 +42,6 @@ function initializeEvents() {
     // Handle incoming messages from the server to update the UI & GAME states
     webSocket.onmessage = async (event) => {
       const { action, data, type } = JSON.parse(event.data);
-      console.log("Action: ", action, "Data: ", data, "Type: ", type);
       const argObj = { data, store, gameActions, uiActions, type, audioRef };
 
       if (action === "update-username") updateUsername(argObj);

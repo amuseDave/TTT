@@ -1,5 +1,4 @@
 export default function onClose(e, { store, uiActions, gameActions }) {
-  console.log("On Close event");
   const {
     ui: {
       isJoiningLobby,

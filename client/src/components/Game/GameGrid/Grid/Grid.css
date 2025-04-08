@@ -1,8 +1,8 @@
 .game-grid .grid {
-  margin-top: 6rem;
+  margin-top: 8.4rem;
   display: grid;
-  grid-template-columns: 140px 140px 140px;
-  grid-template-rows: 140px 140px 140px;
+  grid-template-columns: 148px 148px 148px;
+  grid-template-rows: 148px 148px 148px;
   justify-content: center;
   align-items: center;
   justify-items: center;
