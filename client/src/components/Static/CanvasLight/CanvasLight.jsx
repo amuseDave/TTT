@@ -26,13 +26,13 @@ export default function CanvasLight() {
       targetY = e.clientY;
     }
 
-    ctx.filter = "blur(48px)";
     function animate() {
       currentX += (targetX - currentX) * 0.05;
       currentY += (targetY - currentY) * 0.05;
 
       ctx.clearRect(0, 0, canvasEl.width * 1.2, canvasEl.height * 1.2);
 
+      ctx.filter = "blur(48px)";
       ctx.fillStyle = "white";
 
       ctx.beginPath();
