@@ -6,6 +6,18 @@
     padding-right: 2rem;
     flex-direction: column;
   }
+  .letter {
+    font-size: 14rem;
+  }
+  .letter-1 {
+    left: 4rem;
+    top: 26rem;
+  }
+  .letter-2 {
+    right: 8rem;
+    bottom: -6rem;
+  }
+
   .menu .divider.duo,
   .menu .divider.solo,
   .menu .divider.duo.extra-margin {

@@ -27,8 +27,6 @@ module.exports = (ws, data) => {
 
   lobby.players.forEach((pl) => {
     if (result) {
-      console.log(result.state, pl.move);
-
       result.state =
         result.state === "draw"
           ? "draw"

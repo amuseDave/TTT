@@ -10,8 +10,6 @@ class Lobbies {
   }
   findLobby(lID) {
     for (const [lobbyID, lobby] of this.lobbies.entries()) {
-      console.log(lobbyID, lID);
-      console.log(lobbyID === lID);
       if (lobbyID === lID) continue;
       if (lobby.players.length < 2 && !lobby.isPrivate && lobbyID !== lID) {
         return lobby;
