@@ -2,8 +2,6 @@ import "./Lines.css";
 import { motion } from "framer-motion";
 
 export default function Lines({ result }) {
-  console.log(result);
-
   return (
     <>
       <div className="line hor-1"></div>

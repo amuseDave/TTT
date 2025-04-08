@@ -94,13 +94,11 @@ export default function TurnDisplay() {
     };
   }, [timeLimit, version, totalTime, result]);
 
-  console.log(result.pattern);
-
   useEffect(() => {
     let start;
     let animationReq;
     if (result.state) {
-      const timeLimit = 3500;
+      const timeLimit = 3444500;
       function runTimer(timestamp) {
         if (!start) start = timestamp;
 
@@ -190,10 +188,10 @@ export default function TurnDisplay() {
             width: !timeLimit || isWaitingRes ? "100%" : "",
             backgroundColor:
               result.state === "win" || result.state === "draw"
-                ? "#14e7ff"
+                ? "rgba(20, 231, 255, 0.6)"
                 : !timeLimit || result.state === "loss" || isWaitingRes
-                ? "#ff0059"
-                : "#f693b6",
+                ? "rgb(255, 0, 89, 0.6)"
+                : "rgb(246, 147, 182, 0.6)",
           }}
           ref={barRef}
           className="clock"
@@ -208,10 +206,12 @@ export default function TurnDisplay() {
                   ? "#ff0059"
                   : "#f693b6",
             }}
-            animate={{
-              opacity: [1, 0.4, 1, 0.4, 1],
-              transition: { repeat: Infinity, duration: 0.3 },
-            }}
+            // animate={{
+            //   opacity: [0.8, 0.4, 0.8, 0.4, 0.8],
+            //   scale: [1, 0.5, 1, 0.5, 1],
+            //   translateY: "-50%",
+            //   transition: { repeat: Infinity, duration: 0.5 },
+            // }}
             className="small-shadow"
           ></motion.div>
         </div>

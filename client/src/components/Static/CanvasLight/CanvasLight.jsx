@@ -26,28 +26,17 @@ export default function CanvasLight() {
       targetY = e.clientY;
     }
 
+    ctx.filter = "blur(48px)";
     function animate() {
       currentX += (targetX - currentX) * 0.05;
       currentY += (targetY - currentY) * 0.05;
 
       ctx.clearRect(0, 0, canvasEl.width * 1.2, canvasEl.height * 1.2);
-      const gradient = ctx.createRadialGradient(
-        currentX,
-        currentY,
-        0,
-        currentX,
-        currentY,
-        110
-      );
 
-      gradient.addColorStop(0, "rgb(255, 255, 255, 0.3)");
-      gradient.addColorStop(1, "rgb(255, 255, 255, 0.0)");
-
-      ctx.fillStyle = gradient;
-      ctx.globalCompositeOperation = "lighter";
+      ctx.fillStyle = "white";
 
       ctx.beginPath();
-      ctx.arc(currentX, currentY, 200, 0, Math.PI * 2);
+      ctx.arc(currentX, currentY, 30, 0, Math.PI * 2);
       ctx.fill();
 
       requestAnimationFrame(animate);

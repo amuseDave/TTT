@@ -16,12 +16,12 @@ import skipTurn from "./controllers/skipTurn.js";
 import updateTime from "./controllers/updateTime.js";
 import resetGame from "./controllers/resetGame.js";
 
+let webSocket = new WebSocket("http://localhost:8080");
+initializeEvents();
+
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 export const lobbyID = params.get("lobbyID");
-
-let webSocket = new WebSocket("http://localhost:8080");
-initializeEvents();
 
 // Initialize web socket event on every new connection
 function initializeEvents() {
@@ -31,7 +31,8 @@ function initializeEvents() {
     store.dispatch(uiActions.isConnectedServer(true));
 
     // Join lobby if lobbyID is present in URL and user is joining lobby has state to true
-    if (store.getState().ui.isJoiningLobby && lobbyID) {
+    if (store.getState().game.lobby === undefined && lobbyID) {
+      store.dispatch(uiActions.isJoiningLobby(true));
       // Test out delay UI
       setTimeout(() => {
         webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));

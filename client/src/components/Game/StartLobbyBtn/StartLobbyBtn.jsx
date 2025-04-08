@@ -9,7 +9,7 @@ import { playAudio } from "../../../utils/utils";
 import { gameActions } from "../../../store/gameSlicer";
 import { uiActions } from "../../../store/uiSlicer";
 
-export default function StartLobbyBtn({ className }) {
+export default function StartLobbyBtn() {
   const dispatch = useDispatch();
 
   const startError = useSelector((state) => state.ui.startError);
@@ -19,8 +19,6 @@ export default function StartLobbyBtn({ className }) {
   const [playBtnRef, animate] = useAnimate();
 
   const firstRenderRef = useRef(true);
-
-  const isHoverRef = useRef();
 
   const intervalID = useRef();
 
@@ -52,15 +50,11 @@ export default function StartLobbyBtn({ className }) {
 
   // Hover effect to use canvas logical light appearing effect
   function hoverEffect() {
-    isHoverRef.current = true;
     if (isCreatingLobby || isJoiningLobby) return;
-    playBtnRef.current.classList.add("hover-effect");
     playAudio(audioRef);
   }
   function leaveHoverEffect() {
-    isHoverRef.current = false;
     if (isCreatingLobby || isJoiningLobby) return;
-    playBtnRef.current.classList.remove("hover-effect");
     playAudio(audioRef, 0.6);
   }
 
@@ -82,9 +76,6 @@ export default function StartLobbyBtn({ className }) {
           { opacity: [1, 0.1, 1, 0.1, 1] },
           { duration: 0.3 }
         );
-        if (isHoverRef.current) {
-          playBtnRef.current.classList.add("hover-effect");
-        }
       };
       animation();
     }
@@ -118,7 +109,7 @@ export default function StartLobbyBtn({ className }) {
   return (
     <motion.div
       exit={{ opacity: [0.2, 0.2, 1, 1, 0.2, 0.2, 0], transition: { duration: 0.3 } }}
-      className={`start-btn-container ${className}`}
+      className={`start-btn-container`}
       onMouseEnter={hoverEffect}
       onMouseLeave={leaveHoverEffect}
     >

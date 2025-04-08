@@ -20,6 +20,7 @@
   opacity: 1;
 }
 
+.start-btn-container:hover .start-btn:hover,
 .start-btn-container .start-btn.hover-effect {
   color: white;
   text-shadow: 0px 0px 5px rgb(255, 132, 218);
