@@ -6,15 +6,11 @@ export default function AmuseDave() {
   const [amuseDaveRef, animate] = useAnimate();
   useEffect(() => {
     const intervalID = setInterval(() => {
-      async function animation() {
-        const aaa = await animate(
-          amuseDaveRef.current,
-          { opacity: [0.3, 1, 0.3, 1, 0.3, 1, 0.3] },
-          { duration: 0.4 }
-        );
-        aaa.cancel();
-      }
-      animation();
+      animate(
+        amuseDaveRef.current,
+        { opacity: [0.3, 1, 0.3, 1, 0.3, 1, 0.3] },
+        { duration: 0.4 }
+      );
     }, 15000);
 
     return () => {
