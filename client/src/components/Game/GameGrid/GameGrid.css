@@ -15,3 +15,7 @@
   bottom: 0;
   backdrop-filter: blur(4px);
 }
+
+.game-grid {
+  user-select: none;
+}
