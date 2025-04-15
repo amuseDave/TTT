@@ -44,7 +44,9 @@ export default function Grid() {
       <div
         style={{
           cursor:
-            player1Move !== curMove && !result.state ? `url(${notAllowed}), default` : "",
+            player1Move !== curMove && !result.state
+              ? `url(${notAllowed}), not-allowed`
+              : "",
         }}
         className="grid"
       >

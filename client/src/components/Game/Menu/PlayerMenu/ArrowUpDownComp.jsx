@@ -6,6 +6,7 @@ import { audioRef } from "../../../Static/AudioAndTitle/AudioAndTitle";
 import getWebSocket from "../../../../web-socket/ws";
 import { uiActions } from "../../../../store/uiSlicer";
 import { playAudio } from "../../../../utils/utils";
+import notAllowed from "../../../../assets/notAllowed.png";
 
 export default function ArrowUpDownComp() {
   const isSwitchingMoves = useSelector((state) => state.ui.isSwitchingMoves);
@@ -76,7 +77,7 @@ export default function ArrowUpDownComp() {
         {!isSwitchingMoves ? (
           <>
             <ArrowUpDown
-              style={{ cursor: isAdmin ? "inherit" : "not-allowed" }}
+              style={{ cursor: isAdmin ? "inherit" : `url(${notAllowed}), not-allowed` }}
               onClick={switchMoves}
             />
             <ArrowUpDown />
