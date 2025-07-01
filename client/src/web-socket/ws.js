@@ -1,27 +1,29 @@
-import store from "../store/store.js";
-import { gameActions } from "../store/gameSlicer";
-import { audioRef } from "../components/Static/AudioAndTitle/AudioAndTitle";
-import { uiActions } from "../store/uiSlicer";
-import startLobby from "./controllers/startLobby.js";
-import switchMoves from "./controllers/switchMoves.js";
-import joinLobby from "./controllers/joinLobby.js";
-import updateUsername from "./controllers/updateUsername.js";
-import onClose from "./controllers/onClose.js";
-import onError from "./controllers/onError.js";
-import displayAlerts from "./controllers/displayAlerts.js";
-import togglePrivacy from "./controllers/togglePrivacy.js";
-import startGame from "./controllers/startGame.js";
-import updateGame from "./controllers/updateGame.js";
-import skipTurn from "./controllers/skipTurn.js";
-import updateTime from "./controllers/updateTime.js";
-import resetGame from "./controllers/resetGame.js";
+import store from '../store/store.js';
+import { gameActions } from '../store/gameSlicer.js';
+import { audioRef } from '../components/Static/AudioAndTitle/AudioAndTitle.jsx';
+import { uiActions } from '../store/uiSlicer.js';
+import startLobby from './controllers/startLobby.js';
+import switchMoves from './controllers/switchMoves.js';
+import joinLobby from './controllers/joinLobby.js';
+import updateUsername from './controllers/updateUsername.js';
+import onClose from './controllers/onClose.js';
+import onError from './controllers/onError.js';
+import displayAlerts from './controllers/displayAlerts.js';
+import togglePrivacy from './controllers/togglePrivacy.js';
+import startGame from './controllers/startGame.js';
+import updateGame from './controllers/updateGame.js';
+import skipTurn from './controllers/skipTurn.js';
+import updateTime from './controllers/updateTime.js';
+import resetGame from './controllers/resetGame.js';
 
-let webSocket = new WebSocket("https://tictactoe-gg.up.railway.app/");
+const WEB_SOCKET_URL = 'https://tttserver-pul7.onrender.com/';
+
+let webSocket = new WebSocket(WEB_SOCKET_URL);
 initializeEvents();
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
-export const lobbyID = params.get("lobbyID");
+export const lobbyID = params.get('lobbyID');
 
 // Initialize web socket event on every new connection
 function initializeEvents() {
@@ -35,7 +37,7 @@ function initializeEvents() {
       store.dispatch(uiActions.isJoiningLobby(true));
       // Test out delay UI
 
-      webSocket.send(JSON.stringify({ action: "join-lobby", data: { lobbyID } }));
+      webSocket.send(JSON.stringify({ action: 'join-lobby', data: { lobbyID } }));
     }
 
     // Handle incoming messages from the server to update the UI & GAME states
@@ -43,18 +45,18 @@ function initializeEvents() {
       const { action, data, type } = JSON.parse(event.data);
       const argObj = { data, store, gameActions, uiActions, type, audioRef };
 
-      if (action === "update-username") updateUsername(argObj);
-      else if (action === "update-game") updateGame(argObj);
-      else if (action === "switch-moves") switchMoves(argObj);
-      else if (action === "display-alert") displayAlerts(argObj);
-      else if (action === "skip-turn") skipTurn(argObj);
-      else if (action === "update-time") updateTime(argObj);
-      else if (action === "toggle-privacy") togglePrivacy(argObj);
-      else if (action === "start-lobby") startLobby(argObj);
-      else if (action === "join-lobby") joinLobby(argObj);
-      else if (action === "start-game") startGame(argObj);
-      else if (action === "reset-game") resetGame(argObj);
-      else if (action === "error") console.log(data.msg);
+      if (action === 'update-username') updateUsername(argObj);
+      else if (action === 'update-game') updateGame(argObj);
+      else if (action === 'switch-moves') switchMoves(argObj);
+      else if (action === 'display-alert') displayAlerts(argObj);
+      else if (action === 'skip-turn') skipTurn(argObj);
+      else if (action === 'update-time') updateTime(argObj);
+      else if (action === 'toggle-privacy') togglePrivacy(argObj);
+      else if (action === 'start-lobby') startLobby(argObj);
+      else if (action === 'join-lobby') joinLobby(argObj);
+      else if (action === 'start-game') startGame(argObj);
+      else if (action === 'reset-game') resetGame(argObj);
+      else if (action === 'error') console.log(data.msg);
     };
   };
 
@@ -70,7 +72,7 @@ function initializeEvents() {
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
-  webSocket = new WebSocket("https://tictactoe-gg.up.railway.app/");
+  webSocket = new WebSocket(WEB_SOCKET_URL);
   store.dispatch(uiActions.isConnectingServer(true));
   initializeEvents();
 }
