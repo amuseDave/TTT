@@ -72,6 +72,7 @@ function initializeEvents() {
 
 // Reconnect to the WebSocket server
 export function reconnectWebSocket() {
+  if(webSocket) webSocket.close();
   webSocket = new WebSocket(WEB_SOCKET_URL);
   store.dispatch(uiActions.isConnectingServer(true));
   initializeEvents();
